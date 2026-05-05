@@ -5,8 +5,9 @@ import { useRouter } from 'next/navigation'
 import { addDoc, collection, serverTimestamp } from 'firebase/firestore'
 import Link from 'next/link'
 import { db } from '@/lib/firebase'
+import { useAuth } from '@/lib/AuthContext'
 import { Member } from '@/types'
-import { MEMBERS } from '@/data/members'
+import { MEMBERS, getMemberFromEmail } from '@/data/members'
 import { ITINERARY } from '@/data/itinerary'
 import AuthGuard from '@/components/AuthGuard'
 
@@ -18,11 +19,13 @@ const MEMBER_COLOR: Record<Member, string> = {
 
 function AddWishlistForm() {
   const router = useRouter()
+  const { user } = useAuth()
+  const currentMember = getMemberFromEmail(user?.email)
   const [item, setItem] = useState('')
   const [location, setLocation] = useState('')
   const [store, setStore] = useState('')
   const [dayNumber, setDayNumber] = useState<number | null>(null)
-  const [wantedBy, setWantedBy] = useState<Member[]>(['YY', 'Wei', 'Rae'])
+  const [wantedBy, setWantedBy] = useState<Member[]>(currentMember ? [currentMember] : [])
   const [note, setNote] = useState('')
   const [submitting, setSubmitting] = useState(false)
 

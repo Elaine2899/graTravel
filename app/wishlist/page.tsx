@@ -24,14 +24,24 @@ const DAY_LABEL: Record<number, string> = Object.fromEntries(
 function WishlistContent() {
   const [items, setItems] = useState<WishlistItem[]>([])
   const [loading, setLoading] = useState(true)
+  const [snapError, setSnapError] = useState<string | null>(null)
   const [filter, setFilter] = useState<'all' | Member>('all')
 
   useEffect(() => {
     const q = query(collection(db, 'wishlist'), orderBy('createdAt', 'asc'))
-    return onSnapshot(q, (snap) => {
-      setItems(snap.docs.map((d) => ({ id: d.id, ...d.data() } as WishlistItem)))
-      setLoading(false)
-    })
+    return onSnapshot(
+      q,
+      (snap) => {
+        setItems(snap.docs.map((d) => ({ id: d.id, ...d.data() } as WishlistItem)))
+        setLoading(false)
+        setSnapError(null)
+      },
+      (err) => {
+        console.error('wishlist snapshot error:', err)
+        setSnapError(err.message)
+        setLoading(false)
+      }
+    )
   }, [])
 
   const handleToggle = async (id: string, purchased: boolean) => {
@@ -98,7 +108,13 @@ function WishlistContent() {
         {loading && (
           <p className="text-center text-sm text-gray-400 py-8">載入中...</p>
         )}
-        {!loading && filtered.length === 0 && (
+        {snapError && (
+          <div className="bg-red-50 border border-red-200 rounded-xl p-4 text-sm text-red-600">
+            <p className="font-medium">無法載入資料</p>
+            <p className="mt-1 text-xs text-red-400">{snapError}</p>
+          </div>
+        )}
+        {!loading && !snapError && filtered.length === 0 && (
           <p className="text-center text-sm text-gray-400 py-8">還沒有任何購物願望</p>
         )}
 
