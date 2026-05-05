@@ -5,11 +5,21 @@ export type ActivityType = 'transport' | 'attraction' | 'food' | 'hotel' | 'flig
 export type Group = 'all' | 'YY+Rae' | 'Wei'
 export type Member = 'YY' | 'Wei' | 'Rae'
 
+export type PlaceCategory = 'food' | 'attraction' | 'shop'
+
+export interface Place {
+  name: string
+  category: PlaceCategory
+  note?: string
+  tags?: string[]
+}
+
 export interface ActivityDetails {
   culturalNote?: string
   ticketInfo?: string
   transportInfo?: string
   recommendations?: string[]
+  places?: Place[]
 }
 
 export interface Activity {

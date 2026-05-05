@@ -17,9 +17,12 @@ function getPersonShare(expense: Expense, person: Member): number {
   return 0
 }
 
-interface Props { expenses: Expense[] }
+interface Props {
+  expenses: Expense[]
+  fmt: (amount: number) => string
+}
 
-export default function SpendingAnalysis({ expenses }: Props) {
+export default function SpendingAnalysis({ expenses, fmt }: Props) {
   const [view, setView] = useState<'all' | Member>('all')
 
   const total = expenses.reduce((s, e) => s + e.amount, 0)
@@ -75,7 +78,7 @@ export default function SpendingAnalysis({ expenses }: Props) {
             {/* 總金額 */}
             <div>
               <p className="text-xs text-gray-400 mb-0.5">總支出</p>
-              <p className="text-2xl font-bold text-gray-900">¥{total.toLocaleString()}</p>
+              <p className="text-2xl font-bold text-gray-900">{fmt(total)}</p>
             </div>
 
             {/* 類別分布 */}
@@ -92,7 +95,7 @@ export default function SpendingAnalysis({ expenses }: Props) {
                         <div className="flex items-center justify-between mb-1">
                           <span className="text-sm text-gray-700">{info.emoji} {info.label}</span>
                           <span className="text-sm font-semibold text-gray-800">
-                            ¥{amt.toLocaleString()} <span className="text-xs text-gray-400 font-normal">{pct}%</span>
+                            {fmt(amt)} <span className="text-xs text-gray-400 font-normal">{pct}%</span>
                           </span>
                         </div>
                         <div className="h-1.5 bg-gray-100 rounded-full overflow-hidden">
@@ -119,7 +122,7 @@ export default function SpendingAnalysis({ expenses }: Props) {
                         <div className="flex items-center justify-between mb-1">
                           <span className={`text-sm font-semibold ${c.text}`}>{m}</span>
                           <span className="text-sm font-semibold text-gray-800">
-                            ¥{amt.toLocaleString()} <span className="text-xs text-gray-400 font-normal">{pct}%</span>
+                            {fmt(amt)} <span className="text-xs text-gray-400 font-normal">{pct}%</span>
                           </span>
                         </div>
                         <div className="h-1.5 bg-gray-100 rounded-full overflow-hidden">
@@ -154,7 +157,7 @@ export default function SpendingAnalysis({ expenses }: Props) {
                 <div key={label} className="bg-gray-50 rounded-xl p-3 text-center">
                   <p className="text-xs text-gray-400 mb-1">{label}</p>
                   <p className={`text-sm font-bold ${color}`}>
-                    {prefix ?? ''}¥{Math.round(value).toLocaleString()}
+                    {prefix ?? ''}{fmt(Math.round(value))}
                   </p>
                 </div>
               ))}
@@ -162,9 +165,9 @@ export default function SpendingAnalysis({ expenses }: Props) {
 
             <p className="text-xs text-gray-400 text-center -mt-1">
               {personNet > 0
-                ? `其他人共欠 ${person} ¥${Math.round(personNet).toLocaleString()}`
+                ? `其他人共欠 ${person} ${fmt(Math.round(personNet))}`
                 : personNet < 0
-                ? `${person} 還需付出 ¥${Math.round(-personNet).toLocaleString()}`
+                ? `${person} 還需付出 ${fmt(Math.round(-personNet))}`
                 : '已結清 🎉'}
             </p>
 
@@ -182,7 +185,7 @@ export default function SpendingAnalysis({ expenses }: Props) {
                         <div className="flex items-center justify-between mb-1">
                           <span className="text-sm text-gray-700">{info.emoji} {info.label}</span>
                           <span className="text-sm font-semibold text-gray-800">
-                            ¥{amt.toLocaleString()} <span className="text-xs text-gray-400 font-normal">{pct}%</span>
+                            {fmt(amt)} <span className="text-xs text-gray-400 font-normal">{pct}%</span>
                           </span>
                         </div>
                         <div className="h-1.5 bg-gray-100 rounded-full overflow-hidden">

@@ -13,16 +13,17 @@ const MEMBER_COLOR: Record<string, string> = {
 interface Props {
   expense: Expense
   onDelete: (id: string) => void
+  fmt: (amount: number) => string
 }
 
-export default function ExpenseItem({ expense, onDelete }: Props) {
+export default function ExpenseItem({ expense, onDelete, fmt }: Props) {
   const [confirming, setConfirming] = useState(false)
 
   const cat = expense.category ? CATEGORIES[expense.category] : null
 
   const splitDisplay = expense.splits && Object.keys(expense.splits).length > 0
     ? Object.entries(expense.splits)
-        .map(([m, amt]) => `${m} ¥${amt!.toLocaleString()}`)
+        .map(([m, amt]) => `${m} ${fmt(amt!)}`)
         .join('・')
     : `÷ ${expense.splitAmong.join('・')} 均分`
 
@@ -47,7 +48,7 @@ export default function ExpenseItem({ expense, onDelete }: Props) {
         </div>
 
         <div className="flex items-center gap-2 shrink-0">
-          <p className="text-base font-bold text-gray-900">¥{expense.amount.toLocaleString()}</p>
+          <p className="text-base font-bold text-gray-900">{fmt(expense.amount)}</p>
 
           {confirming ? (
             <div className="flex gap-1">

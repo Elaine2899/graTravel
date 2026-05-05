@@ -6,7 +6,12 @@ const MEMBER_COLOR: Record<string, string> = {
   Rae: 'text-purple-600',
 }
 
-export default function SettlementSummary({ settlements }: { settlements: Settlement[] }) {
+interface Props {
+  settlements: Settlement[]
+  fmt: (amount: number) => string
+}
+
+export default function SettlementSummary({ settlements, fmt }: Props) {
   if (settlements.length === 0) {
     return (
       <div className="bg-green-50 rounded-2xl p-4 border border-green-200 text-center">
@@ -28,7 +33,7 @@ export default function SettlementSummary({ settlements }: { settlements: Settle
               <path d="M5 12h14M14 6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
             <span className={`font-semibold text-sm ${MEMBER_COLOR[s.to]}`}>{s.to}</span>
-            <span className="ml-auto text-sm font-bold text-gray-800">¥{s.amount.toLocaleString()}</span>
+            <span className="ml-auto text-sm font-bold text-gray-800">{fmt(s.amount)}</span>
           </div>
         ))}
       </div>

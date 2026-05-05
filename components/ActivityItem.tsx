@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { Activity } from '@/types'
 import CulturalNoteModal from './CulturalNoteModal'
+import PlacesModal from './PlacesModal'
 
 const TYPE_ICON: Record<string, string> = {
   flight: '✈️',
@@ -23,13 +24,15 @@ const TYPE_COLOR: Record<string, string> = {
 export default function ActivityItem({ activity }: { activity: Activity }) {
   const [open, setOpen] = useState(false)
   const [showCulturalNote, setShowCulturalNote] = useState(false)
+  const [showPlaces, setShowPlaces] = useState(false)
 
   const { details } = activity
   const hasMainDetails = details && (
     details.transportInfo || details.ticketInfo || (details.recommendations?.length ?? 0) > 0
   )
   const hasCulturalNote = !!details?.culturalNote
-  const hasAnyDetails = hasMainDetails || hasCulturalNote
+  const hasPlaces = (details?.places?.length ?? 0) > 0
+  const hasAnyDetails = hasMainDetails || hasCulturalNote || hasPlaces
 
   return (
     <>
@@ -87,18 +90,34 @@ export default function ActivityItem({ activity }: { activity: Activity }) {
                 </ul>
               </section>
             )}
-            {hasCulturalNote && (
-              <button
-                onClick={() => setShowCulturalNote(true)}
-                className="mt-2 flex items-center gap-2 px-3 py-2 rounded-lg bg-amber-50 border border-amber-200 text-amber-700 text-xs font-medium w-full"
-              >
-                <span>📖</span>
-                <span>文史知識</span>
-                <svg viewBox="0 0 24 24" className="w-3.5 h-3.5 ml-auto" fill="none" stroke="currentColor" strokeWidth={2}>
-                  <path d="M9 18l6-6-6-6" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              </button>
-            )}
+
+            {/* 備選地點 + 文史知識 buttons */}
+            <div className="flex gap-2 mt-2">
+              {hasPlaces && (
+                <button
+                  onClick={() => setShowPlaces(true)}
+                  className="flex-1 flex items-center gap-2 px-3 py-2 rounded-lg bg-rose-50 border border-rose-200 text-rose-700 text-xs font-medium"
+                >
+                  <span>📍</span>
+                  <span>備選地點（{details.places!.length}）</span>
+                  <svg viewBox="0 0 24 24" className="w-3.5 h-3.5 ml-auto" fill="none" stroke="currentColor" strokeWidth={2}>
+                    <path d="M9 18l6-6-6-6" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </button>
+              )}
+              {hasCulturalNote && (
+                <button
+                  onClick={() => setShowCulturalNote(true)}
+                  className="flex-1 flex items-center gap-2 px-3 py-2 rounded-lg bg-amber-50 border border-amber-200 text-amber-700 text-xs font-medium"
+                >
+                  <span>📖</span>
+                  <span>文史知識</span>
+                  <svg viewBox="0 0 24 24" className="w-3.5 h-3.5 ml-auto" fill="none" stroke="currentColor" strokeWidth={2}>
+                    <path d="M9 18l6-6-6-6" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </button>
+              )}
+            </div>
           </div>
         )}
       </div>
@@ -108,6 +127,13 @@ export default function ActivityItem({ activity }: { activity: Activity }) {
           title={activity.title}
           content={details!.culturalNote!}
           onClose={() => setShowCulturalNote(false)}
+        />
+      )}
+      {showPlaces && hasPlaces && (
+        <PlacesModal
+          activityTitle={activity.title}
+          places={details!.places!}
+          onClose={() => setShowPlaces(false)}
         />
       )}
     </>

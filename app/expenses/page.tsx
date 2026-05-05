@@ -12,6 +12,7 @@ import SpendingAnalysis from '@/components/SpendingAnalysis'
 import { calculateSettlement } from '@/lib/settlement'
 import AuthGuard from '@/components/AuthGuard'
 import { useAuth } from '@/lib/AuthContext'
+import { Currency, DEFAULT_RATE, makeFormatter } from '@/lib/currency'
 
 type Tab = 'list' | 'analysis'
 
@@ -20,6 +21,10 @@ function ExpensesContent() {
   const [expenses, setExpenses] = useState<Expense[]>([])
   const [loading, setLoading] = useState(true)
   const [tab, setTab] = useState<Tab>('list')
+  const [currency, setCurrency] = useState<Currency>('JPY')
+  const [rate, setRate] = useState(DEFAULT_RATE)
+  const [editingRate, setEditingRate] = useState(false)
+  const [rateInput, setRateInput] = useState(String(DEFAULT_RATE))
 
   useEffect(() => {
     const q = query(collection(db, 'expenses'), orderBy('createdAt', 'desc'))
@@ -34,6 +39,14 @@ function ExpensesContent() {
     await deleteDoc(doc(db, 'expenses', id))
   }
 
+  const commitRate = () => {
+    const v = parseFloat(rateInput)
+    if (!isNaN(v) && v > 0) setRate(v)
+    else setRateInput(String(rate))
+    setEditingRate(false)
+  }
+
+  const fmt = makeFormatter(currency, rate)
   const settlements = calculateSettlement(expenses)
   const total = expenses.reduce((s, e) => s + e.amount, 0)
 
@@ -44,7 +57,7 @@ function ExpensesContent() {
           <div>
             <h1 className="text-2xl font-bold text-gray-900">拆帳</h1>
             <p className="text-sm text-gray-500 mt-0.5">
-              共 {expenses.length} 筆 ・ 合計 ¥{total.toLocaleString()}
+              共 {expenses.length} 筆 ・ 合計 {fmt(total)}
             </p>
           </div>
           <button
@@ -54,9 +67,49 @@ function ExpensesContent() {
             登出
           </button>
         </div>
-        {user?.email && (
-          <p className="text-xs text-gray-400 mt-1">登入為 {user.email}</p>
-        )}
+
+        {/* 幣別切換 */}
+        <div className="flex items-center gap-2 mt-2">
+          <div className="flex bg-gray-100 rounded-lg p-0.5">
+            {(['JPY', 'TWD'] as Currency[]).map((c) => (
+              <button
+                key={c}
+                onClick={() => setCurrency(c)}
+                className={`px-3 py-1 rounded-md text-xs font-semibold transition-colors ${
+                  currency === c ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-400'
+                }`}
+              >
+                {c === 'JPY' ? '¥ JPY' : 'NT$ TWD'}
+              </button>
+            ))}
+          </div>
+
+          {currency === 'TWD' && (
+            <div className="flex items-center gap-1 text-xs text-gray-400">
+              <span>1¥ =</span>
+              {editingRate ? (
+                <input
+                  type="number"
+                  value={rateInput}
+                  onChange={(e) => setRateInput(e.target.value)}
+                  onBlur={commitRate}
+                  onKeyDown={(e) => e.key === 'Enter' && commitRate()}
+                  className="w-16 border border-gray-300 rounded px-1.5 py-0.5 text-xs text-gray-700 outline-none focus:border-rose-400"
+                  autoFocus
+                  step="0.001"
+                />
+              ) : (
+                <button
+                  onClick={() => { setRateInput(String(rate)); setEditingRate(true) }}
+                  className="text-gray-600 font-medium underline decoration-dotted"
+                >
+                  {rate}
+                </button>
+              )}
+              <span>TWD</span>
+            </div>
+          )}
+        </div>
 
         {/* 明細 / 分析 tab */}
         <div className="flex gap-1 mt-3 bg-gray-100 rounded-xl p-1">
@@ -77,8 +130,7 @@ function ExpensesContent() {
       <div className="px-4 space-y-3">
         {tab === 'list' ? (
           <>
-            <SettlementSummary settlements={settlements} />
-
+            <SettlementSummary settlements={settlements} fmt={fmt} />
             {loading && (
               <p className="text-center text-sm text-gray-400 py-8">載入中...</p>
             )}
@@ -86,11 +138,11 @@ function ExpensesContent() {
               <p className="text-center text-sm text-gray-400 py-8">還沒有任何記帳記錄</p>
             )}
             {expenses.map((expense) => (
-              <ExpenseItem key={expense.id} expense={expense} onDelete={handleDelete} />
+              <ExpenseItem key={expense.id} expense={expense} onDelete={handleDelete} fmt={fmt} />
             ))}
           </>
         ) : (
-          <SpendingAnalysis expenses={expenses} />
+          <SpendingAnalysis expenses={expenses} fmt={fmt} />
         )}
       </div>
 
