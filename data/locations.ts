@@ -16,7 +16,6 @@ const CLEAN_NAMES: Record<string, string> = {
   'd3-fushimi':       '伏見稻荷大社',
   'd3-uji':           '宇治',
   'd3-byodoin':       '平等院',
-  'd4-kinkakuji':     '金閣寺',
   'd4-arashiyama':    '嵐山',
   'd5-nara-park':     '奈良公園',
   'd5-todaiji':       '東大寺',
