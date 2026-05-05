@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { addDoc, collection, serverTimestamp } from 'firebase/firestore'
 import Link from 'next/link'
@@ -20,12 +20,20 @@ const MEMBER_COLOR: Record<Member, string> = {
 function AddWishlistForm() {
   const router = useRouter()
   const { user } = useAuth()
-  const currentMember = getMemberFromEmail(user?.email)
   const [item, setItem] = useState('')
   const [location, setLocation] = useState('')
   const [store, setStore] = useState('')
   const [dayNumber, setDayNumber] = useState<number | null>(null)
-  const [wantedBy, setWantedBy] = useState<Member[]>(currentMember ? [currentMember] : [])
+  const [wantedBy, setWantedBy] = useState<Member[]>([])
+  const initialized = useRef(false)
+
+  useEffect(() => {
+    if (!initialized.current && user) {
+      const member = getMemberFromEmail(user.email)
+      if (member) setWantedBy([member])
+      initialized.current = true
+    }
+  }, [user])
   const [note, setNote] = useState('')
   const [submitting, setSubmitting] = useState(false)
 
