@@ -1,4 +1,5 @@
 import { Timestamp } from 'firebase/firestore'
+import { ExpenseCategory } from '@/data/categories'
 
 export type ActivityType = 'transport' | 'attraction' | 'food' | 'hotel' | 'flight'
 export type Group = 'all' | 'YY+Rae' | 'Wei'
@@ -32,6 +33,7 @@ export interface Expense {
   id: string
   amount: number
   item: string
+  category?: ExpenseCategory
   paidBy: Member
   splitAmong: Member[]
   // Custom splits: each member's exact share. If absent, split equally among splitAmong.

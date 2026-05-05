@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { Expense } from '@/types'
+import { CATEGORIES } from '@/data/categories'
 
 const MEMBER_COLOR: Record<string, string> = {
   YY: 'bg-rose-100 text-rose-700',
@@ -17,17 +18,26 @@ interface Props {
 export default function ExpenseItem({ expense, onDelete }: Props) {
   const [confirming, setConfirming] = useState(false)
 
+  const cat = expense.category ? CATEGORIES[expense.category] : null
+
   const splitDisplay = expense.splits && Object.keys(expense.splits).length > 0
     ? Object.entries(expense.splits)
         .map(([m, amt]) => `${m} ¥${amt!.toLocaleString()}`)
         .join('・')
-    : `÷ ${expense.splitAmong.join('・')} (均分)`
+    : `÷ ${expense.splitAmong.join('・')} 均分`
 
   return (
     <div className="bg-white rounded-xl px-4 py-3 shadow-sm border border-gray-100">
       <div className="flex items-start justify-between gap-2">
         <div className="flex-1 min-w-0">
-          <p className="font-medium text-sm text-gray-800 truncate">{expense.item}</p>
+          <div className="flex items-center gap-1.5">
+            {cat && (
+              <span className={`text-xs px-1.5 py-0.5 rounded-md font-medium shrink-0 ${cat.bg} ${cat.text}`}>
+                {cat.emoji} {cat.label}
+              </span>
+            )}
+            <p className="font-medium text-sm text-gray-800 truncate">{expense.item}</p>
+          </div>
           <div className="flex items-center gap-1.5 mt-1 flex-wrap">
             <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${MEMBER_COLOR[expense.paidBy]}`}>
               {expense.paidBy} 付

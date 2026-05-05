@@ -8,14 +8,18 @@ import { db, auth } from '@/lib/firebase'
 import { Expense } from '@/types'
 import ExpenseItem from '@/components/ExpenseItem'
 import SettlementSummary from '@/components/SettlementSummary'
+import SpendingAnalysis from '@/components/SpendingAnalysis'
 import { calculateSettlement } from '@/lib/settlement'
 import AuthGuard from '@/components/AuthGuard'
 import { useAuth } from '@/lib/AuthContext'
+
+type Tab = 'list' | 'analysis'
 
 function ExpensesContent() {
   const { user } = useAuth()
   const [expenses, setExpenses] = useState<Expense[]>([])
   const [loading, setLoading] = useState(true)
+  const [tab, setTab] = useState<Tab>('list')
 
   useEffect(() => {
     const q = query(collection(db, 'expenses'), orderBy('createdAt', 'desc'))
@@ -35,11 +39,11 @@ function ExpensesContent() {
 
   return (
     <div>
-      <header className="px-5 pt-10 pb-4">
+      <header className="px-5 pt-10 pb-3">
         <div className="flex items-start justify-between">
           <div>
             <h1 className="text-2xl font-bold text-gray-900">拆帳</h1>
-            <p className="text-sm text-gray-500 mt-1">
+            <p className="text-sm text-gray-500 mt-0.5">
               共 {expenses.length} 筆 ・ 合計 ¥{total.toLocaleString()}
             </p>
           </div>
@@ -53,32 +57,53 @@ function ExpensesContent() {
         {user?.email && (
           <p className="text-xs text-gray-400 mt-1">登入為 {user.email}</p>
         )}
+
+        {/* 明細 / 分析 tab */}
+        <div className="flex gap-1 mt-3 bg-gray-100 rounded-xl p-1">
+          {([['list', '明細'], ['analysis', '📊 分析']] as [Tab, string][]).map(([t, label]) => (
+            <button
+              key={t}
+              onClick={() => setTab(t)}
+              className={`flex-1 py-1.5 rounded-lg text-sm font-medium transition-colors ${
+                tab === t ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-500'
+              }`}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
       </header>
 
       <div className="px-4 space-y-3">
-        <SettlementSummary settlements={settlements} />
+        {tab === 'list' ? (
+          <>
+            <SettlementSummary settlements={settlements} />
 
-        {loading && (
-          <p className="text-center text-sm text-gray-400 py-8">載入中...</p>
+            {loading && (
+              <p className="text-center text-sm text-gray-400 py-8">載入中...</p>
+            )}
+            {!loading && expenses.length === 0 && (
+              <p className="text-center text-sm text-gray-400 py-8">還沒有任何記帳記錄</p>
+            )}
+            {expenses.map((expense) => (
+              <ExpenseItem key={expense.id} expense={expense} onDelete={handleDelete} />
+            ))}
+          </>
+        ) : (
+          <SpendingAnalysis expenses={expenses} />
         )}
-
-        {!loading && expenses.length === 0 && (
-          <p className="text-center text-sm text-gray-400 py-8">還沒有任何記帳記錄</p>
-        )}
-
-        {expenses.map((expense) => (
-          <ExpenseItem key={expense.id} expense={expense} onDelete={handleDelete} />
-        ))}
       </div>
 
-      <Link
-        href="/expenses/add"
-        className="fixed bottom-20 right-4 w-14 h-14 bg-rose-500 rounded-full flex items-center justify-center shadow-lg text-white text-2xl active:scale-95 transition-transform"
-      >
-        <svg viewBox="0 0 24 24" className="w-7 h-7" fill="none" stroke="currentColor" strokeWidth={2.5}>
-          <path d="M12 5v14M5 12h14" strokeLinecap="round" />
-        </svg>
-      </Link>
+      {tab === 'list' && (
+        <Link
+          href="/expenses/add"
+          className="fixed bottom-20 right-4 w-14 h-14 bg-rose-500 rounded-full flex items-center justify-center shadow-lg text-white active:scale-95 transition-transform"
+        >
+          <svg viewBox="0 0 24 24" className="w-7 h-7" fill="none" stroke="currentColor" strokeWidth={2.5}>
+            <path d="M12 5v14M5 12h14" strokeLinecap="round" />
+          </svg>
+        </Link>
+      )}
     </div>
   )
 }

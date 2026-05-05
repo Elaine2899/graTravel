@@ -6,6 +6,7 @@ import { addDoc, collection, serverTimestamp } from 'firebase/firestore'
 import { db } from '@/lib/firebase'
 import { Member } from '@/types'
 import { MEMBERS } from '@/data/members'
+import { CATEGORIES, CATEGORY_ORDER, ExpenseCategory } from '@/data/categories'
 import Link from 'next/link'
 import AuthGuard from '@/components/AuthGuard'
 
@@ -21,6 +22,7 @@ function AddExpenseForm() {
   const router = useRouter()
   const [amount, setAmount] = useState('')
   const [item, setItem] = useState('')
+  const [category, setCategory] = useState<ExpenseCategory>('food')
   const [paidBy, setPaidBy] = useState<Member>('YY')
   const [splitMode, setSplitMode] = useState<SplitMode>('equal')
   const [splitAmong, setSplitAmong] = useState<Member[]>(['YY', 'Wei', 'Rae'])
@@ -60,6 +62,7 @@ function AddExpenseForm() {
       payload = {
         amount: totalAmount,
         item: item.trim(),
+        category,
         paidBy,
         splitAmong: Object.keys(splits),
         splits,
@@ -69,6 +72,7 @@ function AddExpenseForm() {
       payload = {
         amount: totalAmount,
         item: item.trim(),
+        category,
         paidBy,
         splitAmong,
         createdAt: serverTimestamp(),
@@ -127,6 +131,31 @@ function AddExpenseForm() {
             placeholder="e.g. 清水寺門票、午餐..."
             className="w-full mt-2 bg-white rounded-xl border border-gray-200 px-4 py-3 text-sm text-gray-800 outline-none focus:border-rose-400 transition-colors"
           />
+        </div>
+
+        {/* 類別 */}
+        <div>
+          <label className="text-xs font-semibold text-gray-500 uppercase tracking-wide">類別</label>
+          <div className="flex gap-2 mt-2 overflow-x-auto scrollbar-none pb-0.5">
+            {CATEGORY_ORDER.map((cat) => {
+              const info = CATEGORIES[cat]
+              const active = category === cat
+              return (
+                <button
+                  key={cat}
+                  onClick={() => setCategory(cat)}
+                  className={`shrink-0 flex flex-col items-center gap-0.5 px-3 py-2 rounded-xl border text-xs font-medium transition-colors ${
+                    active
+                      ? `${info.bg} ${info.text} border-transparent`
+                      : 'bg-white border-gray-200 text-gray-500'
+                  }`}
+                >
+                  <span className="text-base">{info.emoji}</span>
+                  <span>{info.label}</span>
+                </button>
+              )
+            })}
+          </div>
         </div>
 
         {/* 付款人 */}
