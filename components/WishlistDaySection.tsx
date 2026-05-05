@@ -1,5 +1,6 @@
 'use client'
 
+import { useState } from 'react'
 import { WishlistItem, Member } from '@/types'
 
 const MEMBER_CHIP: Record<Member, string> = {
@@ -14,28 +15,42 @@ interface Props {
 }
 
 export default function WishlistDaySection({ items, onToggle }: Props) {
+  const [collapsed, setCollapsed] = useState(false)
+
   if (items.length === 0) return null
 
   const pending = items.filter((i) => !i.purchased).length
 
   return (
     <div className="rounded-2xl border border-gray-100 bg-white shadow-sm overflow-hidden">
-      <div className="px-4 py-3 bg-gray-50 border-b border-gray-100 flex items-center justify-between">
+      <button
+        onClick={() => setCollapsed((c) => !c)}
+        className="w-full px-4 py-3 bg-gray-50 border-b border-gray-100 flex items-center justify-between"
+      >
         <div className="flex items-center gap-2">
           <span>🛍️</span>
           <p className="text-sm font-semibold text-gray-700">購物清單</p>
+          {pending > 0 ? (
+            <span className="text-xs bg-rose-100 text-rose-600 font-medium px-2 py-0.5 rounded-full">
+              {pending} 件待購
+            </span>
+          ) : (
+            <span className="text-xs bg-green-100 text-green-600 font-medium px-2 py-0.5 rounded-full">
+              全部購齊 🎉
+            </span>
+          )}
         </div>
-        {pending > 0 ? (
-          <span className="text-xs bg-rose-100 text-rose-600 font-medium px-2 py-0.5 rounded-full">
-            {pending} 件待購
-          </span>
-        ) : (
-          <span className="text-xs bg-green-100 text-green-600 font-medium px-2 py-0.5 rounded-full">
-            全部購齊 🎉
-          </span>
-        )}
-      </div>
-      <div className="divide-y divide-gray-50">
+        <svg
+          viewBox="0 0 24 24"
+          className={`w-4 h-4 text-gray-400 transition-transform ${collapsed ? '-rotate-90' : ''}`}
+          fill="none"
+          stroke="currentColor"
+          strokeWidth={2}
+        >
+          <path d="M6 9l6 6 6-6" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      </button>
+      {!collapsed && <div className="divide-y divide-gray-50">
         {items.map((item) => (
           <div key={item.id} className="flex items-center gap-3 px-4 py-3">
             <button
@@ -69,7 +84,7 @@ export default function WishlistDaySection({ items, onToggle }: Props) {
             </div>
           </div>
         ))}
-      </div>
+      </div>}
     </div>
   )
 }

@@ -31,7 +31,6 @@ export default function WishlistActivityModal({ activityId, activityName, dayNum
   const { user } = useAuth()
   const currentMember = getMemberFromEmail(user?.email)
 
-  const [collapsed, setCollapsed] = useState(false)
   const [newItem, setNewItem] = useState('')
   const [newWantedBy, setNewWantedBy] = useState<Member[]>(currentMember ? [currentMember] : [])
   const [adding, setAdding] = useState(false)
@@ -90,18 +89,10 @@ export default function WishlistActivityModal({ activityId, activityName, dayNum
   return createPortal(
     <div className="fixed inset-0 z-50 flex flex-col justify-end">
       <div className="absolute inset-0 bg-black/40" onClick={onClose} />
-      <div className="relative bg-white rounded-t-3xl shadow-xl flex flex-col" style={{ maxHeight: collapsed ? 'auto' : '80vh' }}>
-        {/* 拖曳把手 */}
-        <div className="flex justify-center pt-3 pb-1 shrink-0">
-          <div className="w-10 h-1 bg-gray-200 rounded-full" />
-        </div>
-
+      <div className="relative bg-white rounded-t-3xl max-h-[80vh] flex flex-col shadow-xl">
         {/* Header */}
-        <div className="flex items-start justify-between px-5 pt-2 pb-3 border-b border-gray-100 shrink-0">
-          <button
-            onClick={() => setCollapsed((c) => !c)}
-            className="flex-1 text-left"
-          >
+        <div className="flex items-start justify-between px-5 pt-5 pb-3 border-b border-gray-100 shrink-0">
+          <div>
             <p className="text-xs text-gray-400 font-medium">🛍️ 購物清單</p>
             <h2 className="text-base font-bold text-gray-900 mt-0.5">{activityName}</h2>
             {items.length > 0 && (
@@ -109,37 +100,19 @@ export default function WishlistActivityModal({ activityId, activityName, dayNum
                 {items.length - pending}/{items.length} 件已購買
               </p>
             )}
-          </button>
-          <div className="flex items-center gap-2 shrink-0 mt-1">
-            {/* 收合 / 展開 */}
-            <button
-              onClick={() => setCollapsed((c) => !c)}
-              className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 text-gray-500"
-            >
-              <svg
-                viewBox="0 0 24 24"
-                className={`w-4 h-4 transition-transform ${collapsed ? 'rotate-180' : ''}`}
-                fill="none"
-                stroke="currentColor"
-                strokeWidth={2}
-              >
-                <path d="M6 9l6 6 6-6" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-            </button>
-            {/* 關閉 */}
-            <button
-              onClick={onClose}
-              className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 text-gray-500"
-            >
-              <svg viewBox="0 0 24 24" className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2}>
-                <path d="M18 6L6 18M6 6l12 12" strokeLinecap="round" />
-              </svg>
-            </button>
           </div>
+          <button
+            onClick={onClose}
+            className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 text-gray-500 shrink-0"
+          >
+            <svg viewBox="0 0 24 24" className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2}>
+              <path d="M18 6L6 18M6 6l12 12" strokeLinecap="round" />
+            </svg>
+          </button>
         </div>
 
-        {/* Items list — hidden when collapsed */}
-        <div className={`flex-1 overflow-y-auto px-5 py-3 ${collapsed ? 'hidden' : ''}`}>
+        {/* Items list */}
+        <div className="flex-1 overflow-y-auto px-5 py-3">
           {items.length === 0 && (
             <p className="text-sm text-gray-400 text-center py-6">還沒有清單，在下方新增第一項！</p>
           )}
@@ -207,8 +180,8 @@ export default function WishlistActivityModal({ activityId, activityName, dayNum
           </div>
         </div>
 
-        {/* Inline add form — hidden when collapsed */}
-        <div className={`border-t border-gray-100 px-5 pt-3 pb-6 space-y-2.5 shrink-0 ${collapsed ? 'hidden' : ''}`}>
+        {/* Inline add form */}
+        <div className="border-t border-gray-100 px-5 pt-3 pb-6 space-y-2.5 shrink-0">
           <div className="flex gap-2">
             <input
               type="text"
