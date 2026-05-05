@@ -2,12 +2,13 @@
 
 import { useEffect, useMemo, useRef, useState } from 'react'
 import Link from 'next/link'
-import { collection, deleteDoc, doc, onSnapshot, orderBy, query } from 'firebase/firestore'
+import { collection, deleteDoc, doc, onSnapshot, orderBy, query, updateDoc } from 'firebase/firestore'
 import { db } from '@/lib/firebase'
 import { ITINERARY } from '@/data/itinerary'
-import { Activity, ActivityType, Group } from '@/types'
+import { Activity, ActivityType, Group, WishlistItem } from '@/types'
 import ActivityItem from '@/components/ActivityItem'
 import GroupTabs from '@/components/GroupTabs'
+import WishlistDaySection from '@/components/WishlistDaySection'
 
 const TRIP_START = new Date('2026-05-12T00:00:00+08:00')
 const TRIP_END = new Date('2026-05-19T23:59:59+08:00')
@@ -44,6 +45,7 @@ function timeToMins(t?: string | null): number {
 export default function ItineraryPage() {
   const [activeDay, setActiveDay] = useState(getTodayDayNumber)
   const [dynamicActivities, setDynamicActivities] = useState<DynamicActivity[]>([])
+  const [wishlistItems, setWishlistItems] = useState<WishlistItem[]>([])
   const tabsRef = useRef<HTMLDivElement>(null)
   const tabRefs = useRef<(HTMLButtonElement | null)[]>([])
 
@@ -65,8 +67,19 @@ export default function ItineraryPage() {
     })
   }, [])
 
+  useEffect(() => {
+    const q = query(collection(db, 'wishlist'), orderBy('createdAt', 'asc'))
+    return onSnapshot(q, (snap) => {
+      setWishlistItems(snap.docs.map((d) => ({ id: d.id, ...d.data() } as WishlistItem)))
+    })
+  }, [])
+
   const handleDelete = async (id: string) => {
     await deleteDoc(doc(db, 'activities', id))
+  }
+
+  const handleWishlistToggle = async (id: string, purchased: boolean) => {
+    await updateDoc(doc(db, 'wishlist', id), { purchased: !purchased })
   }
 
   // 切換 day 時，將對應 tab 捲入可視範圍
@@ -82,6 +95,11 @@ export default function ItineraryPage() {
   const dynamicForDay = useMemo(
     () => dynamicActivities.filter((a) => a.dayNumber === activeDay),
     [dynamicActivities, activeDay]
+  )
+
+  const wishlistForDay = useMemo(
+    () => wishlistItems.filter((i) => i.dayNumber === activeDay),
+    [wishlistItems, activeDay]
   )
 
   const dynamicIds = useMemo(
@@ -149,7 +167,7 @@ export default function ItineraryPage() {
       </div>
 
       {/* Activities */}
-      <div className="px-4 pt-3 space-y-2 pb-24">
+      <div className="px-4 pt-3 space-y-2">
         {hasGroups ? (
           <GroupTabs
             activities={mergedActivities}
@@ -166,6 +184,14 @@ export default function ItineraryPage() {
           ))
         )}
       </div>
+
+      {/* 當日購物清單 */}
+      {wishlistForDay.length > 0 && (
+        <div className="px-4 pt-3 pb-24">
+          <WishlistDaySection items={wishlistForDay} onToggle={handleWishlistToggle} />
+        </div>
+      )}
+      {wishlistForDay.length === 0 && <div className="pb-24" />}
 
       {/* FAB 新增行程 */}
       <Link

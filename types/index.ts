@@ -56,3 +56,15 @@ export interface Settlement {
   to: Member
   amount: number
 }
+
+export interface WishlistItem {
+  id: string
+  item: string
+  dayNumber?: number
+  location?: string
+  store?: string
+  wantedBy: Member[]
+  purchased: boolean
+  note?: string
+  createdAt: Timestamp
+}

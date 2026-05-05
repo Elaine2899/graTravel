@@ -19,6 +19,17 @@ export default function BottomNav() {
       ),
     },
     {
+      href: '/wishlist',
+      label: '購物',
+      icon: (active: boolean) => (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={active ? 2.5 : 2} className="w-6 h-6">
+          <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" strokeLinecap="round" strokeLinejoin="round" />
+          <path d="M3 6h18" strokeLinecap="round" />
+          <path d="M16 10a4 4 0 01-8 0" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      ),
+    },
+    {
       href: '/expenses',
       label: '拆帳',
       icon: (active: boolean) => (
