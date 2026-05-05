@@ -21,8 +21,14 @@ const TYPE_COLOR: Record<string, string> = {
   hotel: 'bg-green-50 border-green-200',
 }
 
-export default function ActivityItem({ activity }: { activity: Activity }) {
+interface Props {
+  activity: Activity
+  onDelete?: () => void
+}
+
+export default function ActivityItem({ activity, onDelete }: Props) {
   const [open, setOpen] = useState(false)
+  const [confirming, setConfirming] = useState(false)
   const [showCulturalNote, setShowCulturalNote] = useState(false)
   const [showPlaces, setShowPlaces] = useState(false)
 
@@ -37,31 +43,64 @@ export default function ActivityItem({ activity }: { activity: Activity }) {
   return (
     <>
       <div className={`rounded-xl border ${TYPE_COLOR[activity.type]} overflow-hidden`}>
-        <button
-          className="w-full flex items-start gap-3 px-4 py-3 text-left"
-          onClick={() => hasAnyDetails && setOpen((o) => !o)}
-        >
-          <span className="text-xl mt-0.5 shrink-0">{TYPE_ICON[activity.type]}</span>
-          <div className="flex-1 min-w-0">
-            <div className="flex items-center justify-between gap-2">
-              <p className="font-medium text-sm leading-snug text-gray-800">{activity.title}</p>
-              {hasAnyDetails && (
-                <svg
-                  viewBox="0 0 24 24"
-                  className={`w-4 h-4 shrink-0 text-gray-400 transition-transform ${open ? 'rotate-180' : ''}`}
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth={2}
-                >
-                  <path d="M6 9l6 6 6-6" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
+        <div className="flex items-stretch">
+          <button
+            className="flex-1 flex items-start gap-3 px-4 py-3 text-left"
+            onClick={() => hasAnyDetails && setOpen((o) => !o)}
+          >
+            <span className="text-xl mt-0.5 shrink-0">{TYPE_ICON[activity.type]}</span>
+            <div className="flex-1 min-w-0">
+              <div className="flex items-center justify-between gap-2">
+                <p className="font-medium text-sm leading-snug text-gray-800">{activity.title}</p>
+                {hasAnyDetails && (
+                  <svg
+                    viewBox="0 0 24 24"
+                    className={`w-4 h-4 shrink-0 text-gray-400 transition-transform ${open ? 'rotate-180' : ''}`}
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth={2}
+                  >
+                    <path d="M6 9l6 6 6-6" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                )}
+              </div>
+              {activity.time && (
+                <p className="text-xs text-gray-400 mt-0.5">{activity.time}</p>
               )}
             </div>
-            {activity.time && (
-              <p className="text-xs text-gray-400 mt-0.5">{activity.time}</p>
-            )}
-          </div>
-        </button>
+          </button>
+
+          {/* 刪除按鈕（僅動態行程顯示） */}
+          {onDelete && (
+            <div className="flex items-center pr-3">
+              {confirming ? (
+                <div className="flex gap-1">
+                  <button
+                    onClick={() => onDelete()}
+                    className="text-xs px-2 py-1 bg-red-500 text-white rounded-lg font-medium"
+                  >
+                    確定
+                  </button>
+                  <button
+                    onClick={() => setConfirming(false)}
+                    className="text-xs px-2 py-1 bg-gray-100 text-gray-600 rounded-lg"
+                  >
+                    取消
+                  </button>
+                </div>
+              ) : (
+                <button
+                  onClick={() => setConfirming(true)}
+                  className="w-7 h-7 flex items-center justify-center rounded-lg text-gray-300 hover:text-red-400 hover:bg-red-50 transition-colors"
+                >
+                  <svg viewBox="0 0 24 24" className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2}>
+                    <path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </button>
+              )}
+            </div>
+          )}
+        </div>
 
         {open && details && (
           <div className="px-4 pb-4 space-y-3 border-t border-black/5">

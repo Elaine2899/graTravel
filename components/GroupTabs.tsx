@@ -10,7 +10,13 @@ const TABS: { key: Group; label: string }[] = [
   { key: 'Wei', label: '東京巨蛋組\nWei' },
 ]
 
-export default function GroupTabs({ activities }: { activities: Activity[] }) {
+interface Props {
+  activities: Activity[]
+  dynamicIds?: Set<string>
+  onDelete?: (id: string) => void
+}
+
+export default function GroupTabs({ activities, dynamicIds, onDelete }: Props) {
   const [active, setActive] = useState<Group>('all')
 
   const filtered = activities.filter(
@@ -36,7 +42,11 @@ export default function GroupTabs({ activities }: { activities: Activity[] }) {
       </div>
       <div className="space-y-2">
         {filtered.map((activity) => (
-          <ActivityItem key={activity.id} activity={activity} />
+          <ActivityItem
+            key={activity.id}
+            activity={activity}
+            onDelete={dynamicIds?.has(activity.id) ? () => onDelete?.(activity.id) : undefined}
+          />
         ))}
       </div>
     </div>

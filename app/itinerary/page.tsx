@@ -1,7 +1,11 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
+import Link from 'next/link'
+import { collection, deleteDoc, doc, onSnapshot, orderBy, query } from 'firebase/firestore'
+import { db } from '@/lib/firebase'
 import { ITINERARY } from '@/data/itinerary'
+import { Activity, ActivityType, Group } from '@/types'
 import ActivityItem from '@/components/ActivityItem'
 import GroupTabs from '@/components/GroupTabs'
 
@@ -27,13 +31,43 @@ const THEME_EMOJI: Record<string, string> = {
   '返程 day': '🏠',
 }
 
+interface DynamicActivity extends Activity {
+  dayNumber: number
+}
+
+function timeToMins(t?: string | null): number {
+  if (!t) return Infinity
+  const [h, m] = t.split(':').map(Number)
+  return h * 60 + (m || 0)
+}
+
 export default function ItineraryPage() {
   const [activeDay, setActiveDay] = useState(getTodayDayNumber)
+  const [dynamicActivities, setDynamicActivities] = useState<DynamicActivity[]>([])
   const tabsRef = useRef<HTMLDivElement>(null)
   const tabRefs = useRef<(HTMLButtonElement | null)[]>([])
 
-  const day = ITINERARY.find((d) => d.dayNumber === activeDay)!
-  const hasGroups = day.activities.some((a) => a.group && a.group !== 'all')
+  useEffect(() => {
+    const q = query(collection(db, 'activities'), orderBy('createdAt', 'asc'))
+    return onSnapshot(q, (snap) => {
+      setDynamicActivities(snap.docs.map((d) => {
+        const data = d.data()
+        return {
+          id: d.id,
+          dayNumber: data.dayNumber as number,
+          time: data.time ?? undefined,
+          title: data.title as string,
+          type: data.type as ActivityType,
+          group: (data.group ?? 'all') as Group,
+          details: data.note ? { transportInfo: data.note as string } : undefined,
+        }
+      }))
+    })
+  }, [])
+
+  const handleDelete = async (id: string) => {
+    await deleteDoc(doc(db, 'activities', id))
+  }
 
   // 切換 day 時，將對應 tab 捲入可視範圍
   useEffect(() => {
@@ -42,6 +76,28 @@ export default function ItineraryPage() {
       tab.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' })
     }
   }, [activeDay])
+
+  const day = ITINERARY.find((d) => d.dayNumber === activeDay)!
+
+  const dynamicForDay = useMemo(
+    () => dynamicActivities.filter((a) => a.dayNumber === activeDay),
+    [dynamicActivities, activeDay]
+  )
+
+  const dynamicIds = useMemo(
+    () => new Set(dynamicForDay.map((a) => a.id)),
+    [dynamicForDay]
+  )
+
+  const mergedActivities = useMemo(
+    () =>
+      [...day.activities, ...dynamicForDay].sort(
+        (a, b) => timeToMins(a.time) - timeToMins(b.time)
+      ),
+    [day.activities, dynamicForDay]
+  )
+
+  const hasGroups = mergedActivities.some((a) => a.group && a.group !== 'all')
 
   return (
     <div>
@@ -93,15 +149,33 @@ export default function ItineraryPage() {
       </div>
 
       {/* Activities */}
-      <div className="px-4 pt-3 space-y-2">
+      <div className="px-4 pt-3 space-y-2 pb-24">
         {hasGroups ? (
-          <GroupTabs activities={day.activities} />
+          <GroupTabs
+            activities={mergedActivities}
+            dynamicIds={dynamicIds}
+            onDelete={handleDelete}
+          />
         ) : (
-          day.activities.map((activity) => (
-            <ActivityItem key={activity.id} activity={activity} />
+          mergedActivities.map((activity) => (
+            <ActivityItem
+              key={activity.id}
+              activity={activity}
+              onDelete={dynamicIds.has(activity.id) ? () => handleDelete(activity.id) : undefined}
+            />
           ))
         )}
       </div>
+
+      {/* FAB 新增行程 */}
+      <Link
+        href={`/itinerary/add?day=${activeDay}`}
+        className="fixed bottom-20 right-4 w-14 h-14 bg-rose-500 rounded-full flex items-center justify-center shadow-lg text-white active:scale-95 transition-transform"
+      >
+        <svg viewBox="0 0 24 24" className="w-7 h-7" fill="none" stroke="currentColor" strokeWidth={2.5}>
+          <path d="M12 5v14M5 12h14" strokeLinecap="round" />
+        </svg>
+      </Link>
     </div>
   )
 }
