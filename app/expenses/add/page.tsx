@@ -15,15 +15,29 @@ const MEMBER_COLOR: Record<Member, string> = {
   Rae: 'border-purple-400 bg-purple-50 text-purple-700',
 }
 
+type SplitMode = 'equal' | 'custom'
+
 function AddExpenseForm() {
   const router = useRouter()
   const [amount, setAmount] = useState('')
   const [item, setItem] = useState('')
   const [paidBy, setPaidBy] = useState<Member>('YY')
+  const [splitMode, setSplitMode] = useState<SplitMode>('equal')
   const [splitAmong, setSplitAmong] = useState<Member[]>(['YY', 'Wei', 'Rae'])
+  const [customSplits, setCustomSplits] = useState<Partial<Record<Member, string>>>({
+    YY: '', Wei: '', Rae: '',
+  })
   const [submitting, setSubmitting] = useState(false)
 
+  const totalAmount = parseInt(amount.replace(/,/g, ''), 10) || 0
+
+  const customTotal = Object.values(customSplits).reduce(
+    (sum, v) => sum + (parseInt(v || '0', 10) || 0), 0
+  )
+  const remaining = totalAmount - customTotal
+
   const toggleSplit = (member: Member) => {
+    if (splitMode === 'custom') return
     setSplitAmong((prev) =>
       prev.includes(member)
         ? prev.length > 1 ? prev.filter((m) => m !== member) : prev
@@ -32,22 +46,47 @@ function AddExpenseForm() {
   }
 
   const handleSubmit = async () => {
-    const amountNum = parseInt(amount.replace(/,/g, ''), 10)
-    if (!amountNum || !item.trim()) return
-    setSubmitting(true)
-    try {
-      await addDoc(collection(db, 'expenses'), {
-        amount: amountNum,
+    if (!totalAmount || !item.trim()) return
+
+    let payload: Record<string, unknown>
+
+    if (splitMode === 'custom') {
+      const splits: Partial<Record<Member, number>> = {}
+      for (const m of MEMBERS) {
+        const v = parseInt(customSplits[m] || '0', 10)
+        if (v > 0) splits[m] = v
+      }
+      if (Object.keys(splits).length === 0) return
+      payload = {
+        amount: totalAmount,
+        item: item.trim(),
+        paidBy,
+        splitAmong: Object.keys(splits),
+        splits,
+        createdAt: serverTimestamp(),
+      }
+    } else {
+      payload = {
+        amount: totalAmount,
         item: item.trim(),
         paidBy,
         splitAmong,
         createdAt: serverTimestamp(),
-      })
+      }
+    }
+
+    setSubmitting(true)
+    try {
+      await addDoc(collection(db, 'expenses'), payload)
       router.push('/expenses')
     } catch {
       setSubmitting(false)
     }
   }
+
+  const perPerson = splitMode === 'equal' && splitAmong.length > 0
+    ? Math.round(totalAmount / splitAmong.length)
+    : 0
 
   return (
     <div>
@@ -99,9 +138,7 @@ function AddExpenseForm() {
                 key={member}
                 onClick={() => setPaidBy(member)}
                 className={`flex-1 py-2.5 rounded-xl border text-sm font-semibold transition-colors ${
-                  paidBy === member
-                    ? MEMBER_COLOR[member]
-                    : 'border-gray-200 bg-white text-gray-500'
+                  paidBy === member ? MEMBER_COLOR[member] : 'border-gray-200 bg-white text-gray-500'
                 }`}
               >
                 {member}
@@ -110,31 +147,89 @@ function AddExpenseForm() {
           </div>
         </div>
 
-        {/* 分帳成員 */}
+        {/* 分帳模式切換 */}
         <div>
-          <label className="text-xs font-semibold text-gray-500 uppercase tracking-wide">
-            分帳成員（{splitAmong.length} 人，每人 ¥{amount ? Math.round(parseInt(amount) / splitAmong.length).toLocaleString() : 0}）
-          </label>
+          <label className="text-xs font-semibold text-gray-500 uppercase tracking-wide">分帳方式</label>
           <div className="flex gap-2 mt-2">
-            {MEMBERS.map((member) => (
-              <button
-                key={member}
-                onClick={() => toggleSplit(member)}
-                className={`flex-1 py-2.5 rounded-xl border text-sm font-semibold transition-colors ${
-                  splitAmong.includes(member)
-                    ? MEMBER_COLOR[member]
-                    : 'border-gray-200 bg-white text-gray-400'
-                }`}
-              >
-                {member}
-              </button>
-            ))}
+            <button
+              onClick={() => setSplitMode('equal')}
+              className={`flex-1 py-2 rounded-xl border text-sm font-medium transition-colors ${
+                splitMode === 'equal' ? 'bg-gray-800 border-gray-800 text-white' : 'bg-white border-gray-200 text-gray-500'
+              }`}
+            >
+              均分
+            </button>
+            <button
+              onClick={() => setSplitMode('custom')}
+              className={`flex-1 py-2 rounded-xl border text-sm font-medium transition-colors ${
+                splitMode === 'custom' ? 'bg-gray-800 border-gray-800 text-white' : 'bg-white border-gray-200 text-gray-500'
+              }`}
+            >
+              自訂金額
+            </button>
           </div>
         </div>
+
+        {/* 均分：選參與成員 */}
+        {splitMode === 'equal' && (
+          <div>
+            <label className="text-xs font-semibold text-gray-500 uppercase tracking-wide">
+              分帳成員{totalAmount > 0 && splitAmong.length > 0 && `（每人 ¥${perPerson.toLocaleString()}）`}
+            </label>
+            <div className="flex gap-2 mt-2">
+              {MEMBERS.map((member) => (
+                <button
+                  key={member}
+                  onClick={() => toggleSplit(member)}
+                  className={`flex-1 py-2.5 rounded-xl border text-sm font-semibold transition-colors ${
+                    splitAmong.includes(member) ? MEMBER_COLOR[member] : 'border-gray-200 bg-white text-gray-400'
+                  }`}
+                >
+                  {member}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* 自訂：每人輸入金額 */}
+        {splitMode === 'custom' && (
+          <div>
+            <div className="flex items-center justify-between mb-2">
+              <label className="text-xs font-semibold text-gray-500 uppercase tracking-wide">各人負擔金額</label>
+              {totalAmount > 0 && (
+                <span className={`text-xs font-medium ${remaining === 0 ? 'text-green-600' : 'text-orange-500'}`}>
+                  {remaining === 0 ? '✓ 金額正確' : remaining > 0 ? `還剩 ¥${remaining.toLocaleString()}` : `超出 ¥${(-remaining).toLocaleString()}`}
+                </span>
+              )}
+            </div>
+            <div className="space-y-2">
+              {MEMBERS.map((member) => (
+                <div key={member} className="flex items-center gap-3 bg-white rounded-xl border border-gray-200 px-4 py-2.5">
+                  <span className={`text-sm font-semibold w-8 ${MEMBER_COLOR[member].split(' ')[1]}`}>{member}</span>
+                  <span className="text-gray-400 text-sm">¥</span>
+                  <input
+                    type="number"
+                    inputMode="numeric"
+                    value={customSplits[member] ?? ''}
+                    onChange={(e) => setCustomSplits((prev) => ({ ...prev, [member]: e.target.value }))}
+                    placeholder="0"
+                    className="flex-1 text-sm font-bold text-gray-800 outline-none bg-transparent"
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
 
         <button
           onClick={handleSubmit}
-          disabled={!amount || !item.trim() || submitting}
+          disabled={
+            !totalAmount ||
+            !item.trim() ||
+            submitting ||
+            (splitMode === 'custom' && remaining !== 0)
+          }
           className="w-full bg-rose-500 text-white rounded-xl py-4 font-semibold text-base disabled:opacity-40 active:scale-[0.98] transition-all mt-2"
         >
           {submitting ? '儲存中...' : '儲存'}

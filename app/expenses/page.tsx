@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
-import { collection, onSnapshot, orderBy, query } from 'firebase/firestore'
+import { collection, deleteDoc, doc, onSnapshot, orderBy, query } from 'firebase/firestore'
 import { signOut } from 'firebase/auth'
 import { db, auth } from '@/lib/firebase'
 import { Expense } from '@/types'
@@ -25,6 +25,10 @@ function ExpensesContent() {
     })
     return unsub
   }, [])
+
+  const handleDelete = async (id: string) => {
+    await deleteDoc(doc(db, 'expenses', id))
+  }
 
   const settlements = calculateSettlement(expenses)
   const total = expenses.reduce((s, e) => s + e.amount, 0)
@@ -63,7 +67,7 @@ function ExpensesContent() {
         )}
 
         {expenses.map((expense) => (
-          <ExpenseItem key={expense.id} expense={expense} />
+          <ExpenseItem key={expense.id} expense={expense} onDelete={handleDelete} />
         ))}
       </div>
 

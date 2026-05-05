@@ -5,10 +5,19 @@ export function calculateSettlement(expenses: Expense[]): Settlement[] {
   const balance: Record<Member, number> = { YY: 0, Wei: 0, Rae: 0 }
 
   for (const expense of expenses) {
-    const share = expense.amount / expense.splitAmong.length
     balance[expense.paidBy] += expense.amount
-    for (const member of expense.splitAmong) {
-      balance[member] -= share
+
+    if (expense.splits && Object.keys(expense.splits).length > 0) {
+      // Custom split: each member owes their explicit share
+      for (const [member, share] of Object.entries(expense.splits)) {
+        balance[member as Member] -= share!
+      }
+    } else {
+      // Equal split among splitAmong
+      const share = expense.amount / expense.splitAmong.length
+      for (const member of expense.splitAmong) {
+        balance[member] -= share
+      }
     }
   }
 

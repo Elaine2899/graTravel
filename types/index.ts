@@ -34,6 +34,8 @@ export interface Expense {
   item: string
   paidBy: Member
   splitAmong: Member[]
+  // Custom splits: each member's exact share. If absent, split equally among splitAmong.
+  splits?: Partial<Record<Member, number>>
   createdAt: Timestamp
 }
 
