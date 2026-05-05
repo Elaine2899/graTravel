@@ -7,6 +7,7 @@ import Link from 'next/link'
 import { db } from '@/lib/firebase'
 import { Member, WishlistItem } from '@/types'
 import { MEMBERS } from '@/data/members'
+import { SHOPPING_LOCATIONS } from '@/data/locations'
 import { ITINERARY } from '@/data/itinerary'
 import AuthGuard from '@/components/AuthGuard'
 
@@ -16,25 +17,27 @@ const MEMBER_COLOR: Record<Member, string> = {
   Rae: 'border-purple-400 bg-purple-50 text-purple-700',
 }
 
+const DAY_THEME = Object.fromEntries(ITINERARY.map((d) => [d.dayNumber, d.theme]))
+
 function EditWishlistForm() {
   const { id } = useParams<{ id: string }>()
   const router = useRouter()
   const [loadError, setLoadError] = useState(false)
+  const [loaded, setLoaded] = useState(false)
   const [item, setItem] = useState('')
-  const [location, setLocation] = useState('')
+  const [locationId, setLocationId] = useState<string | null>(null)
   const [store, setStore] = useState('')
   const [dayNumber, setDayNumber] = useState<number | null>(null)
   const [wantedBy, setWantedBy] = useState<Member[]>([])
   const [note, setNote] = useState('')
   const [submitting, setSubmitting] = useState(false)
-  const [loaded, setLoaded] = useState(false)
 
   useEffect(() => {
     getDoc(doc(db, 'wishlist', id)).then((snap) => {
       if (!snap.exists()) { setLoadError(true); return }
       const data = snap.data() as Omit<WishlistItem, 'id'>
       setItem(data.item ?? '')
-      setLocation(data.location ?? '')
+      setLocationId(data.locationId ?? null)
       setStore(data.store ?? '')
       setDayNumber(data.dayNumber ?? null)
       setWantedBy(data.wantedBy ?? [])
@@ -51,13 +54,22 @@ function EditWishlistForm() {
     )
   }
 
+  const handlePickLocation = (lid: string, day: number) => {
+    if (locationId === lid) {
+      setLocationId(null)
+    } else {
+      setLocationId(lid)
+      setDayNumber(day)
+    }
+  }
+
   const handleSubmit = async () => {
     if (!item.trim() || wantedBy.length === 0) return
     setSubmitting(true)
     try {
       await updateDoc(doc(db, 'wishlist', id), {
         item: item.trim(),
-        location: location.trim() || null,
+        locationId: locationId ?? null,
         store: store.trim() || null,
         dayNumber: dayNumber ?? null,
         wantedBy,
@@ -69,6 +81,12 @@ function EditWishlistForm() {
     }
   }
 
+  const locationsByDay = SHOPPING_LOCATIONS.reduce<Record<number, typeof SHOPPING_LOCATIONS>>((acc, loc) => {
+    if (!acc[loc.dayNumber]) acc[loc.dayNumber] = []
+    acc[loc.dayNumber].push(loc)
+    return acc
+  }, {})
+
   if (loadError) {
     return (
       <div className="px-5 pt-20 text-center">
@@ -77,7 +95,6 @@ function EditWishlistForm() {
       </div>
     )
   }
-
   if (!loaded) {
     return <div className="px-5 pt-20 text-center text-sm text-gray-400">載入中...</div>
   }
@@ -125,47 +142,41 @@ function EditWishlistForm() {
           </div>
         </div>
 
-        {/* 行程天 */}
+        {/* 購買景點 */}
         <div>
-          <label className="text-xs font-semibold text-gray-500 uppercase tracking-wide">行程天（選填）</label>
-          <div className="flex gap-2 mt-2 overflow-x-auto scrollbar-none pb-1">
+          <label className="text-xs font-semibold text-gray-500 uppercase tracking-wide">購買景點（選填）</label>
+          <div className="mt-2 space-y-3">
             <button
-              onClick={() => setDayNumber(null)}
-              className={`shrink-0 px-3 py-2 rounded-xl border text-xs font-medium transition-colors ${
-                dayNumber === null ? 'bg-gray-800 border-gray-800 text-white' : 'bg-white border-gray-200 text-gray-500'
+              onClick={() => { setLocationId(null); setDayNumber(null) }}
+              className={`w-full text-left px-3 py-2 rounded-xl border text-sm transition-colors ${
+                locationId === null ? 'bg-gray-800 border-gray-800 text-white' : 'bg-white border-gray-200 text-gray-500'
               }`}
             >
               不指定
             </button>
-            {ITINERARY.map((d) => (
-              <button
-                key={d.dayNumber}
-                onClick={() => setDayNumber(d.dayNumber)}
-                className={`shrink-0 flex flex-col items-center px-3 py-2 rounded-xl border text-center min-w-[52px] transition-colors ${
-                  dayNumber === d.dayNumber
-                    ? 'bg-rose-500 border-rose-500 text-white'
-                    : 'bg-white border-gray-200 text-gray-600'
-                }`}
-              >
-                <span className={`text-[10px] ${dayNumber === d.dayNumber ? 'text-rose-100' : 'text-gray-400'}`}>
-                  {d.weekday}
-                </span>
-                <span className="text-sm font-bold leading-tight">{d.date.split('/')[1]}</span>
-              </button>
+            {Object.entries(locationsByDay).map(([day, locs]) => (
+              <div key={day}>
+                <p className="text-[11px] font-semibold text-gray-400 uppercase tracking-wide px-1 mb-1.5">
+                  Day {day}・{DAY_THEME[Number(day)]}
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  {locs.map((loc) => (
+                    <button
+                      key={loc.id}
+                      onClick={() => handlePickLocation(loc.id, loc.dayNumber)}
+                      className={`px-3 py-1.5 rounded-full border text-xs font-medium transition-colors ${
+                        locationId === loc.id
+                          ? 'bg-rose-500 border-rose-500 text-white'
+                          : 'bg-white border-gray-200 text-gray-600'
+                      }`}
+                    >
+                      {loc.name}
+                    </button>
+                  ))}
+                </div>
+              </div>
             ))}
           </div>
-        </div>
-
-        {/* 購買地點 */}
-        <div>
-          <label className="text-xs font-semibold text-gray-500 uppercase tracking-wide">購買地點（選填）</label>
-          <input
-            type="text"
-            value={location}
-            onChange={(e) => setLocation(e.target.value)}
-            placeholder="e.g. 錦市場、心齋橋..."
-            className="w-full mt-2 bg-white rounded-xl border border-gray-200 px-4 py-3 text-sm text-gray-800 outline-none focus:border-rose-400 transition-colors"
-          />
         </div>
 
         {/* 購買店家 */}

@@ -102,6 +102,17 @@ export default function ItineraryPage() {
     [wishlistItems, activeDay]
   )
 
+  const wishlistByActivityId = useMemo(() => {
+    const map: Record<string, WishlistItem[]> = {}
+    for (const item of wishlistItems) {
+      if (item.locationId) {
+        if (!map[item.locationId]) map[item.locationId] = []
+        map[item.locationId].push(item)
+      }
+    }
+    return map
+  }, [wishlistItems])
+
   const dynamicIds = useMemo(
     () => new Set(dynamicForDay.map((a) => a.id)),
     [dynamicForDay]
@@ -173,6 +184,8 @@ export default function ItineraryPage() {
             activities={mergedActivities}
             dynamicIds={dynamicIds}
             onDelete={handleDelete}
+            wishlistByActivityId={wishlistByActivityId}
+            dayNumber={activeDay}
           />
         ) : (
           mergedActivities.map((activity) => (
@@ -180,6 +193,8 @@ export default function ItineraryPage() {
               key={activity.id}
               activity={activity}
               onDelete={dynamicIds.has(activity.id) ? () => handleDelete(activity.id) : undefined}
+              wishlistItems={wishlistByActivityId[activity.id] ?? []}
+              dayNumber={activeDay}
             />
           ))
         )}

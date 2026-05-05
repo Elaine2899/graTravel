@@ -61,7 +61,8 @@ export interface WishlistItem {
   id: string
   item: string
   dayNumber?: number
-  location?: string
+  locationId?: string   // activity id from SHOPPING_LOCATIONS
+  location?: string     // legacy free text fallback
   store?: string
   wantedBy: Member[]
   purchased: boolean

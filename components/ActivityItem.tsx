@@ -1,9 +1,11 @@
 'use client'
 
 import { useState } from 'react'
-import { Activity } from '@/types'
+import { Activity, WishlistItem } from '@/types'
+import { getLocationName } from '@/data/locations'
 import CulturalNoteModal from './CulturalNoteModal'
 import PlacesModal from './PlacesModal'
+import WishlistActivityModal from './WishlistActivityModal'
 
 const TYPE_ICON: Record<string, string> = {
   flight: '✈️',
@@ -24,13 +26,19 @@ const TYPE_COLOR: Record<string, string> = {
 interface Props {
   activity: Activity
   onDelete?: () => void
+  wishlistItems?: WishlistItem[]
+  dayNumber?: number
 }
 
-export default function ActivityItem({ activity, onDelete }: Props) {
+export default function ActivityItem({ activity, onDelete, wishlistItems = [], dayNumber = 1 }: Props) {
   const [open, setOpen] = useState(false)
   const [confirming, setConfirming] = useState(false)
   const [showCulturalNote, setShowCulturalNote] = useState(false)
   const [showPlaces, setShowPlaces] = useState(false)
+  const [showWishlist, setShowWishlist] = useState(false)
+
+  const locationName = getLocationName(activity.id)
+  const hasWishlistLocation = locationName !== null
 
   const { details } = activity
   const hasMainDetails = details && (
@@ -38,7 +46,7 @@ export default function ActivityItem({ activity, onDelete }: Props) {
   )
   const hasCulturalNote = !!details?.culturalNote
   const hasPlaces = (details?.places?.length ?? 0) > 0
-  const hasAnyDetails = hasMainDetails || hasCulturalNote || hasPlaces
+  const hasAnyDetails = hasMainDetails || hasCulturalNote || hasPlaces || hasWishlistLocation
 
   return (
     <>
@@ -130,8 +138,8 @@ export default function ActivityItem({ activity, onDelete }: Props) {
               </section>
             )}
 
-            {/* 備選地點 + 文史知識 buttons */}
-            <div className="flex gap-2 mt-2">
+            {/* 備選地點 / 文史知識 / 購物清單 buttons */}
+            <div className="flex flex-wrap gap-2 mt-2">
               {hasPlaces && (
                 <button
                   onClick={() => setShowPlaces(true)}
@@ -156,6 +164,18 @@ export default function ActivityItem({ activity, onDelete }: Props) {
                   </svg>
                 </button>
               )}
+              {hasWishlistLocation && (
+                <button
+                  onClick={() => setShowWishlist(true)}
+                  className="flex-1 flex items-center gap-2 px-3 py-2 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-700 text-xs font-medium"
+                >
+                  <span>🛍️</span>
+                  <span>清單{wishlistItems.length > 0 ? `（${wishlistItems.length}）` : ''}</span>
+                  <svg viewBox="0 0 24 24" className="w-3.5 h-3.5 ml-auto" fill="none" stroke="currentColor" strokeWidth={2}>
+                    <path d="M9 18l6-6-6-6" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </button>
+              )}
             </div>
           </div>
         )}
@@ -173,6 +193,15 @@ export default function ActivityItem({ activity, onDelete }: Props) {
           activityTitle={activity.title}
           places={details!.places!}
           onClose={() => setShowPlaces(false)}
+        />
+      )}
+      {showWishlist && hasWishlistLocation && (
+        <WishlistActivityModal
+          activityId={activity.id}
+          activityName={locationName!}
+          dayNumber={dayNumber}
+          items={wishlistItems}
+          onClose={() => setShowWishlist(false)}
         />
       )}
     </>

@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { Activity, Group } from '@/types'
+import { Activity, Group, WishlistItem } from '@/types'
 import ActivityItem from './ActivityItem'
 
 const TABS: { key: Group; label: string }[] = [
@@ -14,9 +14,11 @@ interface Props {
   activities: Activity[]
   dynamicIds?: Set<string>
   onDelete?: (id: string) => void
+  wishlistByActivityId?: Record<string, WishlistItem[]>
+  dayNumber?: number
 }
 
-export default function GroupTabs({ activities, dynamicIds, onDelete }: Props) {
+export default function GroupTabs({ activities, dynamicIds, onDelete, wishlistByActivityId, dayNumber }: Props) {
   const [active, setActive] = useState<Group>('all')
 
   const filtered = activities.filter(
@@ -46,6 +48,8 @@ export default function GroupTabs({ activities, dynamicIds, onDelete }: Props) {
             key={activity.id}
             activity={activity}
             onDelete={dynamicIds?.has(activity.id) ? () => onDelete?.(activity.id) : undefined}
+            wishlistItems={wishlistByActivityId?.[activity.id] ?? []}
+            dayNumber={dayNumber}
           />
         ))}
       </div>

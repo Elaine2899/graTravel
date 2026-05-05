@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { WishlistItem, Member } from '@/types'
+import { getLocationName } from '@/data/locations'
 
 const MEMBER_CHIP: Record<Member, string> = {
   YY:  'bg-rose-100 text-rose-700',
@@ -18,6 +19,7 @@ interface Props {
 
 export default function WishlistCard({ item, onToggle, onDelete }: Props) {
   const [confirming, setConfirming] = useState(false)
+  const locationDisplay = getLocationName(item.locationId) ?? item.location ?? null
 
   return (
     <div className={`bg-white rounded-xl px-4 py-3 shadow-sm border border-gray-100 transition-opacity ${item.purchased ? 'opacity-60' : ''}`}>
@@ -41,9 +43,9 @@ export default function WishlistCard({ item, onToggle, onDelete }: Props) {
           <p className={`font-medium text-sm leading-snug ${item.purchased ? 'line-through text-gray-400' : 'text-gray-800'}`}>
             {item.item}
           </p>
-          {(item.location || item.store) && (
+          {(locationDisplay || item.store) && (
             <p className="text-xs text-gray-400 mt-0.5">
-              {[item.location, item.store].filter(Boolean).join(' · ')}
+              {[locationDisplay, item.store].filter(Boolean).join(' · ')}
             </p>
           )}
           {item.note && (
