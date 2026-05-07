@@ -125,10 +125,84 @@ types/index.ts       共用型別定義
 
 ---
 
-## 待辦 / 可能的未來擴充
+---
 
-- [ ] 旅途中新增景點即時筆記
-- [ ] 消費類別標籤（餐飲 / 交通 / 門票 / 購物）
-- [ ] 費用以新台幣顯示換算（匯率約 0.22）
-- [ ] 離線 cache（PWA Service Worker）
-- [ ] 行程頁支援手勢左右滑動換 day
+## 2026-05-06 — 拆帳功能擴充（第二波）
+
+### 消費類別標籤
+- 新增 `data/categories.ts`：定義 7 種類別（餐飲、交通、門票、購物、住宿、活動、其他），各附 emoji 和顏色
+- `Expense` 型別新增 `category?: ExpenseCategory`
+- 新增 / 編輯費用表單加入類別選擇器（橫向捲動 pill 按鈕）
+- `ExpenseItem` 在品項名稱前顯示類別 tag
+
+### 費用編輯頁 `/expenses/edit`
+- 新增 `app/expenses/edit/page.tsx`
+- 以 `getDoc` 預載資料（金額、品項、類別、付款人、分帳模式）
+- 自動偵測原始資料是否為自訂分帳（檢查 `splits` 欄位是否存在）
+- 切回均分模式時送出 `splits: null` 清除 Firestore 欄位
+- `ExpenseItem` 新增鉛筆 icon，連結至 `/expenses/edit?id=XXX`
+- 頁面以 `Suspense` 包裝（使用 `useSearchParams`）
+
+### 結算換算台幣
+- 拆帳頁新增 JPY / TWD 切換按鈕
+- 換算匯率約 0.22（硬編碼，供旅途參考用）
+
+---
+
+## 2026-05-07 — 行程頁大升級
+
+### 活動心情 emoji（per-activity）
+- 原設計為每日共用心情（`moods/{date}`），改為各活動獨立 emoji 反應
+- Firestore collection：`activityMoods/{activityId}` = `{ YY?: string, Wei?: string, Rae?: string }`
+- `MoodPicker` 改以 `createPortal` 實作（fixed 定位底部浮層），避免 overflow 裁切問題
+- 心情 chips 以 `e.stopPropagation()` 避免觸發卡片展開/收合
+- `ActivityItem` 新增 props：`currentMember`、`activityMoods`
+
+### 備選地點動態新增
+- `PlacesModal` 改為內部自訂閱 Firestore（`dynamicPlaces where activityId == ...`）
+- 新增 inline 表單：類別 pill 選擇 + 名稱 + 備注 + 新增按鈕
+- 寫入 `dynamicPlaces/{id}` = `{ activityId, name, category, note, createdAt }`
+- 靜態地點 + 動態地點同時顯示
+
+### 記帳快捷按鈕 + 花費統計
+- `ActivityItem` 展開後新增「💰 記帳」按鈕，連結至 `/expenses/add?activityId=XXX&day=N`
+- `Expense` 型別新增 `activityId?: string`
+- 新增費用表單讀取 `activityId` query param，寫入 Firestore
+- 行程頁訂閱全部 expenses，以 `useMemo` 計算各 activityId 的總花費
+- 有花費的活動卡片顯示灰色小字「共 ¥X,XXX」
+
+### 每日旅遊日記
+- 新增 `components/JournalSection.tsx`
+- Firestore：`journal/{dayNumber}` doc，欄位 `{ YY?: string, Wei?: string, Rae?: string }`
+- 可折疊（有內容時自動展開）；自己的區塊點擊後出現 inline textarea
+- 儲存方式：blur 或 Enter 觸發（Shift+Enter 換行，Escape 取消）
+
+### 行前準備清單 `/checklist`
+- 新增 `data/checklist.ts`：13 項靜態清單，分 5 類（證件、票券、金錢、3C、個人）
+- 新增 `app/checklist/page.tsx`：三人完成率進度條 + 依類別分組清單
+- Firestore：`checklist/{member}` = `{ checkedIds: string[] }`
+- 每個 item 顯示三人各自的打勾圓圈，只有自己的可以 toggle
+
+### 訂位 / 票券記錄
+- 新增 `components/ReservationSection.tsx`：顯示於行程頁底部（購物清單下方、日記上方）
+- 新增 `app/reservations/add/page.tsx`：類型選擇、天數、時間、確認碼
+- Firestore：`reservations/{id}` = `{ name, dayNumber, time?, confirmCode?, type, done, createdAt }`
+- 支援確認碼點擊複製（`navigator.clipboard.writeText`）、已完成 toggle、帶確認的刪除
+
+### 底部導航更新
+- `BottomNav` 由 3 個 tab 擴充為 4 個：行程 ｜ 行前 ｜ 購物 ｜ 拆帳
+
+---
+
+## Firestore Collections 完整清單
+
+| Collection | 用途 | 主要欄位 |
+|---|---|---|
+| `expenses` | 拆帳記錄 | amount, item, category, paidBy, splitAmong, splits?, activityId? |
+| `activities` | 動態新增行程 | dayNumber, title, type, group, time?, note? |
+| `activityMoods` | 各活動心情 emoji | `{activityId}` doc = `{ YY?, Wei?, Rae? }` |
+| `dynamicPlaces` | 各活動動態備選地點 | activityId, name, category, note? |
+| `wishlist` | 購物願望清單 | dayNumber, name, note?, purchased, locationId? |
+| `journal` | 每日日記 | `{dayNumber}` doc = `{ YY?, Wei?, Rae? }` |
+| `reservations` | 訂位/票券記錄 | name, dayNumber, time?, confirmCode?, type, done |
+| `checklist` | 行前清單打勾狀態 | `{member}` doc = `{ checkedIds: string[] }` |
