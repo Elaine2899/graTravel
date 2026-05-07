@@ -42,6 +42,7 @@ export const ITINERARY: Day[] = [
         type: 'hotel',
         details: {
           transportInfo: '地址：768 Honryusuicho, Shimogyo Ward, Kyoto\nCheck-in：15:00–23:00｜Check-out：11:00',
+          mapQuery: 'WAYFARER Kyoto Shijo',
         },
       },
       {
@@ -69,6 +70,7 @@ export const ITINERARY: Day[] = [
           transportInfo: '公車 207 四條西洞院站 → 東山安井站（或 UBER）',
           ticketInfo: '換裝約 1 小時｜17:30 前歸還｜記得帶學生證！',
           recommendations: ['穿和服普遍被勒很緊，不好進食，袴相對舒適'],
+          mapQuery: '愛和服清水本店 京都',
         },
       },
       {
@@ -78,6 +80,7 @@ export const ITINERARY: Day[] = [
         type: 'attraction',
         details: {
           culturalNote: '東山地區保留了京都最完整的傳統町家街道，是江戶時代庶民生活的縮影。',
+          mapQuery: '東山 二年坂 三年坂 京都',
           recommendations: [
             '八坂五重塔 → 二年坂 → 三年坂 → 清水寺（往上）',
             '沿路吃點心 → 寧寧之道 → 八坂神社 → 祇園 → 花見小路（往下）',
@@ -99,6 +102,7 @@ export const ITINERARY: Day[] = [
         details: {
           culturalNote: '清水寺建於西元 778 年，現建築為 1633 年德川家光重建。清水舞台由 139 根大柱支撐，高 13 公尺，完全不使用釘子。「清水の舞台から飛び降りる」（從清水舞台跳下）是日語俗語，意指下定決心做某事。',
           ticketInfo: '門票 ¥500',
+          mapQuery: '清水寺 京都',
         },
       },
       {
@@ -107,6 +111,7 @@ export const ITINERARY: Day[] = [
         type: 'attraction',
         details: {
           culturalNote: '八坂神社又稱「祇園神社」，是京都最古老的神社之一，建於西元 656 年。每年 7 月的祇園祭是全日本三大祭典之一，有超過 1,000 年歷史。',
+          mapQuery: '八坂神社 京都',
         },
       },
       {
@@ -117,6 +122,7 @@ export const ITINERARY: Day[] = [
         details: {
           transportInfo: '公車 205/206 或 祇園四條站搭京阪本線 → 出町柳站',
           culturalNote: '下鴨神社（賀茂御祖神社）建立於西元前，是京都最古老的神社之一。境內的「糺之森」是面積約 12.4 公頃的原始森林，自古便是神聖之地。',
+          mapQuery: '下鴨神社 京都',
           recommendations: [
             '四季御守',
             '水占卜（水みくじ）：將御籤浸入水中顯現文字',
@@ -164,6 +170,7 @@ export const ITINERARY: Day[] = [
         details: {
           transportInfo: '四條站 → 京都車站 → JR 奈良線 → JR 伏見稻荷站',
           culturalNote: '伏見稻荷大社是全日本約 30,000 座稻荷神社的總本社，建立於西元 711 年。以「千本鳥居」聞名，實際上有超過 1 萬座朱紅色鳥居綿延山道。鳥居由信眾和企業奉納，祈求生意興隆或願望成真。',
+          mapQuery: '伏見稲荷大社 京都',
           recommendations: [
             '千本鳥居隧道',
             '登頂稻荷山（海拔 233m，往返約 2–3 小時）',
@@ -179,6 +186,7 @@ export const ITINERARY: Day[] = [
         details: {
           transportInfo: 'JR 奈良線 → JR 宇治站',
           culturalNote: '宇治是日本抹茶的發源地，自平安時代起就以茶葉聞名。宇治川沿岸風景優美，沿河散步可串聯各大景點。',
+          mapQuery: '宇治市 京都府',
           recommendations: [
             '中村藤吉本店（抹茶甜點，超人氣，要先去拿號碼牌）',
             '平等院：鳳凰堂是 10 円硬幣上的圖案，門票 ¥600，湖中倒影超美',
@@ -202,6 +210,7 @@ export const ITINERARY: Day[] = [
         details: {
           culturalNote: '平等院建於西元 1052 年，是藤原賴通將父親道長的別墅改建而成的佛寺。鳳凰堂是日本 10 円硬幣背面的圖案，也是 NHK 大河劇常見場景。鳳凰堂內供奉的阿彌陀如來像（國寶）為定朝所作，是日本雕刻史上的里程碑。',
           ticketInfo: '庭園入場 ¥600，鳳凰堂內部參觀需另購 ¥300（每次限 50 人）',
+          mapQuery: '平等院 宇治',
         },
       },
       // 東京巨蛋組（Wei）
@@ -273,6 +282,7 @@ export const ITINERARY: Day[] = [
         details: {
           transportInfo: '四條站 → 烏丸線 → 丸太町站',
           culturalNote: '葵祭是京都三大祭之一，每年 5 月 15 日舉行，有超過 1,000 年歷史。遊行隊伍由上賀茂神社、下鴨神社的齋王代率領，穿著平安時代宮廷服飾，從京都御所出發。隊伍超過 500 人，全程約 8 公里。',
+          mapQuery: '京都御苑',
           recommendations: ['遊行隊伍從御所出發，人會很多，提早到佔位置'],
         },
       },
@@ -301,6 +311,7 @@ export const ITINERARY: Day[] = [
         type: 'attraction',
         details: {
           culturalNote: '嵐山自平安時代起就是貴族的度假勝地，保存了許多歷史建築和自然景觀。',
+          mapQuery: '嵐山 京都',
           recommendations: [
             '商店街覓食',
             '渡月橋：建於 9 世紀，因龜山天皇詠月而得名，曾出現在葛飾北齋浮世繪中',
@@ -328,6 +339,7 @@ export const ITINERARY: Day[] = [
         type: 'hotel',
         details: {
           transportInfo: '地址：2 Chome-2-44 Saiwaicho, Naniwa Ward, Osaka\n自助 check-in｜Check-in：16:00 起｜Check-out：10:00',
+          mapQuery: 'Hotel Abitare Namba West Osaka',
         },
       },
     ],
@@ -353,6 +365,7 @@ export const ITINERARY: Day[] = [
         type: 'attraction',
         details: {
           culturalNote: '奈良公園建立於 1880 年，面積約 660 公頃。園內自由放養超過 1,200 頭梅花鹿，牠們被視為春日大社神的使者，是國家天然紀念物。「鹿仙貝」（shika senbei）是專門賣給遊客餵鹿的米餅，鹿會對你低頭鞠躬討食。',
+          mapQuery: '奈良公園',
           recommendations: [
             '大佛布丁！（必吃）',
             '志津香釜飯：廣受好評，有素食選項',
@@ -374,6 +387,7 @@ export const ITINERARY: Day[] = [
         details: {
           culturalNote: '東大寺大佛殿是世界現存最大的木造建築。大佛（盧舍那佛）高 14.98 公尺，建造於西元 743 年，為聖武天皇為祈求國家安泰所鑄。殿內有一根柱子有個洞，和大佛鼻孔同樣大小（37cm x 30cm），能鑽過去據說能得到幸福。',
           ticketInfo: '門票 ¥600',
+          mapQuery: '東大寺 奈良',
         },
       },
       {
@@ -383,6 +397,7 @@ export const ITINERARY: Day[] = [
         details: {
           culturalNote: '春日大社建立於西元 768 年，是奈良時代守護都城的重要神社。境內有超過 3,000 座燈籠，包括石燈籠和吊燈籠，每年 2 月和 8 月舉行「萬燈籠」活動，場景夢幻。',
           ticketInfo: '外苑免費，本殿特別參拜需 ¥500',
+          mapQuery: '春日大社 奈良',
         },
       },
       {
@@ -422,6 +437,7 @@ export const ITINERARY: Day[] = [
           transportInfo: 'JR 難波站 → JR 大阪城公園站\n或 櫻川站 千日前線 → 谷町九丁目站 → 谷町線 → 谷町四丁目站',
           culturalNote: '大阪城由豐臣秀吉於 1583 年開始修建，是當時日本最大的城堡。現在的天守閣是 1931 年重建的鋼筋水泥版，但城壁和護城河仍保留歷史原貌。附近 ytv 大樓有柯南角色雕像！柯南最近也有相關活動。',
           ticketInfo: '天守閣門票 ¥600（可不進去）',
+          mapQuery: '大阪城公園',
           recommendations: ['ytv 大樓旁有柯南角色雕像，值得繞過去看'],
         },
       },
@@ -433,6 +449,7 @@ export const ITINERARY: Day[] = [
         details: {
           transportInfo: '森之宮站 長堀鶴見綠地線 → 心齋橋站',
           culturalNote: '道頓堀是大阪最著名的娛樂街，以巨大的螃蟹、河童廣告招牌和固力果跑步人看板聞名。心齋橋筋商店街有超過 600 公尺長，是大阪最熱鬧的購物街。',
+          mapQuery: '心斎橋筋商店街 大阪',
           recommendations: [
             '固力果跑步人看板打卡',
             '章魚燒、大阪燒（必吃）',
@@ -472,6 +489,7 @@ export const ITINERARY: Day[] = [
         type: 'attraction',
         details: {
           culturalNote: '大阪環球影城是日本第一座環球影城，2001 年開幕。任天堂園區（超級任天堂世界）是 USJ 最新也最熱門的園區，需要抽整理券才能入場（早上一到就要抽！）天黑後人潮減少，較容易直接進入。',
+          mapQuery: 'Universal Studios Japan Osaka',
           recommendations: [
             '進場第一件事：抽任天堂園區整理券！',
             '哪裡人少去哪裡，不用硬照順序走',

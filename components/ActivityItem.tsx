@@ -46,7 +46,8 @@ export default function ActivityItem({ activity, onDelete, wishlistItems = [], d
   )
   const hasCulturalNote = !!details?.culturalNote
   const hasPlaces = (details?.places?.length ?? 0) > 0
-  const hasAnyDetails = hasMainDetails || hasCulturalNote || hasPlaces || hasWishlistLocation
+  const hasMapQuery = !!details?.mapQuery
+  const hasAnyDetails = hasMainDetails || hasCulturalNote || hasPlaces || hasWishlistLocation || hasMapQuery
 
   return (
     <>
@@ -138,8 +139,19 @@ export default function ActivityItem({ activity, onDelete, wishlistItems = [], d
               </section>
             )}
 
-            {/* 備選地點 / 文史知識 / 購物清單 buttons */}
+            {/* 導航 / 備選地點 / 文史知識 / 購物清單 buttons */}
             <div className="flex flex-wrap gap-2 mt-2">
+              {details.mapQuery && (
+                <a
+                  href={`https://maps.google.com/maps?q=${encodeURIComponent(details.mapQuery)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-gray-50 border border-gray-200 text-gray-600 text-xs font-medium"
+                >
+                  <span>🗺</span>
+                  <span>導航</span>
+                </a>
+              )}
               {hasPlaces && (
                 <button
                   onClick={() => setShowPlaces(true)}

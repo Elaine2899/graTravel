@@ -20,6 +20,7 @@ export interface ActivityDetails {
   transportInfo?: string
   recommendations?: string[]
   places?: Place[]
+  mapQuery?: string
 }
 
 export interface Activity {
@@ -55,6 +56,19 @@ export interface Settlement {
   from: Member
   to: Member
   amount: number
+}
+
+export type ReservationType = 'restaurant' | 'ticket' | 'hotel' | 'transport'
+
+export interface Reservation {
+  id: string
+  name: string
+  dayNumber: number
+  time?: string
+  confirmCode?: string
+  type: ReservationType
+  done: boolean
+  createdAt: Timestamp
 }
 
 export interface WishlistItem {

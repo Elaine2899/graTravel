@@ -2,16 +2,36 @@
 
 import { useEffect, useMemo, useRef, useState } from 'react'
 import Link from 'next/link'
-import { collection, deleteDoc, doc, onSnapshot, orderBy, query, updateDoc } from 'firebase/firestore'
+import { collection, deleteDoc, doc, onSnapshot, orderBy, query, updateDoc, where } from 'firebase/firestore'
 import { db } from '@/lib/firebase'
+import { useAuth } from '@/lib/AuthContext'
 import { ITINERARY } from '@/data/itinerary'
-import { Activity, ActivityType, Group, WishlistItem } from '@/types'
+import { MEMBERS, getMemberFromEmail } from '@/data/members'
+import { Activity, ActivityType, Group, Member, Reservation, WishlistItem } from '@/types'
 import ActivityItem from '@/components/ActivityItem'
 import GroupTabs from '@/components/GroupTabs'
+import JournalSection from '@/components/JournalSection'
+import MoodPicker from '@/components/MoodPicker'
+import ReservationSection from '@/components/ReservationSection'
 import WishlistDaySection from '@/components/WishlistDaySection'
 
 const TRIP_START = new Date('2026-05-12T00:00:00+08:00')
 const TRIP_END = new Date('2026-05-19T23:59:59+08:00')
+
+function getTodayDateStr(): string {
+  // Use JST (UTC+9) for date
+  const now = new Date()
+  const jst = new Date(now.getTime() + 9 * 60 * 60 * 1000)
+  return jst.toISOString().slice(0, 10)
+}
+
+const TODAY_STR = getTodayDateStr()
+
+const MEMBER_COLOR: Record<Member, string> = {
+  YY:  'text-rose-600',
+  Wei: 'text-blue-600',
+  Rae: 'text-purple-600',
+}
 
 function getTodayDayNumber(): number {
   const now = new Date()
@@ -43,9 +63,16 @@ function timeToMins(t?: string | null): number {
 }
 
 export default function ItineraryPage() {
+  const { user } = useAuth()
+  const currentMember = getMemberFromEmail(user?.email)
+
   const [activeDay, setActiveDay] = useState(getTodayDayNumber)
   const [dynamicActivities, setDynamicActivities] = useState<DynamicActivity[]>([])
   const [wishlistItems, setWishlistItems] = useState<WishlistItem[]>([])
+  const [moods, setMoods] = useState<Partial<Record<Member, string>>>({})
+  const [showMoodPicker, setShowMoodPicker] = useState(false)
+  const [journalEntries, setJournalEntries] = useState<Partial<Record<Member, string>>>({})
+  const [reservations, setReservations] = useState<Reservation[]>([])
   const tabsRef = useRef<HTMLDivElement>(null)
   const tabRefs = useRef<(HTMLButtonElement | null)[]>([])
 
@@ -73,6 +100,29 @@ export default function ItineraryPage() {
       setWishlistItems(snap.docs.map((d) => ({ id: d.id, ...d.data() } as WishlistItem)))
     })
   }, [])
+
+  useEffect(() => {
+    return onSnapshot(doc(db, 'moods', TODAY_STR), (snap) => {
+      setMoods(snap.exists() ? (snap.data() as Partial<Record<Member, string>>) : {})
+    })
+  }, [])
+
+  useEffect(() => {
+    return onSnapshot(doc(db, 'journal', String(activeDay)), (snap) => {
+      setJournalEntries(snap.exists() ? (snap.data() as Partial<Record<Member, string>>) : {})
+    })
+  }, [activeDay])
+
+  useEffect(() => {
+    const q = query(
+      collection(db, 'reservations'),
+      where('dayNumber', '==', activeDay),
+      orderBy('createdAt', 'asc')
+    )
+    return onSnapshot(q, (snap) => {
+      setReservations(snap.docs.map((d) => ({ id: d.id, ...d.data() } as Reservation)))
+    })
+  }, [activeDay])
 
   const handleDelete = async (id: string) => {
     await deleteDoc(doc(db, 'activities', id))
@@ -167,14 +217,47 @@ export default function ItineraryPage() {
           })}
         </div>
 
-        {/* Day theme bar */}
-        <div className="px-4 pb-3 flex items-center gap-2 border-b border-gray-100">
-          <span className="text-lg">{THEME_EMOJI[day.theme] ?? '📅'}</span>
-          <div>
-            <span className="text-sm font-semibold text-gray-800">{day.theme}</span>
-            <span className="text-xs text-gray-400 ml-2">Day {day.dayNumber}</span>
+        {/* Day theme bar + mood row */}
+        <div className="relative">
+          <div className="px-4 py-2.5 flex items-center justify-between border-b border-gray-100">
+            <div className="flex items-center gap-2">
+              <span className="text-lg">{THEME_EMOJI[day.theme] ?? '📅'}</span>
+              <span className="text-sm font-semibold text-gray-800">{day.theme}</span>
+              <span className="text-xs text-gray-400">Day {day.dayNumber}</span>
+            </div>
+            {/* Mood row */}
+            <div className="flex items-center gap-2">
+              {MEMBERS.map((m) => {
+                const emoji = moods[m]
+                const isMe = m === currentMember
+                return (
+                  <button
+                    key={m}
+                    onClick={() => isMe && setShowMoodPicker((v) => !v)}
+                    className={`flex flex-col items-center gap-0.5 ${isMe ? 'active:scale-90 transition-transform' : 'cursor-default'}`}
+                  >
+                    <span className={`text-[10px] font-medium ${MEMBER_COLOR[m]}`}>{m}</span>
+                    <span className="text-base leading-none">
+                      {emoji ?? (isMe ? '➕' : '·')}
+                    </span>
+                  </button>
+                )
+              })}
+            </div>
           </div>
+          {showMoodPicker && currentMember && (
+            <MoodPicker
+              member={currentMember}
+              date={TODAY_STR}
+              onClose={() => setShowMoodPicker(false)}
+            />
+          )}
         </div>
+      </div>
+
+      {/* 訂位 / 票券 */}
+      <div className="px-4 pt-3">
+        <ReservationSection dayNumber={activeDay} items={reservations} />
       </div>
 
       {/* Activities */}
@@ -200,13 +283,17 @@ export default function ItineraryPage() {
         )}
       </div>
 
-      {/* 當日購物清單 */}
-      {wishlistForDay.length > 0 && (
-        <div className="px-4 pt-3 pb-24">
+      {/* 當日購物清單 + 日記 */}
+      <div className="px-4 pt-3 pb-24 space-y-3">
+        {wishlistForDay.length > 0 && (
           <WishlistDaySection items={wishlistForDay} onToggle={handleWishlistToggle} />
-        </div>
-      )}
-      {wishlistForDay.length === 0 && <div className="pb-24" />}
+        )}
+        <JournalSection
+          dayNumber={activeDay}
+          currentMember={currentMember}
+          entries={journalEntries}
+        />
+      </div>
 
       {/* FAB 新增行程 */}
       <Link
