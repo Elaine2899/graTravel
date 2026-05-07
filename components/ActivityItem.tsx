@@ -195,58 +195,54 @@ export default function ActivityItem({
             )}
 
             {/* Action buttons */}
-            <div className="flex flex-wrap gap-2 mt-2">
+            <div className="flex gap-2 mt-2">
               {details?.mapQuery && (
                 <a
                   href={`https://maps.google.com/maps?q=${encodeURIComponent(details.mapQuery)}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-gray-50 border border-gray-200 text-gray-600 text-xs font-medium"
+                  className="w-10 h-10 flex items-center justify-center rounded-xl bg-gray-50 border border-gray-200 text-xl"
                 >
-                  <span>🗺</span>
-                  <span>導航</span>
+                  🗺
                 </a>
               )}
               <button
                 onClick={() => setShowPlaces(true)}
-                className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-rose-50 border border-rose-200 text-rose-700 text-xs font-medium"
+                className="relative w-10 h-10 flex items-center justify-center rounded-xl bg-rose-50 border border-rose-200 text-xl"
               >
-                <span>📍</span>
-                <span>備選地點{hasPlaces ? `（${details!.places!.length}）` : ''}</span>
-                <svg viewBox="0 0 24 24" className="w-3.5 h-3.5 ml-auto" fill="none" stroke="currentColor" strokeWidth={2}>
-                  <path d="M9 18l6-6-6-6" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
+                📍
+                {hasPlaces && (
+                  <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-rose-500 text-white text-[10px] font-bold flex items-center justify-center">
+                    {details!.places!.length}
+                  </span>
+                )}
               </button>
               {hasCulturalNote && (
                 <button
                   onClick={() => setShowCulturalNote(true)}
-                  className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-amber-50 border border-amber-200 text-amber-700 text-xs font-medium"
+                  className="w-10 h-10 flex items-center justify-center rounded-xl bg-amber-50 border border-amber-200 text-xl"
                 >
-                  <span>📖</span>
-                  <span>文史知識</span>
-                  <svg viewBox="0 0 24 24" className="w-3.5 h-3.5 ml-auto" fill="none" stroke="currentColor" strokeWidth={2}>
-                    <path d="M9 18l6-6-6-6" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
+                  📖
                 </button>
               )}
               {hasWishlistLocation && (
                 <button
                   onClick={() => setShowWishlist(true)}
-                  className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-700 text-xs font-medium"
+                  className="relative w-10 h-10 flex items-center justify-center rounded-xl bg-emerald-50 border border-emerald-200 text-xl"
                 >
-                  <span>🛍️</span>
-                  <span>清單{wishlistItems.length > 0 ? `（${wishlistItems.length}）` : ''}</span>
-                  <svg viewBox="0 0 24 24" className="w-3.5 h-3.5 ml-auto" fill="none" stroke="currentColor" strokeWidth={2}>
-                    <path d="M9 18l6-6-6-6" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
+                  🛍️
+                  {wishlistItems.length > 0 && (
+                    <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-emerald-500 text-white text-[10px] font-bold flex items-center justify-center">
+                      {wishlistItems.length}
+                    </span>
+                  )}
                 </button>
               )}
               <Link
                 href={`/expenses/add?activityId=${activity.id}&day=${dayNumber}`}
-                className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-blue-50 border border-blue-200 text-blue-700 text-xs font-medium"
+                className="w-10 h-10 flex items-center justify-center rounded-xl bg-blue-50 border border-blue-200 text-xl"
               >
-                <span>💰</span>
-                <span>記帳</span>
+                💰
               </Link>
             </div>
           </div>
