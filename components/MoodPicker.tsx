@@ -30,15 +30,7 @@ export default function MoodPicker({ member, activityId, onClose }: Props) {
         className="absolute bottom-24 left-4 right-4 bg-white rounded-2xl shadow-xl border border-gray-100 p-4"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex items-center justify-between mb-3">
-          <p className="text-xs text-gray-400">選一個心情</p>
-          <button
-            onClick={handleClear}
-            className="text-xs text-gray-400 hover:text-red-400 transition-colors px-2 py-0.5 rounded-lg hover:bg-red-50"
-          >
-            清除
-          </button>
-        </div>
+        <p className="text-xs text-gray-400 text-center mb-3">選一個心情</p>
         <div className="flex justify-around">
           {MOOD_EMOJIS.map((emoji) => (
             <button
@@ -50,6 +42,12 @@ export default function MoodPicker({ member, activityId, onClose }: Props) {
             </button>
           ))}
         </div>
+        <button
+          onClick={handleClear}
+          className="mt-3 w-full py-2 rounded-xl text-xs font-medium text-red-400 bg-red-50 active:bg-red-100 transition-colors"
+        >
+          清除心情
+        </button>
       </div>
     </div>,
     document.body
