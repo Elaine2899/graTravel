@@ -222,11 +222,6 @@ export default function ItineraryPage() {
         </div>
       </div>
 
-      {/* 訂位 / 票券 */}
-      <div className="px-4 pt-3">
-        <ReservationSection dayNumber={activeDay} items={reservations} />
-      </div>
-
       {/* Activities */}
       <div className="px-4 pt-3 space-y-2">
         {hasGroups ? (
@@ -256,11 +251,12 @@ export default function ItineraryPage() {
         )}
       </div>
 
-      {/* 當日購物清單 + 日記 */}
+      {/* 當日購物清單 + 訂位票券 + 日記 */}
       <div className="px-4 pt-3 pb-24 space-y-3">
         {wishlistForDay.length > 0 && (
           <WishlistDaySection items={wishlistForDay} onToggle={handleWishlistToggle} />
         )}
+        <ReservationSection dayNumber={activeDay} items={reservations} />
         <JournalSection
           dayNumber={activeDay}
           currentMember={currentMember}
