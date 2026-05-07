@@ -292,18 +292,7 @@ export const ITINERARY: Day[] = [
         title: '御所附近午餐',
         type: 'food',
       },
-      {
-        id: 'd4-kinkakuji',
-        time: '12:30',
-        title: '金閣寺',
-        type: 'attraction',
-        details: {
-          transportInfo: '公車 204 → 金閣寺道站',
-          culturalNote: '金閣寺（鹿苑寺）建於 1397 年，是足利義滿的別墅。現在的建築是 1955 年重建，因 1950 年被一名見習僧侶縱火燒毀。三島由紀夫據此事件寫成小說《金閣寺》。上層兩層貼有純金箔，倒映在鏡湖池中的景象是京都最著名的景緻之一。',
-          ticketInfo: '門票 ¥500',
-          recommendations: ['計程車到嵐山（JR 嵐山站）約 15:10 抵達'],
-        },
-      },
+
       {
         id: 'd4-arashiyama',
         time: '15:10',
