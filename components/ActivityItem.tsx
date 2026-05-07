@@ -1,9 +1,12 @@
 'use client'
 
 import { useState } from 'react'
-import { Activity, WishlistItem } from '@/types'
+import Link from 'next/link'
+import { Activity, Member, WishlistItem } from '@/types'
+import { MEMBERS } from '@/data/members'
 import { getLocationName } from '@/data/locations'
 import CulturalNoteModal from './CulturalNoteModal'
+import MoodPicker from './MoodPicker'
 import PlacesModal from './PlacesModal'
 import WishlistActivityModal from './WishlistActivityModal'
 
@@ -23,19 +26,37 @@ const TYPE_COLOR: Record<string, string> = {
   hotel: 'bg-green-50 border-green-200',
 }
 
+const MEMBER_MOOD_COLOR: Record<Member, string> = {
+  YY:  'text-rose-500',
+  Wei: 'text-blue-500',
+  Rae: 'text-purple-500',
+}
+
 interface Props {
   activity: Activity
   onDelete?: () => void
   wishlistItems?: WishlistItem[]
   dayNumber?: number
+  currentMember?: Member | null
+  activityMoods?: Partial<Record<Member, string>>
+  totalSpent?: number
 }
 
-export default function ActivityItem({ activity, onDelete, wishlistItems = [], dayNumber = 1 }: Props) {
+export default function ActivityItem({
+  activity,
+  onDelete,
+  wishlistItems = [],
+  dayNumber = 1,
+  currentMember,
+  activityMoods,
+  totalSpent,
+}: Props) {
   const [open, setOpen] = useState(false)
   const [confirming, setConfirming] = useState(false)
   const [showCulturalNote, setShowCulturalNote] = useState(false)
   const [showPlaces, setShowPlaces] = useState(false)
   const [showWishlist, setShowWishlist] = useState(false)
+  const [showMoodPicker, setShowMoodPicker] = useState(false)
 
   const locationName = getLocationName(activity.id)
   const hasWishlistLocation = locationName !== null
@@ -48,6 +69,14 @@ export default function ActivityItem({ activity, onDelete, wishlistItems = [], d
   const hasPlaces = (details?.places?.length ?? 0) > 0
   const hasMapQuery = !!details?.mapQuery
   const hasAnyDetails = hasMainDetails || hasCulturalNote || hasPlaces || hasWishlistLocation || hasMapQuery
+
+  // Mood chip: show emoji for members who reacted, + for current user if not yet
+  const moodChips = MEMBERS.map((m) => {
+    const emoji = activityMoods?.[m]
+    const isMe = m === currentMember
+    if (!emoji && !isMe) return null
+    return { m, emoji, isMe }
+  }).filter(Boolean) as { m: Member; emoji?: string; isMe: boolean }[]
 
   return (
     <>
@@ -73,13 +102,39 @@ export default function ActivityItem({ activity, onDelete, wishlistItems = [], d
                   </svg>
                 )}
               </div>
-              {activity.time && (
-                <p className="text-xs text-gray-400 mt-0.5">{activity.time}</p>
+
+              {/* Time + cost */}
+              {(activity.time || (totalSpent && totalSpent > 0)) && (
+                <div className="flex items-center gap-1.5 mt-0.5">
+                  {activity.time && <p className="text-xs text-gray-400">{activity.time}</p>}
+                  {activity.time && totalSpent && totalSpent > 0 && <span className="text-xs text-gray-300">·</span>}
+                  {totalSpent && totalSpent > 0 && (
+                    <p className="text-xs text-gray-400">共 ¥{totalSpent.toLocaleString()}</p>
+                  )}
+                </div>
+              )}
+
+              {/* Mood chips */}
+              {moodChips.length > 0 && (
+                <div
+                  className="flex items-center gap-1.5 mt-1"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  {moodChips.map(({ m, emoji, isMe }) => (
+                    <button
+                      key={m}
+                      onClick={() => isMe && setShowMoodPicker((v) => !v)}
+                      className={`text-base leading-none transition-transform ${isMe ? 'active:scale-90' : 'cursor-default'} ${!emoji ? 'opacity-40' : ''} ${MEMBER_MOOD_COLOR[m]}`}
+                    >
+                      {emoji ?? '＋'}
+                    </button>
+                  ))}
+                </div>
               )}
             </div>
           </button>
 
-          {/* 刪除按鈕（僅動態行程顯示） */}
+          {/* 刪除按鈕（僅動態行程） */}
           {onDelete && (
             <div className="flex items-center pr-3">
               {confirming ? (
@@ -111,21 +166,21 @@ export default function ActivityItem({ activity, onDelete, wishlistItems = [], d
           )}
         </div>
 
-        {open && details && (
+        {open && (
           <div className="px-4 pb-4 space-y-3 border-t border-black/5">
-            {details.transportInfo && (
+            {details?.transportInfo && (
               <section>
                 <h4 className="text-xs font-semibold text-gray-400 uppercase tracking-wide mt-3 mb-1.5">交通資訊</h4>
                 <p className="text-sm text-gray-700 leading-relaxed whitespace-pre-line">{details.transportInfo}</p>
               </section>
             )}
-            {details.ticketInfo && (
+            {details?.ticketInfo && (
               <section>
                 <h4 className="text-xs font-semibold text-gray-400 uppercase tracking-wide mt-3 mb-1.5">票券資訊</h4>
                 <p className="text-sm text-gray-700 leading-relaxed whitespace-pre-line">{details.ticketInfo}</p>
               </section>
             )}
-            {details.recommendations && details.recommendations.length > 0 && (
+            {details?.recommendations && details.recommendations.length > 0 && (
               <section>
                 <h4 className="text-xs font-semibold text-gray-400 uppercase tracking-wide mt-3 mb-1.5">推薦 / 注意</h4>
                 <ul className="space-y-1">
@@ -139,9 +194,9 @@ export default function ActivityItem({ activity, onDelete, wishlistItems = [], d
               </section>
             )}
 
-            {/* 導航 / 備選地點 / 文史知識 / 購物清單 buttons */}
+            {/* Action buttons */}
             <div className="flex flex-wrap gap-2 mt-2">
-              {details.mapQuery && (
+              {details?.mapQuery && (
                 <a
                   href={`https://maps.google.com/maps?q=${encodeURIComponent(details.mapQuery)}`}
                   target="_blank"
@@ -152,22 +207,20 @@ export default function ActivityItem({ activity, onDelete, wishlistItems = [], d
                   <span>導航</span>
                 </a>
               )}
-              {hasPlaces && (
-                <button
-                  onClick={() => setShowPlaces(true)}
-                  className="flex-1 flex items-center gap-2 px-3 py-2 rounded-lg bg-rose-50 border border-rose-200 text-rose-700 text-xs font-medium"
-                >
-                  <span>📍</span>
-                  <span>備選地點（{details.places!.length}）</span>
-                  <svg viewBox="0 0 24 24" className="w-3.5 h-3.5 ml-auto" fill="none" stroke="currentColor" strokeWidth={2}>
-                    <path d="M9 18l6-6-6-6" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                </button>
-              )}
+              <button
+                onClick={() => setShowPlaces(true)}
+                className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-rose-50 border border-rose-200 text-rose-700 text-xs font-medium"
+              >
+                <span>📍</span>
+                <span>備選地點{hasPlaces ? `（${details!.places!.length}）` : ''}</span>
+                <svg viewBox="0 0 24 24" className="w-3.5 h-3.5 ml-auto" fill="none" stroke="currentColor" strokeWidth={2}>
+                  <path d="M9 18l6-6-6-6" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </button>
               {hasCulturalNote && (
                 <button
                   onClick={() => setShowCulturalNote(true)}
-                  className="flex-1 flex items-center gap-2 px-3 py-2 rounded-lg bg-amber-50 border border-amber-200 text-amber-700 text-xs font-medium"
+                  className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-amber-50 border border-amber-200 text-amber-700 text-xs font-medium"
                 >
                   <span>📖</span>
                   <span>文史知識</span>
@@ -179,7 +232,7 @@ export default function ActivityItem({ activity, onDelete, wishlistItems = [], d
               {hasWishlistLocation && (
                 <button
                   onClick={() => setShowWishlist(true)}
-                  className="flex-1 flex items-center gap-2 px-3 py-2 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-700 text-xs font-medium"
+                  className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-700 text-xs font-medium"
                 >
                   <span>🛍️</span>
                   <span>清單{wishlistItems.length > 0 ? `（${wishlistItems.length}）` : ''}</span>
@@ -188,6 +241,13 @@ export default function ActivityItem({ activity, onDelete, wishlistItems = [], d
                   </svg>
                 </button>
               )}
+              <Link
+                href={`/expenses/add?activityId=${activity.id}&day=${dayNumber}`}
+                className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-blue-50 border border-blue-200 text-blue-700 text-xs font-medium"
+              >
+                <span>💰</span>
+                <span>記帳</span>
+              </Link>
             </div>
           </div>
         )}
@@ -200,10 +260,11 @@ export default function ActivityItem({ activity, onDelete, wishlistItems = [], d
           onClose={() => setShowCulturalNote(false)}
         />
       )}
-      {showPlaces && hasPlaces && (
+      {showPlaces && (
         <PlacesModal
           activityTitle={activity.title}
-          places={details!.places!}
+          activityId={activity.id}
+          places={details?.places ?? []}
           onClose={() => setShowPlaces(false)}
         />
       )}
@@ -214,6 +275,13 @@ export default function ActivityItem({ activity, onDelete, wishlistItems = [], d
           dayNumber={dayNumber}
           items={wishlistItems}
           onClose={() => setShowWishlist(false)}
+        />
+      )}
+      {showMoodPicker && currentMember && (
+        <MoodPicker
+          member={currentMember}
+          activityId={activity.id}
+          onClose={() => setShowMoodPicker(false)}
         />
       )}
     </>

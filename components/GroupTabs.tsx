@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { Activity, Group, WishlistItem } from '@/types'
+import { Activity, Group, Member, WishlistItem } from '@/types'
 import ActivityItem from './ActivityItem'
 
 const TABS: { key: Group; label: string }[] = [
@@ -16,9 +16,12 @@ interface Props {
   onDelete?: (id: string) => void
   wishlistByActivityId?: Record<string, WishlistItem[]>
   dayNumber?: number
+  currentMember?: Member | null
+  moodsByActivityId?: Record<string, Partial<Record<Member, string>>>
+  totalSpentByActivityId?: Record<string, number>
 }
 
-export default function GroupTabs({ activities, dynamicIds, onDelete, wishlistByActivityId, dayNumber }: Props) {
+export default function GroupTabs({ activities, dynamicIds, onDelete, wishlistByActivityId, dayNumber, currentMember, moodsByActivityId, totalSpentByActivityId }: Props) {
   const [active, setActive] = useState<Group>('all')
 
   const filtered = activities.filter(
@@ -50,6 +53,9 @@ export default function GroupTabs({ activities, dynamicIds, onDelete, wishlistBy
             onDelete={dynamicIds?.has(activity.id) ? () => onDelete?.(activity.id) : undefined}
             wishlistItems={wishlistByActivityId?.[activity.id] ?? []}
             dayNumber={dayNumber}
+            currentMember={currentMember}
+            activityMoods={moodsByActivityId?.[activity.id]}
+            totalSpent={totalSpentByActivityId?.[activity.id]}
           />
         ))}
       </div>

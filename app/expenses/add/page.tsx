@@ -1,12 +1,13 @@
 'use client'
 
-import { useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { Suspense, useState } from 'react'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { addDoc, collection, serverTimestamp } from 'firebase/firestore'
 import { db } from '@/lib/firebase'
 import { Member } from '@/types'
 import { MEMBERS } from '@/data/members'
 import { CATEGORIES, CATEGORY_ORDER, ExpenseCategory } from '@/data/categories'
+import { ITINERARY } from '@/data/itinerary'
 import Link from 'next/link'
 import AuthGuard from '@/components/AuthGuard'
 
@@ -20,6 +21,15 @@ type SplitMode = 'equal' | 'custom'
 
 function AddExpenseForm() {
   const router = useRouter()
+  const searchParams = useSearchParams()
+  const activityId = searchParams.get('activityId') ?? undefined
+  const dayParam = Number(searchParams.get('day') ?? '0')
+
+  // Find activity name for context label
+  const activityName = activityId
+    ? ITINERARY.flatMap((d) => d.activities).find((a) => a.id === activityId)?.title
+    : undefined
+
   const [amount, setAmount] = useState('')
   const [item, setItem] = useState('')
   const [category, setCategory] = useState<ExpenseCategory>('food')
@@ -66,6 +76,7 @@ function AddExpenseForm() {
         paidBy,
         splitAmong: Object.keys(splits),
         splits,
+        activityId: activityId ?? null,
         createdAt: serverTimestamp(),
       }
     } else {
@@ -75,6 +86,7 @@ function AddExpenseForm() {
         category,
         paidBy,
         splitAmong,
+        activityId: activityId ?? null,
         createdAt: serverTimestamp(),
       }
     }
@@ -82,7 +94,7 @@ function AddExpenseForm() {
     setSubmitting(true)
     try {
       await addDoc(collection(db, 'expenses'), payload)
-      router.push('/expenses')
+      router.push(dayParam ? `/itinerary` : '/expenses')
     } catch {
       setSubmitting(false)
     }
@@ -95,13 +107,19 @@ function AddExpenseForm() {
   return (
     <div>
       <header className="px-5 pt-10 pb-4">
-        <Link href="/expenses" className="flex items-center gap-1 text-sm text-rose-500 mb-3">
+        <Link
+          href={dayParam ? '/itinerary' : '/expenses'}
+          className="flex items-center gap-1 text-sm text-rose-500 mb-3"
+        >
           <svg viewBox="0 0 24 24" className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2}>
             <path d="M15 18l-6-6 6-6" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
-          返回拆帳
+          {dayParam ? '返回行程' : '返回拆帳'}
         </Link>
         <h1 className="text-2xl font-bold text-gray-900">新增費用</h1>
+        {activityName && (
+          <p className="text-xs text-gray-400 mt-1">📍 {activityName}</p>
+        )}
       </header>
 
       <div className="px-4 space-y-5">
@@ -259,7 +277,7 @@ function AddExpenseForm() {
             submitting ||
             (splitMode === 'custom' && remaining !== 0)
           }
-          className="w-full bg-rose-500 text-white rounded-xl py-4 font-semibold text-base disabled:opacity-40 active:scale-[0.98] transition-all mt-2"
+          className="w-full bg-rose-500 text-white rounded-xl py-4 font-semibold text-base disabled:opacity-40 active:scale-[0.98] transition-all mt-2 mb-10"
         >
           {submitting ? '儲存中...' : '儲存'}
         </button>
@@ -271,7 +289,9 @@ function AddExpenseForm() {
 export default function AddExpensePage() {
   return (
     <AuthGuard>
-      <AddExpenseForm />
+      <Suspense fallback={<div className="px-5 pt-20 text-center text-sm text-gray-400">載入中...</div>}>
+        <AddExpenseForm />
+      </Suspense>
     </AuthGuard>
   )
 }

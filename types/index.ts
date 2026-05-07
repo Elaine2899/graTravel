@@ -47,8 +47,17 @@ export interface Expense {
   category?: ExpenseCategory
   paidBy: Member
   splitAmong: Member[]
-  // Custom splits: each member's exact share. If absent, split equally among splitAmong.
   splits?: Partial<Record<Member, number>>
+  activityId?: string
+  createdAt: Timestamp
+}
+
+export interface DynamicPlace {
+  id: string
+  activityId: string
+  name: string
+  category: PlaceCategory
+  note?: string
   createdAt: Timestamp
 }
 
