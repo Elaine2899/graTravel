@@ -20,7 +20,7 @@ export default function BottomNav() {
     },
     {
       href: '/checklist',
-      label: '行前',
+      label: '錦囊',
       icon: (active: boolean) => (
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={active ? 2.5 : 2} className="w-6 h-6">
           <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2" strokeLinecap="round" strokeLinejoin="round" />

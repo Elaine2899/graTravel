@@ -35,12 +35,33 @@ const MEMBER_PROGRESS_FILL: Record<Member, string> = {
   Rae: 'bg-purple-500',
 }
 
+const CRISIS_TIPS = [
+  {
+    id: 'heat',
+    emoji: '🥵',
+    title: '熱衰竭',
+    symptoms: ['大量出汗、皮膚濕冷蒼白', '脈搏快而弱、肌肉無力', '頭暈、噁心、頭痛', '體溫升高但未超過 40°C'],
+    steps: [
+      '立即移至陰涼處或冷氣房',
+      '躺下並抬高雙腳',
+      '解開緊身衣物',
+      '用冷毛巾擦拭頸部、腋下、鼠蹊部',
+      '小口補充電解質飲料（寶礦力、OS-1）',
+      '不可讓患者獨處',
+      '15–30 分鐘未改善 → 撥打 119',
+    ],
+    warning: '若體溫超過 40°C、意識不清、停止出汗 → 已惡化為中暑，立即 119！',
+    emergency: '119（救護車）',
+  },
+]
+
 function ChecklistContent() {
   const { user } = useAuth()
   const currentMember = getMemberFromEmail(user?.email)
   const [checkedByMember, setCheckedByMember] = useState<Record<Member, string[]>>({
     YY: [], Wei: [], Rae: [],
   })
+  const [openCrisis, setOpenCrisis] = useState<string | null>(null)
 
   const total = CHECKLIST_ITEMS.length
 
@@ -76,8 +97,8 @@ function ChecklistContent() {
   return (
     <div>
       <header className="px-5 pt-10 pb-4">
-        <h1 className="text-2xl font-bold text-gray-900">行前準備清單</h1>
-        <p className="text-xs text-gray-400 mt-1">出發前確認每人都備齊了！</p>
+        <h1 className="text-2xl font-bold text-gray-900">錦囊</h1>
+        <p className="text-xs text-gray-400 mt-1">行前清單 × 危機處理</p>
       </header>
 
       {/* 三人完成率橫幅 */}
@@ -110,7 +131,7 @@ function ChecklistContent() {
       </div>
 
       {/* 分類清單 */}
-      <div className="px-4 space-y-4 pb-28">
+      <div className="px-4 space-y-4 pb-4">
         {CHECKLIST_CATEGORIES.map((cat) => (
           <div key={cat}>
             <p className="text-[11px] font-semibold text-gray-400 uppercase tracking-wide mb-2">{cat}</p>
@@ -147,6 +168,70 @@ function ChecklistContent() {
             </div>
           </div>
         ))}
+      </div>
+
+      {/* 危機處理錦囊 */}
+      <div className="px-4 pb-28">
+        <p className="text-[11px] font-semibold text-gray-400 uppercase tracking-wide mb-2">危機處理</p>
+        <div className="space-y-2">
+          {CRISIS_TIPS.map((tip) => {
+            const isOpen = openCrisis === tip.id
+            return (
+              <div key={tip.id} className="bg-white rounded-2xl border border-orange-100 shadow-sm overflow-hidden">
+                <button
+                  className="w-full flex items-center gap-3 px-4 py-3 text-left"
+                  onClick={() => setOpenCrisis(isOpen ? null : tip.id)}
+                >
+                  <span className="text-2xl">{tip.emoji}</span>
+                  <span className="flex-1 text-sm font-semibold text-gray-800">{tip.title}</span>
+                  <svg
+                    viewBox="0 0 24 24" className={`w-4 h-4 text-gray-400 transition-transform shrink-0 ${isOpen ? 'rotate-180' : ''}`}
+                    fill="none" stroke="currentColor" strokeWidth={2}
+                  >
+                    <path d="M6 9l6 6 6-6" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </button>
+
+                {isOpen && (
+                  <div className="px-4 pb-4 space-y-3 border-t border-orange-50">
+                    <div className="mt-3">
+                      <p className="text-[11px] font-semibold text-orange-400 uppercase tracking-wide mb-1.5">症狀</p>
+                      <ul className="space-y-1">
+                        {tip.symptoms.map((s, i) => (
+                          <li key={i} className="text-sm text-gray-700 flex gap-2">
+                            <span className="text-orange-400 shrink-0">•</span>
+                            <span>{s}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+
+                    <div>
+                      <p className="text-[11px] font-semibold text-orange-400 uppercase tracking-wide mb-1.5">處理步驟</p>
+                      <ol className="space-y-1">
+                        {tip.steps.map((s, i) => (
+                          <li key={i} className="text-sm text-gray-700 flex gap-2">
+                            <span className="text-orange-500 font-semibold shrink-0 w-4">{i + 1}.</span>
+                            <span>{s}</span>
+                          </li>
+                        ))}
+                      </ol>
+                    </div>
+
+                    <div className="bg-red-50 rounded-xl px-3 py-2.5">
+                      <p className="text-xs text-red-600 font-medium leading-relaxed">⚠️ {tip.warning}</p>
+                    </div>
+
+                    <div className="flex items-center gap-2">
+                      <span className="text-xs text-gray-500">緊急電話</span>
+                      <span className="text-sm font-bold text-red-500">{tip.emergency}</span>
+                    </div>
+                  </div>
+                )}
+              </div>
+            )
+          })}
+        </div>
       </div>
     </div>
   )
