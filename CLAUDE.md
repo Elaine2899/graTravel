@@ -19,32 +19,34 @@ YY、Wei、Rae 三人 2026/05/12–05/19 赴日旅行（桃園→京都→大阪
 ```
 app/
   itinerary/page.tsx     行程主頁（8 day tab + 靜態+動態 activities）
+  itinerary/add/page.tsx 新增動態行程
+  itinerary/edit/page.tsx 編輯動態行程（updateDoc，以 id query param 預填）
   expenses/page.tsx      拆帳清單 + 結算
   expenses/add/page.tsx  新增費用（含 activityId、category）
   expenses/edit/page.tsx 編輯費用
-  checklist/page.tsx     行前準備清單
+  checklist/page.tsx     行前準備清單 + 危機處理錦囊
   wishlist/page.tsx      購物願望清單
-  reservations/add/      新增訂位/票券
+  help/page.tsx          使用說明（功能介紹）
   login/page.tsx         登入頁
 
 components/
-  ActivityItem.tsx       可折疊行程卡（含心情、花費、記帳按鈕）
+  ActivityItem.tsx       可折疊行程卡（含心情、花費、記帳、編輯、刪除按鈕）
   GroupTabs.tsx          Day 3 分組 tab（宇治稻荷組 / 東京巨蛋組）
   MoodPicker.tsx         心情 emoji 選擇浮層（createPortal）
   PlacesModal.tsx        備選地點 modal（含動態新增）
-  CulturalNoteModal.tsx  文史知識底部彈窗
+  CulturalNoteModal.tsx  文史知識底部彈窗（含 source 延伸閱讀連結）
   WishlistActivityModal  景點內購物清單
   JournalSection.tsx     每日旅遊日記
-  ReservationSection.tsx 訂位/票券記錄
   WishlistDaySection.tsx 當日購物清單
   ExpenseItem.tsx        單筆費用卡
   SettlementSummary.tsx  結算清單
-  BottomNav.tsx          底部導航（4 tabs）
+  BottomNav.tsx          底部導航（4 tabs：行程、錦囊、購物、拆帳）
   AuthGuard.tsx          未登入自動跳轉 /login
 
 data/
   itinerary.ts    8 天完整靜態行程資料（主要編輯對象）
-  checklist.ts    行前清單 13 項靜態資料
+  checklist.ts    行前清單 40 項靜態資料（8 分類）
+  driveLinks.ts   各天 Google Drive 相簿連結（Record<number, string>）
   categories.ts   消費類別（7 種）
   members.ts      ['YY', 'Wei', 'Rae']
 
@@ -66,7 +68,6 @@ types/index.ts   共用型別定義
 | `dynamicPlaces` | 各活動動態備選地點 |
 | `wishlist` | 購物願望清單 |
 | `journal` | 每日日記（dayNumber doc） |
-| `reservations` | 訂位/票券記錄 |
 | `checklist` | 行前清單打勾狀態（per-member doc） |
 
 ## 成員
@@ -87,3 +88,7 @@ Email → Member 對應：`getMemberFromEmail()` in `data/members.ts`
 - `info/` 目錄為唯讀參考資料，不會影響 App 運作；實際行程資料在 `data/itinerary.ts`
 - 心情 emoji 是 per-activity（`activityMoods/{activityId}`），不是 per-day
 - 費用可連結到活動（`activityId` 欄位），連結後該活動卡片顯示總花費
+- 動態新增的行程（`activities` collection）有編輯功能；靜態行程（`data/itinerary.ts`）沒有
+- `ActivityDetails.culturalNoteRef` 為可選欄位，設定後 `CulturalNoteModal` 底部顯示延伸閱讀連結
+- 訂位/票券功能已移除（`reservations` collection 停用，相關元件已刪除）
+- 旅程結束後計畫新增「旅行回顧頁」，整合日記、心情、相簿（詳見 DEVLOG.md）

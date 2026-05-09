@@ -194,6 +194,118 @@ types/index.ts       共用型別定義
 
 ---
 
+---
+
+## 2026-05-09 — 行程資料全面整修（Day 4–8）
+
+### 背景
+出發前最後一週，根據 `info/` 目錄下各天 MD 參考資料，全面重整 `data/itinerary.ts`。
+
+### 主要變更
+- **Day 4 葵祭**：修正抵達御所時間（10:30 行列出發，需 09:50 到），加入 crosta 行李寄送選項，補充嵐山交通與景點細節
+- **Day 5 奈良**：拆分興福寺/奈良公園為獨立卡片，補齊各景點間交通卡、午餐卡、春日大社詳細介紹
+- **Day 5 交通修正**：奈良→天王寺方案一改為「近鐵奈良→鶴橋→大阪環狀線」（非近鐵→難波），方案二為 JR 直達 ¥510
+- **Day 6–7**：重整大阪城、ytv 柯南、道頓堀、USJ 行程，補充午餐卡、早餐卡
+- **Day 8**：10:00 抵達 KIX 辦理，倒推早餐與出發時間
+
+---
+
+## 2026-05-09 — 功能移除與重建
+
+### 移除訂位/票券功能
+需求變更，功能複雜度超過實際需求。
+- 刪除 `components/ReservationSection.tsx`
+- 刪除 `app/reservations/add/page.tsx`
+- `app/itinerary/page.tsx` 移除相關 import、state、useEffect、JSX
+- `types/index.ts` 移除 `ReservationType`、`Reservation` 介面
+- Firestore `reservations` collection 停用（資料保留）
+
+### 行前清單重建（13 → 40 項，5 → 8 類）
+根據 `toBring.md` 全面重寫 `data/checklist.ts`：
+- 新增分類：衣物、保養・美容、特殊行程
+- 共 40 項，覆蓋所有出行必備物品
+
+### 危機處理錦囊
+`app/checklist/page.tsx` 新增 `CRISIS_TIPS` 陣列：
+- **熱衰竭**：症狀 + 處理步驟 + 緊急電話（119）
+- **護照遺失**：處理步驟 + 台北駐大阪辦事處聯絡方式
+- 危機處理區塊移至頁面最上方
+
+---
+
+## 2026-05-09 — Google Drive 相簿連結
+
+- 新增 `data/driveLinks.ts`：8 天的 Drive 資料夾連結集中管理
+- `app/itinerary/page.tsx` 的每日主題列右側新增「📷 相簿」連結
+
+---
+
+## 2026-05-10 — 動態行程可編輯
+
+### 問題
+動態新增的行程只能刪除，無法修改。
+
+### 實作
+- 新增 `app/itinerary/edit/page.tsx`：以 `id` query param 從 Firestore 取得原始資料預填表單，送出時呼叫 `updateDoc`
+- `ActivityItem` 新增 `editHref?: string` prop，顯示鉛筆圖示（藍色）與垃圾桶並排
+- `GroupTabs` 與 `app/itinerary/page.tsx` 皆傳入 `editHref`
+
+---
+
+## 2026-05-10 — 文史知識延伸閱讀
+
+### 設計
+景點歷史說明加上「了解更多 →」連結，指向有料的中文 / 日文文章（非維基百科）。
+
+### 實作
+- `types/index.ts` 新增 `culturalNoteRef?: string` 欄位
+- `CulturalNoteModal` 接受 `source?: string` prop，底部顯示外部連結
+- `ActivityItem` 傳入 `source={details?.culturalNoteRef}`
+
+### 六大景點奇文佚事 + 參考來源
+| 景點 | 故事重點 | 來源 |
+|---|---|---|
+| 伏見稻荷 | 豐臣秀吉謝恩捐建樓門 | letsgojp（中文） |
+| 興福寺阿修羅 | 光明皇后為亡母造像，三面映照哀愁 | 仏像旅（日文） |
+| 東大寺 | 天花奪三成人口後的政治宣示 | Medium（繁中） |
+| 春日大社 | 藤原氏用白鹿神話合法化政治控制 | 故事StoryStudio（繁中） |
+| 葵祭 | 源氏物語「車爭ひ」的真實宮廷背景 | 京都市官方（日文） |
+| 大阪城 | 德川填護城河的陷阱坑死豐臣家 | gtec（繁中） |
+
+---
+
+## 2026-05-10 — 使用說明頁
+
+- 新增 `app/help/page.tsx`：涵蓋行程、拆帳、購物清單、錦囊四大功能說明
+- `app/itinerary/page.tsx` 標題旁加「?」圓形按鈕連結至 `/help`
+
+---
+
+## 待辦：旅程結束後 — 旅行回顧頁
+
+### 構想
+旅程結束後製作「回顧頁」作為給 Wei、Rae 的驚喜，整合 App 內所有留存的記憶：
+
+**素材來源**
+- `journal/{dayNumber}`：三人的每日文字日記（可作為 voiceover / 旁白腳本）
+- `activityMoods/{activityId}`：各景點的即時心情 emoji（作為轉場情緒點）
+- Google Drive 相簿：照片與影片（已按天整理）
+- `data/itinerary.ts`：行程時間軸與地點（骨架）
+
+**回顧頁規格（待實作）**
+- 每天一個區塊，顯示：日期主題、三人日記、各景點心情 emoji、相簿連結
+- 全部唯讀，設計側重視覺呈現而非互動
+- 可作為數位紀念冊，也可作為影片剪輯的腳本參考
+- 考慮加入「解鎖」機制（旅程結束才顯示）或直接設為隱藏路由
+
+**影片製作流程建議**
+1. 看回顧頁，確認每天高潮點
+2. 從 Drive 挑選每天 5–10 張代表照片 / 影片
+3. CapCut 按天組裝，日記文字做成字幕或旁白
+4. 心情 emoji 做成景點轉場小字卡
+
+---
+
 ## Firestore Collections 完整清單
 
 | Collection | 用途 | 主要欄位 |
