@@ -37,6 +37,23 @@ const MEMBER_PROGRESS_FILL: Record<Member, string> = {
 
 const CRISIS_TIPS = [
   {
+    id: 'passport-lost',
+    emoji: '📕',
+    title: '護照遺失',
+    symptoms: [] as string[],
+    steps: [
+      '冷靜！先徹底確認每個口袋、行李夾層、飯店房間',
+      '前往最近的警察局（派出所）報案，取得「遺失證明書（紛失届出証明書）」',
+      '聯絡台北駐大阪辦事處（上班時間：週一至週五 09:00–17:00）',
+      '準備材料：其他身份證明（學生證 / 駕照）、大頭照 2 張、遺失證明書',
+      '申辦「入國證明書」（可緊急當日取件）或補發護照（需 5–10 個工作天）',
+      '以「入國證明書」向日本入管局辦理臨時出境手續',
+      '通知台灣虎航（+886-2-2717-1230）說明狀況，改簽或保留機位',
+    ],
+    warning: '不要拖延！越早聯繫辦事處越快解決。緊急時間外撥打辦事處緊急專線。',
+    emergency: '台北駐大阪辦事處 +81-6-6443-8481｜緊急（非上班時間）+81-90-2706-1965',
+  },
+  {
     id: 'heat',
     emoji: '🥵',
     title: '熱衰竭',
@@ -194,19 +211,21 @@ function ChecklistContent() {
 
                 {isOpen && (
                   <div className="px-4 pb-4 space-y-3 border-t border-orange-50">
-                    <div className="mt-3">
-                      <p className="text-[11px] font-semibold text-orange-400 uppercase tracking-wide mb-1.5">症狀</p>
-                      <ul className="space-y-1">
-                        {tip.symptoms.map((s, i) => (
-                          <li key={i} className="text-sm text-gray-700 flex gap-2">
-                            <span className="text-orange-400 shrink-0">•</span>
-                            <span>{s}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
+                    {tip.symptoms.length > 0 && (
+                      <div className="mt-3">
+                        <p className="text-[11px] font-semibold text-orange-400 uppercase tracking-wide mb-1.5">症狀</p>
+                        <ul className="space-y-1">
+                          {tip.symptoms.map((s, i) => (
+                            <li key={i} className="text-sm text-gray-700 flex gap-2">
+                              <span className="text-orange-400 shrink-0">•</span>
+                              <span>{s}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
 
-                    <div>
+                    <div className={tip.symptoms.length === 0 ? 'mt-3' : ''}>
                       <p className="text-[11px] font-semibold text-orange-400 uppercase tracking-wide mb-1.5">處理步驟</p>
                       <ol className="space-y-1">
                         {tip.steps.map((s, i) => (
