@@ -32,7 +32,15 @@ export const ITINERARY: Day[] = [
         type: 'flight',
         details: {
           transportInfo: 'Terminal 1 入境',
-          ticketInfo: '買 Haruka 特急票（最晚搭 20:46 班次）→ 京都車站\n京都車站轉地鐵烏丸線 → 四條站（6 號出口）→ 步行至飯店',
+        },
+      },
+      {
+        id: 'd1-to-hotel',
+        time: '19:30',
+        title: 'KIX → 京都四條',
+        type: 'transport',
+        details: {
+          transportInfo: '買 Haruka 特急票 → 京都車站（最晚搭 20:46 班次）\n京都車站轉地鐵烏丸線 → 四條站（6 號出口）→ 步行至飯店',
         },
       },
       {
@@ -50,7 +58,12 @@ export const ITINERARY: Day[] = [
         title: '吃晚餐',
         type: 'food',
         details: {
-          recommendations: ['四條周邊覓食', '記得買隔天早餐'],
+          recommendations: ['記得順手買隔天早餐'],
+          foodRecs: [
+            { name: 'めんや美鶴', note: '濃厚雞白湯拉麵，四條烏丸步行 3 分。平日到 23:30、週五六到 24:00' },
+            { name: '天天有 四条烏丸店', note: '京都名物雞湯拉麵，4 種湯頭可選。到 22:30，在 COCON 烏丸地下' },
+            { name: 'すしざんまい 京都河原町店', note: '迴轉壽司，河原町步行 10 分。到 22:30' },
+          ],
         },
       },
     ],
