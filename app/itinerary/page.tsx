@@ -6,6 +6,7 @@ import { collection, deleteDoc, doc, onSnapshot, orderBy, query, updateDoc } fro
 import { db } from '@/lib/firebase'
 import { useAuth } from '@/lib/AuthContext'
 import { ITINERARY } from '@/data/itinerary'
+import { DRIVE_LINKS } from '@/data/driveLinks'
 import { getMemberFromEmail } from '@/data/members'
 import { Activity, ActivityType, Expense, Group, Member, WishlistItem } from '@/types'
 import ActivityItem from '@/components/ActivityItem'
@@ -206,6 +207,14 @@ export default function ItineraryPage() {
           <span className="text-lg">{THEME_EMOJI[day.theme] ?? '📅'}</span>
           <span className="text-sm font-semibold text-gray-800">{day.theme}</span>
           <span className="text-xs text-gray-400">Day {day.dayNumber}</span>
+          <a
+            href={DRIVE_LINKS[day.dayNumber]}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="ml-auto flex items-center gap-1 text-xs text-gray-400 hover:text-blue-500 transition-colors"
+          >
+            📷 相簿
+          </a>
         </div>
       </div>
 
