@@ -695,6 +695,20 @@ export const ITINERARY: Day[] = [
     theme: '環球 day',
     activities: [
       {
+        id: 'd7-breakfast',
+        time: '07:15',
+        title: '早餐（快速出發前）',
+        type: 'food',
+        details: {
+          foodRecs: [
+            { name: '便利商店（7-Eleven / FamilyMart / Lawson）', note: '飯店附近多家，飯糰 + 三明治 + 咖啡，最快最省，強烈推薦 USJ 日首選' },
+            { name: 'マクドナルド 難波', note: '難波周邊多店，早安餐 07:00 起，麥滿分/鬆餅套餐，快速填肚' },
+            { name: 'ミスタードーナツ 難波', note: '甜甜圈 + 熱咖啡，座位少，建議外帶邊走' },
+          ],
+          recommendations: ['USJ 開園前排隊人很多，早餐以不超過 30 分鐘為原則', '可前一晚在便利商店買好早餐食材，隔天直接帶走'],
+        },
+      },
+      {
         id: 'd7-usj-transit',
         time: '08:00',
         title: '前往 USJ',
