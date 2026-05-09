@@ -99,14 +99,14 @@ export const ITINERARY: Day[] = [
       },
       {
         id: 'd2-higashiyama',
-        time: '11:00',
-        title: '東山散步路線',
+        time: '10:30',
+        title: '東山散步',
         type: 'attraction',
         details: {
           culturalNote: '東山地區保留了京都最完整的傳統町家街道，是江戶時代庶民生活的縮影。',
           mapQuery: '東山 二年坂 三年坂 京都',
           spotRecs: [
-            { name: '八坂五重塔 → 二年坂 → 三年坂 → 清水寺', note: '往上走' },
+            { name: '八坂五重塔 → 二年坂 → 三年坂 → 清水寺（門票 ¥500）', note: '往上走' },
             { name: '寧寧之道 → 八坂神社 → 祇園 → 花見小路', note: '往下走，沿路可買點心' },
           ],
           foodRecs: [
@@ -119,63 +119,53 @@ export const ITINERARY: Day[] = [
         },
       },
       {
-        id: 'd2-kiyomizudera',
-        title: '清水寺',
-        type: 'attraction',
-        details: {
-          culturalNote: '清水寺建於西元 778 年，現建築為 1633 年德川家光重建。清水舞台由 139 根大柱支撐，高 13 公尺，完全不使用釘子。「清水の舞台から飛び降りる」（從清水舞台跳下）是日語俗語，意指下定決心做某事。',
-          ticketInfo: '門票 ¥500',
-          mapQuery: '清水寺 京都',
-        },
-      },
-      {
-        id: 'd2-yasaka',
-        title: '八坂神社',
-        type: 'attraction',
-        details: {
-          culturalNote: '八坂神社又稱「祇園神社」，是京都最古老的神社之一，建於西元 656 年。每年 7 月的祇園祭是全日本三大祭典之一，有超過 1,000 年歷史。',
-          mapQuery: '八坂神社 京都',
-        },
-      },
-      {
-        id: 'd2-to-shimogamo',
-        time: '14:30',
-        title: '移動至下鴨神社',
-        type: 'transport',
-        details: {
-          transportInfo: '祇園四條站搭京阪本線 → 出町柳站',
-          transportAlt: '公車 205/206',
-        },
-      },
-      {
-        id: 'd2-shimogamo',
-        time: '15:00',
-        title: '下鴨神社・糺之森',
-        type: 'attraction',
-        details: {
-          culturalNote: '下鴨神社（賀茂御祖神社）建立於西元前，是京都最古老的神社之一。境內的「糺之森」是面積約 12.4 公頃的原始森林，自古便是神聖之地。',
-          mapQuery: '下鴨神社 京都',
-          recommendations: [
-            '四季御守',
-            '水占卜（水みくじ）：將御籤浸入水中顯現文字',
-            '河合神社：美麗神，鏡絵馬',
-            '御守攤位約 17:00 關閉',
-          ],
-        },
-      },
-      {
         id: 'd2-return-kimono',
         time: '17:00',
         title: '歸還和服',
         type: 'transport',
         details: {
-          transportInfo: '17:30 前必須歸還，留意時間！',
+          transportInfo: '17:30 前必須歸還！預留交通時間',
+          mapQuery: '愛和服清水本店 京都',
+        },
+      },
+      {
+        id: 'd2-to-shimogamo',
+        time: '17:30',
+        title: '移動至下鴨神社',
+        type: 'transport',
+        details: {
+          transportInfo: '公車 205 / 206：東山安井站 → 下鴨神社前站',
+          transportAlt: '祇園四條站 or 清水五條站 搭京阪本線 → 出町柳站，步行 10 分',
+        },
+      },
+      {
+        id: 'd2-shimogamo',
+        time: '18:00',
+        title: '下鴨神社・糺之森・河合神社',
+        type: 'attraction',
+        details: {
+          culturalNote: '下鴨神社（賀茂御祖神社）建立於西元前，是京都最古老的神社之一。境內的「糺之森」是面積約 12.4 公頃的原始森林，自古便是神聖之地。',
+          mapQuery: '下鴨神社 京都',
+          spotRecs: [
+            { name: '糺之森', note: '神社境內原始森林，清涼靜謐' },
+            { name: '河合神社', note: '美麗之神，鏡絵馬──在繪馬臉上畫自己的妝容祈求美麗' },
+          ],
+          recommendations: [
+            '四季御守',
+            '水占卜（水みくじ）：將御籤浸入水中顯現文字',
+            '御守攤位約 17:00 關閉，可能看不到，以實際為準',
+          ],
         },
       },
       {
         id: 'd2-dinner',
-        title: '晚餐',
+        time: '20:00',
+        title: '晚餐（已預約）モリタ屋 四条猪熊本店',
         type: 'food',
+        details: {
+          ticketInfo: '已預約，請準時抵達',
+          mapQuery: 'モリタ屋 四条猪熊本店 京都',
+        },
       },
     ],
   },
