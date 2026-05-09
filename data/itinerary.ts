@@ -77,12 +77,21 @@ export const ITINERARY: Day[] = [
     theme: '和服 day',
     activities: [
       {
+        id: 'd2-to-kimono',
+        time: '09:00',
+        title: '移動至愛和服清水本店',
+        type: 'transport',
+        details: {
+          transportInfo: '公車 207：四條西洞院站 → 東山安井站，步行約 3 分',
+          transportAlt: 'UBER（約 10 分鐘）',
+        },
+      },
+      {
         id: 'd2-kimono',
         time: '09:30',
         title: '愛和服清水本店 換裝',
         type: 'attraction',
         details: {
-          transportInfo: '公車 207 四條西洞院站 → 東山安井站（或 UBER）',
           ticketInfo: '換裝約 1 小時｜17:30 前歸還｜記得帶學生證！',
           recommendations: ['穿和服普遍被勒很緊，不好進食，袴相對舒適'],
           mapQuery: '愛和服清水本店 京都',
