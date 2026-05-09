@@ -174,9 +174,17 @@ export default function ItineraryPage() {
     <div>
       {/* Sticky header */}
       <div className="sticky top-0 bg-[#f8f7f4] z-10">
-        <div className="px-5 pt-10 pb-2">
-          <h1 className="text-2xl font-bold text-gray-900">日本行程</h1>
-          <p className="text-xs text-gray-400 mt-0.5">2026 / 5 / 12 – 5 / 19 ・ YY・Wei・Rae</p>
+        <div className="px-5 pt-10 pb-2 flex items-start justify-between">
+          <div>
+            <h1 className="text-2xl font-bold text-gray-900">日本行程</h1>
+            <p className="text-xs text-gray-400 mt-0.5">2026 / 5 / 12 – 5 / 19 ・ YY・Wei・Rae</p>
+          </div>
+          <Link
+            href="/help"
+            className="mt-2 w-7 h-7 flex items-center justify-center rounded-full bg-gray-100 text-gray-400 text-sm font-semibold hover:bg-gray-200 transition-colors shrink-0"
+          >
+            ?
+          </Link>
         </div>
 
         {/* Day tabs */}
