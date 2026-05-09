@@ -196,6 +196,7 @@ export const ITINERARY: Day[] = [
     activities: [
       {
         id: 'd3-breakfast',
+        time: '08:30',
         title: '找間早餐一起吃',
         type: 'food',
         group: 'all',
@@ -210,13 +211,22 @@ export const ITINERARY: Day[] = [
       },
       // 宇治·稻荷組（YY + Rae）
       {
+        id: 'd3-to-fushimi',
+        time: '09:30',
+        title: '移動至伏見稻荷大社',
+        type: 'transport',
+        group: 'YY+Rae',
+        details: {
+          transportInfo: '步行至四條站（烏丸線）→ 京都車站 → JR 奈良線 → 稻荷站，步行約 1 分',
+        },
+      },
+      {
         id: 'd3-fushimi',
-        time: '09:00',
+        time: '10:10',
         title: '伏見稻荷大社',
         type: 'attraction',
         group: 'YY+Rae',
         details: {
-          transportInfo: '步行至四條站（烏丸線）→ 京都車站 → JR 奈良線 → 稻荷站 → 步行約 1 分',
           culturalNote: '伏見稻荷大社是全日本約 30,000 座稻荷神社的總本社，建立於西元 711 年。以「千本鳥居」聞名，實際上有超過 1 萬座朱紅色鳥居綿延山道。鳥居由信眾和企業奉納，祈求生意興隆或願望成真。',
           mapQuery: '伏見稲荷大社 京都',
           specialties: ['稻荷壽司', '狐狸烏龍麵', '稻荷仙貝'],
@@ -232,13 +242,22 @@ export const ITINERARY: Day[] = [
         },
       },
       {
-        id: 'd3-uji',
+        id: 'd3-to-uji',
         time: '12:00',
+        title: '移動至宇治',
+        type: 'transport',
+        group: 'YY+Rae',
+        details: {
+          transportInfo: '稻荷站搭 JR 奈良線 → JR 宇治站（車程約 18 分）',
+        },
+      },
+      {
+        id: 'd3-uji',
+        time: '12:30',
         title: '宇治散步',
         type: 'attraction',
         group: 'YY+Rae',
         details: {
-          transportInfo: 'JR 奈良線 → JR 宇治站',
           culturalNote: '宇治是日本抹茶的發源地，自平安時代起就以茶葉聞名。宇治川沿岸風景優美，沿河散步可串聯各大景點。',
           mapQuery: '宇治市 京都府',
           spotRecs: [
@@ -274,19 +293,29 @@ export const ITINERARY: Day[] = [
         type: 'transport',
         group: 'Wei',
         details: {
-          transportInfo: '京都車站搭新幹線 → 東京車站\n記得提前買好票！',
-          ticketInfo: '東海道新幹線，車程約 2 小時 15 分',
+          transportInfo: '京都車站搭新幹線 → 東京車站，車程約 2 小時 15 分',
+          ticketInfo: '記得提前買好票！',
+        },
+      },
+      {
+        id: 'd3-to-dome',
+        time: '13:30',
+        title: '移動至東京巨蛋',
+        type: 'transport',
+        group: 'Wei',
+        details: {
+          transportInfo: '東京車站 → 東京メトロ丸之內線 → 後樂園站，2 號出口步行 8 分',
         },
       },
       {
         id: 'd3-dome',
         time: '14:00',
-        title: '前往東京巨蛋',
+        title: '東京巨蛋',
         type: 'attraction',
         group: 'Wei',
         details: {
-          transportInfo: '東京車站 → 丸之內線 → 後樂園站 2 號出口步行 8 分鐘',
           ticketInfo: '記得拿 pick up！領 zone 卡！\n16:30 開演｜約 19:30 結束',
+          mapQuery: '東京ドーム',
         },
       },
       {
@@ -296,7 +325,7 @@ export const ITINERARY: Day[] = [
         type: 'transport',
         group: 'Wei',
         details: {
-          transportInfo: '後樂園站 → 丸之內線 → 池袋站 → 東京車站\n末班新幹線：21:24（建議搭 20:39 或 20:54 保險）\n約 24:00 前可抵達京都飯店',
+          transportInfo: '後樂園站 → 丸之內線 → 東京車站\n末班新幹線：21:24（建議搭 20:39 或 20:54 保險）\n約 24:00 前可抵達京都飯店',
         },
       },
       // 下午全員
@@ -307,7 +336,7 @@ export const ITINERARY: Day[] = [
         type: 'attraction',
         group: 'all',
         details: {
-          transportInfo: '記得要在線上！',
+          recommendations: ['記得要在線上！'],
         },
       },
     ],
