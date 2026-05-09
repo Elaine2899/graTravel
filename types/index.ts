@@ -17,6 +17,7 @@ export interface SpotRec {
 
 export interface ActivityDetails {
   culturalNote?: string
+  culturalNoteRef?: string
   ticketInfo?: string
   transportInfo?: string
   transportAlt?: string

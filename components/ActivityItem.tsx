@@ -310,6 +310,7 @@ export default function ActivityItem({
         <CulturalNoteModal
           title={activity.title}
           content={details!.culturalNote!}
+          source={details?.culturalNoteRef}
           onClose={() => setShowCulturalNote(false)}
         />
       )}

@@ -6,10 +6,11 @@ import { createPortal } from 'react-dom'
 interface Props {
   title: string
   content: string
+  source?: string
   onClose: () => void
 }
 
-export default function CulturalNoteModal({ title, content, onClose }: Props) {
+export default function CulturalNoteModal({ title, content, source, onClose }: Props) {
   useEffect(() => {
     document.body.style.overflow = 'hidden'
     return () => { document.body.style.overflow = '' }
@@ -45,6 +46,19 @@ export default function CulturalNoteModal({ title, content, onClose }: Props) {
         {/* Content */}
         <div className="overflow-y-auto px-5 py-4">
           <p className="text-sm text-gray-700 leading-relaxed whitespace-pre-line">{content}</p>
+          {source && (
+            <a
+              href={source}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1 mt-4 text-xs text-blue-500 hover:text-blue-700"
+            >
+              了解更多
+              <svg viewBox="0 0 24 24" className="w-3 h-3" fill="none" stroke="currentColor" strokeWidth={2}>
+                <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6m0 0v6m0-6L10 14" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </a>
+          )}
         </div>
       </div>
     </>,
