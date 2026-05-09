@@ -755,6 +755,20 @@ export const ITINERARY: Day[] = [
     theme: '返程 day',
     activities: [
       {
+        id: 'd8-breakfast',
+        time: '08:00',
+        title: '最後早餐',
+        type: 'food',
+        details: {
+          foodRecs: [
+            { name: '喫茶店モーニング', note: '大阪喫茶文化：一杯咖啡附贈吐司 + 水煮蛋，¥500–700，道地早餐體驗，難波周邊隨處可見' },
+            { name: '551蓬萊 難波本店', note: '大阪名物豬肉包，現蒸熱騰騰，可當早餐外帶，09:00 起（確認當日開門時間），帶幾個上機！' },
+            { name: '便利商店', note: '最後一次日本便利商店早餐，飯糰 + 關東煮，簡單但也是回憶' },
+          ],
+          recommendations: ['10:30 前要出門前往南海難波站，早餐控制在 1 小時內', '551蓬萊肉包帶上飛機可以！（熟食可帶登機）'],
+        },
+      },
+      {
         id: 'd8-checkout',
         time: '09:00',
         title: '退房',
