@@ -12,6 +12,9 @@ export const ITINERARY: Day[] = [
         time: '12:00',
         title: '共乘出發前往桃園機場',
         type: 'transport',
+        details: {
+          transportInfo: '共乘，記得出發時通知大家',
+        },
       },
       {
         id: 'd1-checkin',
@@ -20,12 +23,6 @@ export const ITINERARY: Day[] = [
         type: 'flight',
         details: {
           ticketInfo: '航班 IT212｜行李 20 公斤｜桃園機場 Terminal 1\n票價 NT$9,897 + 稅金 NT$1,500 + 加值服務 NT$2,850',
-          recommendations: [
-            '【✈ 禁止帶上機】液體/凝膠/噴霧單件不超過 100ml，需裝入 1L 透明夾鏈袋；刀具、剪刀等銳利物；打火機限每人 1 個（隨身）',
-            '【📦 必須放手提，禁止托運】行動電源、鋰電池、筆電（含鋰電池，萬一起火機組才能處置）；過安檢時筆電需取出單獨掃描',
-            '【🛃 日本海關禁帶】新鮮水果、蔬菜、生肉；豬肉製品含肉乾（台灣帶去也不行）；帶根帶土植物；現金超過 100 萬日圓需申報',
-            '【🆓 免稅額度】酒 3 瓶（各 760ml）、菸 200 支',
-          ],
         },
       },
       {
@@ -35,15 +32,7 @@ export const ITINERARY: Day[] = [
         type: 'flight',
         details: {
           transportInfo: 'Terminal 1 入境',
-        },
-      },
-      {
-        id: 'd1-to-hotel',
-        time: '19:30',
-        title: 'KIX → 京都四條',
-        type: 'transport',
-        details: {
-          transportInfo: '買 Haruka 特急票 → 京都車站（最晚搭 20:46 班次）\n京都車站轉地鐵烏丸線 → 四條站（6 號出口）→ 步行至飯店',
+          ticketInfo: '買 Haruka 特急票（最晚搭 20:46 班次）→ 京都車站\n京都車站轉地鐵烏丸線 → 四條站（6 號出口）→ 步行至飯店',
         },
       },
       {
@@ -519,7 +508,6 @@ export const ITINERARY: Day[] = [
             '想看：水世界',
             '奶油啤酒（必喝）',
             '任天堂手錶遊戲需有 Nintendo Switch 手環（現場購買）',
-            '我媽威脅我不要買魔杖（但還是自己決定啦）',
             '停運中：飛天翼龍',
           ],
         },
