@@ -35,7 +35,15 @@ export const ITINERARY: Day[] = [
         type: 'flight',
         details: {
           transportInfo: 'Terminal 1 入境',
-          ticketInfo: '買 Haruka 特急票（最晚搭 20:46 班次）→ 京都車站\n京都車站轉地鐵烏丸線 → 四條站（6 號出口）→ 步行至飯店',
+        },
+      },
+      {
+        id: 'd1-to-hotel',
+        time: '19:30',
+        title: 'KIX → 京都四條',
+        type: 'transport',
+        details: {
+          transportInfo: '買 Haruka 特急票 → 京都車站（最晚搭 20:46 班次）\n京都車站轉地鐵烏丸線 → 四條站（6 號出口）→ 步行至飯店',
         },
       },
       {
