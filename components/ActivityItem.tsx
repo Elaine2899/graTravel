@@ -7,7 +7,6 @@ import { MEMBERS } from '@/data/members'
 import { getLocationName } from '@/data/locations'
 import CulturalNoteModal from './CulturalNoteModal'
 import MoodPicker from './MoodPicker'
-import PlacesModal from './PlacesModal'
 import WishlistActivityModal from './WishlistActivityModal'
 
 const TYPE_ICON: Record<string, string> = {
@@ -54,7 +53,6 @@ export default function ActivityItem({
   const [open, setOpen] = useState(false)
   const [confirming, setConfirming] = useState(false)
   const [showCulturalNote, setShowCulturalNote] = useState(false)
-  const [showPlaces, setShowPlaces] = useState(false)
   const [showWishlist, setShowWishlist] = useState(false)
   const [showMoodPicker, setShowMoodPicker] = useState(false)
 
@@ -63,12 +61,12 @@ export default function ActivityItem({
 
   const { details } = activity
   const hasMainDetails = details && (
-    details.transportInfo || details.ticketInfo || (details.recommendations?.length ?? 0) > 0
+    details.transportInfo || details.ticketInfo || (details.recommendations?.length ?? 0) > 0 ||
+    (details.foodRecs?.length ?? 0) > 0 || (details.spotRecs?.length ?? 0) > 0 || details.specialties?.length
   )
   const hasCulturalNote = !!details?.culturalNote
-  const hasPlaces = (details?.places?.length ?? 0) > 0
   const hasMapQuery = !!details?.mapQuery
-  const hasAnyDetails = hasMainDetails || hasCulturalNote || hasPlaces || hasWishlistLocation || hasMapQuery
+  const hasAnyDetails = hasMainDetails || hasCulturalNote || hasWishlistLocation || hasMapQuery
 
   // Mood chip: show emoji for members who reacted, + for current user if not yet
   const moodChips = MEMBERS.map((m) => {
@@ -170,8 +168,11 @@ export default function ActivityItem({
           <div className="px-4 pb-4 space-y-3 border-t border-black/5">
             {details?.transportInfo && (
               <section>
-                <h4 className="text-xs font-semibold text-gray-400 uppercase tracking-wide mt-3 mb-1.5">交通資訊</h4>
+                <h4 className="text-xs font-semibold text-gray-400 uppercase tracking-wide mt-3 mb-1.5">交通</h4>
                 <p className="text-sm text-gray-700 leading-relaxed whitespace-pre-line">{details.transportInfo}</p>
+                {details.transportAlt && (
+                  <p className="text-xs text-gray-400 mt-1.5 leading-relaxed">備案：{details.transportAlt}</p>
+                )}
               </section>
             )}
             {details?.ticketInfo && (
@@ -182,12 +183,48 @@ export default function ActivityItem({
             )}
             {details?.recommendations && details.recommendations.length > 0 && (
               <section>
-                <h4 className="text-xs font-semibold text-gray-400 uppercase tracking-wide mt-3 mb-1.5">推薦 / 注意</h4>
+                <h4 className="text-xs font-semibold text-gray-400 uppercase tracking-wide mt-3 mb-1.5">注意事項</h4>
                 <ul className="space-y-1">
                   {details.recommendations.map((rec, i) => (
                     <li key={i} className="text-sm text-gray-700 flex gap-2">
                       <span className="text-amber-500 shrink-0">•</span>
                       <span>{rec}</span>
+                    </li>
+                  ))}
+                </ul>
+              </section>
+            )}
+            {details?.specialties && details.specialties.length > 0 && (
+              <section>
+                <h4 className="text-xs font-semibold text-gray-400 uppercase tracking-wide mt-3 mb-1.5">特產</h4>
+                <div className="flex flex-wrap gap-1.5">
+                  {details.specialties.map((s, i) => (
+                    <span key={i} className="text-xs px-2 py-1 bg-amber-50 border border-amber-200 text-amber-700 rounded-lg">{s}</span>
+                  ))}
+                </div>
+              </section>
+            )}
+            {details?.foodRecs && details.foodRecs.length > 0 && (
+              <section>
+                <h4 className="text-xs font-semibold text-gray-400 uppercase tracking-wide mt-3 mb-1.5">🍜 推薦吃食</h4>
+                <ul className="space-y-2">
+                  {details.foodRecs.map((r, i) => (
+                    <li key={i} className="text-sm text-gray-700">
+                      <span className="font-medium">{r.name}</span>
+                      {r.note && <span className="text-gray-400 text-xs block">{r.note}</span>}
+                    </li>
+                  ))}
+                </ul>
+              </section>
+            )}
+            {details?.spotRecs && details.spotRecs.length > 0 && (
+              <section>
+                <h4 className="text-xs font-semibold text-gray-400 uppercase tracking-wide mt-3 mb-1.5">📍 推薦景點</h4>
+                <ul className="space-y-2">
+                  {details.spotRecs.map((r, i) => (
+                    <li key={i} className="text-sm text-gray-700">
+                      <span className="font-medium">{r.name}</span>
+                      {r.note && <span className="text-gray-400 text-xs block">{r.note}</span>}
                     </li>
                   ))}
                 </ul>
@@ -206,18 +243,7 @@ export default function ActivityItem({
                   🗺
                 </a>
               )}
-              <button
-                onClick={() => setShowPlaces(true)}
-                className="relative w-10 h-10 flex items-center justify-center rounded-xl bg-rose-50 border border-rose-200 text-xl"
-              >
-                📍
-                {hasPlaces && (
-                  <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-rose-500 text-white text-[10px] font-bold flex items-center justify-center">
-                    {details!.places!.length}
-                  </span>
-                )}
-              </button>
-              {hasCulturalNote && (
+{hasCulturalNote && (
                 <button
                   onClick={() => setShowCulturalNote(true)}
                   className="w-10 h-10 flex items-center justify-center rounded-xl bg-amber-50 border border-amber-200 text-xl"
@@ -256,15 +282,7 @@ export default function ActivityItem({
           onClose={() => setShowCulturalNote(false)}
         />
       )}
-      {showPlaces && (
-        <PlacesModal
-          activityTitle={activity.title}
-          activityId={activity.id}
-          places={details?.places ?? []}
-          onClose={() => setShowPlaces(false)}
-        />
-      )}
-      {showWishlist && hasWishlistLocation && (
+{showWishlist && hasWishlistLocation && (
         <WishlistActivityModal
           activityId={activity.id}
           activityName={locationName!}

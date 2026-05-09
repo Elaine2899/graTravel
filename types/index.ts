@@ -5,21 +5,25 @@ export type ActivityType = 'transport' | 'attraction' | 'food' | 'hotel' | 'flig
 export type Group = 'all' | 'YY+Rae' | 'Wei'
 export type Member = 'YY' | 'Wei' | 'Rae'
 
-export type PlaceCategory = 'food' | 'attraction' | 'shop'
-
-export interface Place {
+export interface FoodRec {
   name: string
-  category: PlaceCategory
   note?: string
-  tags?: string[]
+}
+
+export interface SpotRec {
+  name: string
+  note?: string
 }
 
 export interface ActivityDetails {
   culturalNote?: string
   ticketInfo?: string
   transportInfo?: string
+  transportAlt?: string
   recommendations?: string[]
-  places?: Place[]
+  specialties?: string[]
+  foodRecs?: FoodRec[]
+  spotRecs?: SpotRec[]
   mapQuery?: string
 }
 
@@ -49,15 +53,6 @@ export interface Expense {
   splitAmong: Member[]
   splits?: Partial<Record<Member, number>>
   activityId?: string
-  createdAt: Timestamp
-}
-
-export interface DynamicPlace {
-  id: string
-  activityId: string
-  name: string
-  category: PlaceCategory
-  note?: string
   createdAt: Timestamp
 }
 

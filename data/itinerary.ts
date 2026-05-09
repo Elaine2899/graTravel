@@ -81,17 +81,16 @@ export const ITINERARY: Day[] = [
         details: {
           culturalNote: '東山地區保留了京都最完整的傳統町家街道，是江戶時代庶民生活的縮影。',
           mapQuery: '東山 二年坂 三年坂 京都',
-          recommendations: [
-            '八坂五重塔 → 二年坂 → 三年坂 → 清水寺（往上）',
-            '沿路吃點心 → 寧寧之道 → 八坂神社 → 祇園 → 花見小路（往下）',
-            'GOKAGO：抹茶焙茶必喝',
+          spotRecs: [
+            { name: '八坂五重塔 → 二年坂 → 三年坂 → 清水寺', note: '往上走' },
+            { name: '寧寧之道 → 八坂神社 → 祇園 → 花見小路', note: '往下走，沿路可買點心' },
           ],
-          places: [
-            { name: 'GOKAGO', category: 'food', note: '抹茶焙茶甜點，東山知名打卡店', tags: ['排隊', '必喝'] },
-            { name: '二年坂 茶寮 都路里', category: 'food', note: '抹茶冰淇淋、聖代，連鎖但品質穩定', tags: ['甜點', '排隊'] },
-            { name: '阿古屋茶屋', category: 'food', note: '豆腐料理，就在清水寺旁，適合午餐', tags: ['豆腐', '京料理'] },
-            { name: 'Yorozuya Okageya', category: 'food', note: '日式甜點，麻糬年糕口感 Q，三年坂旁', tags: ['甜點', '外帶'] },
-            { name: '二年坂 Starbucks（京都町家店）', category: 'food', note: '保留傳統建築，可在和風空間喝咖啡，打卡點', tags: ['咖啡', '打卡'] },
+          foodRecs: [
+            { name: 'GOKAGO', note: '抹茶焙茶甜點，東山知名打卡店，要排隊' },
+            { name: '二年坂 茶寮 都路里', note: '抹茶冰淇淋、聖代，連鎖但品質穩定' },
+            { name: '阿古屋茶屋', note: '豆腐料理，清水寺旁，適合午餐' },
+            { name: 'Yorozuya Okageya', note: '日式甜點，麻糬年糕口感 Q，三年坂旁' },
+            { name: '二年坂 Starbucks（京都町家店）', note: '保留傳統建築，和風空間，打卡點' },
           ],
         },
       },
@@ -120,7 +119,8 @@ export const ITINERARY: Day[] = [
         title: '下鴨神社・糺之森',
         type: 'attraction',
         details: {
-          transportInfo: '公車 205/206 或 祇園四條站搭京阪本線 → 出町柳站',
+          transportInfo: '祇園四條站搭京阪本線 → 出町柳站',
+          transportAlt: '公車 205/206',
           culturalNote: '下鴨神社（賀茂御祖神社）建立於西元前，是京都最古老的神社之一。境內的「糺之森」是面積約 12.4 公頃的原始森林，自古便是神聖之地。',
           mapQuery: '下鴨神社 京都',
           recommendations: [
@@ -168,12 +168,18 @@ export const ITINERARY: Day[] = [
         type: 'attraction',
         group: 'YY+Rae',
         details: {
-          transportInfo: '四條站 → 京都車站 → JR 奈良線 → JR 伏見稻荷站',
+          transportInfo: '步行至四條站（烏丸線）→ 京都車站 → JR 奈良線 → 稻荷站 → 步行約 1 分',
           culturalNote: '伏見稻荷大社是全日本約 30,000 座稻荷神社的總本社，建立於西元 711 年。以「千本鳥居」聞名，實際上有超過 1 萬座朱紅色鳥居綿延山道。鳥居由信眾和企業奉納，祈求生意興隆或願望成真。',
           mapQuery: '伏見稲荷大社 京都',
-          recommendations: [
-            '千本鳥居隧道',
-            '登頂稻荷山（海拔 233m，往返約 2–3 小時）',
+          specialties: ['稻荷壽司', '狐狸烏龍麵', '稻荷仙貝'],
+          spotRecs: [
+            { name: '千本鳥居', note: '過四辻後人潮銳減，後半段更寧靜神聖' },
+            { name: '奧之院「輕重石」', note: '許願後舉石，比想像輕則心願可成' },
+            { name: '一峰（上社神蹟）', note: '稻荷山最高峰 233m，最強能量景點，可免費抽籤' },
+          ],
+          foodRecs: [
+            { name: '稻荷茶寮', note: '神社境內「啼鳥庵」，推薦稻荷刨冰與稻荷聖代，迷你鳥居乾菓子超可愛' },
+            { name: 'NEZAMEYA（祢ざめ家）', note: '1540 年創業老店，豆皮壽司招牌，豐臣秀吉命名。營業：10:00–16:00' },
           ],
         },
       },
@@ -187,18 +193,17 @@ export const ITINERARY: Day[] = [
           transportInfo: 'JR 奈良線 → JR 宇治站',
           culturalNote: '宇治是日本抹茶的發源地，自平安時代起就以茶葉聞名。宇治川沿岸風景優美，沿河散步可串聯各大景點。',
           mapQuery: '宇治市 京都府',
-          recommendations: [
-            '中村藤吉本店（抹茶甜點，超人氣，要先去拿號碼牌）',
-            '平等院：鳳凰堂是 10 円硬幣上的圖案，門票 ¥600，湖中倒影超美',
-            '宇治神社：兔子意象，可愛御守',
-            '宇治上神社：世界遺產，綠意盎然',
-            '沿宇治川散步',
+          spotRecs: [
+            { name: '平等院鳳凰堂', note: '10 円硬幣圖案，湖中倒影超美，門票 ¥600' },
+            { name: '宇治神社', note: '兔子意象，可愛御守' },
+            { name: '宇治上神社', note: '世界遺產，綠意盎然' },
+            { name: '勝林寺', note: '毘沙門天，境內靜謐' },
           ],
-          places: [
-            { name: '中村藤吉本店', category: 'food', note: '宇治最著名抹茶老舖，生茶凍、抹茶聖代超人氣，一定要先拿號碼牌！', tags: ['抹茶', '人氣', '要拿號碼牌'] },
-            { name: 'OHARA WARABIMOCHI', category: 'food', note: '現做蕨餅，口感超 Q 彈，是宇治排隊名物', tags: ['蕨餅', '排隊', '外帶'] },
-            { name: '伊藤久右衛門 宇治本店', category: 'food', note: '百年宇治茶老舖，茶蕎麥麵和抹茶甜點都值得嚐', tags: ['抹茶', '老舖', '午餐可'] },
-            { name: '茶房 竹林', category: 'food', note: '宇治川旁小店，抹茶冰淇淋配景緻很好拍', tags: ['甜點', '景觀'] },
+          foodRecs: [
+            { name: '中村藤吉本店', note: '宇治最著名抹茶老舖，生茶凍、抹茶聖代超人氣，一定要先拿號碼牌！' },
+            { name: 'OHARA WARABIMOCHI', note: '現做蕨餅，口感超 Q 彈，宇治排隊名物' },
+            { name: '伊藤久右衛門 宇治本店', note: '百年宇治茶老舖，茶蕎麥麵和抹茶甜點都值得嚐' },
+            { name: '茶房 竹林', note: '宇治川旁小店，抹茶冰淇淋配景緻很好拍' },
           ],
         },
       },
@@ -345,7 +350,8 @@ export const ITINERARY: Day[] = [
         title: '前往奈良',
         type: 'transport',
         details: {
-          transportInfo: '大阪難波站 → 近鐵奈良線 → 近鐵奈良站（離景點較近，推薦）\n或 JR 難波站 → 大和路線 → JR 奈良站\n車程約 1 小時',
+          transportInfo: '大阪難波站 → 近鐵奈良線 → 近鐵奈良站（車程約 1 小時，離景點近，推薦）',
+          transportAlt: 'JR 難波站 → 大和路線 → JR 奈良站',
         },
       },
       {
@@ -355,17 +361,14 @@ export const ITINERARY: Day[] = [
         details: {
           culturalNote: '奈良公園建立於 1880 年，面積約 660 公頃。園內自由放養超過 1,200 頭梅花鹿，牠們被視為春日大社神的使者，是國家天然紀念物。「鹿仙貝」（shika senbei）是專門賣給遊客餵鹿的米餅，鹿會對你低頭鞠躬討食。',
           mapQuery: '奈良公園',
-          recommendations: [
-            '大佛布丁！（必吃）',
-            '志津香釜飯：廣受好評，有素食選項',
-            'YUKI 亭：蛋包飯',
+          foodRecs: [
+            { name: '大佛布丁（大仏プリン）', note: '奈良超人氣布丁，超大奶油布丁，早去早買免撲空' },
+            { name: '志津香 釜飯', note: '奈良老字號，廣受好評，有素食選項，先確認排隊狀況' },
+            { name: 'YUKI 亭', note: '蛋包飯專賣，份量紮實，評價穩定' },
+            { name: '中谷堂', note: '老爺爺現打超速麻糬，速度快到像表演，名物之一' },
           ],
-          places: [
-            { name: '大佛布丁（大仏プリン）', category: 'food', note: '奈良超人氣布丁，超大個的奶油布丁，就在奈良公園附近，早去早買免撲空', tags: ['必吃', '限量', '布丁'] },
-            { name: '志津香 釜飯', category: 'food', note: '奈良老字號釜飯，廣受好評，有素食選項，用餐前先確認排隊狀況', tags: ['釜飯', '素食可', '午餐'] },
-            { name: 'YUKI 亭', category: 'food', note: '蛋包飯專賣，份量紮實，評價穩定', tags: ['蛋包飯', '午餐'] },
-            { name: '春鹿酒造', category: 'shop', note: '奈良知名清酒廠，可試飲，帶伴手禮的好地方', tags: ['清酒', '試飲', '伴手禮'] },
-            { name: '中谷堂', category: 'food', note: '超快速麻糬！老爺爺現打麻糬，速度快到像表演，名物之一', tags: ['麻糬', '現打', '必看'] },
+          spotRecs: [
+            { name: '春鹿酒造', note: '奈良知名清酒廠，可試飲，帶伴手禮的好地方' },
           ],
         },
       },
@@ -423,7 +426,8 @@ export const ITINERARY: Day[] = [
         title: '大阪城公園',
         type: 'attraction',
         details: {
-          transportInfo: 'JR 難波站 → JR 大阪城公園站\n或 櫻川站 千日前線 → 谷町九丁目站 → 谷町線 → 谷町四丁目站',
+          transportInfo: 'JR 難波站 → JR 大阪城公園站',
+          transportAlt: '櫻川站 千日前線 → 谷町九丁目站 → 谷町線 → 谷町四丁目站',
           culturalNote: '大阪城由豐臣秀吉於 1583 年開始修建，是當時日本最大的城堡。現在的天守閣是 1931 年重建的鋼筋水泥版，但城壁和護城河仍保留歷史原貌。附近 ytv 大樓有柯南角色雕像！柯南最近也有相關活動。',
           ticketInfo: '天守閣門票 ¥600（可不進去）',
           mapQuery: '大阪城公園',
@@ -441,16 +445,17 @@ export const ITINERARY: Day[] = [
           mapQuery: '心斎橋筋商店街 大阪',
           recommendations: [
             '固力果跑步人看板打卡',
-            '章魚燒、大阪燒（必吃）',
-            '梅田空中展望庭園（要門票 ¥1,500，到 22:00，想逛街可跳過）',
+            '梅田空中展望庭園（門票 ¥1,500，到 22:00，想逛街可跳過）',
           ],
-          places: [
-            { name: '道頓堀 今井うどん', category: 'food', note: '百年老舖烏龍麵，湯頭鮮甜，道頓堀必吃之一', tags: ['烏龍麵', '老舖', '午餐'] },
-            { name: 'たこ家道頓堀くくる', category: 'food', note: '道頓堀知名章魚燒，皮薄內軟，醬料選擇多', tags: ['章魚燒', '道頓堀', '必吃'] },
-            { name: '千とせ 本店', category: 'food', note: '大阪名物「肉吸」（肉湯泡飯），吉本藝人愛店，隱藏在黑門市場附近', tags: ['肉吸', '在地美食', '午餐'] },
-            { name: '美津野 大阪燒', category: 'food', note: '道頓堀老字號大阪燒，山芋比例高，口感鬆軟', tags: ['大阪燒', '必吃', '排隊'] },
-            { name: '黑門市場', category: 'shop', note: '大阪廚房！新鮮海鮮、水果、熟食攤位，可邊走邊吃', tags: ['市場', '海鮮', '伴手禮'] },
-            { name: 'Don Quijote 道頓堀店', category: 'shop', note: '24 小時唐吉訶德，掃貨聖地，化妝品藥妝最便宜', tags: ['藥妝', '24h', '掃貨'] },
+          foodRecs: [
+            { name: '道頓堀 今井うどん', note: '百年老舖烏龍麵，湯頭鮮甜，道頓堀必吃之一' },
+            { name: 'たこ家道頓堀くくる', note: '道頓堀知名章魚燒，皮薄內軟，醬料選擇多' },
+            { name: '千とせ 本店', note: '大阪名物「肉吸」（肉湯泡飯），吉本藝人愛店，黑門市場附近' },
+            { name: '美津野 大阪燒', note: '道頓堀老字號，山芋比例高，口感鬆軟，要排隊' },
+          ],
+          spotRecs: [
+            { name: '黑門市場', note: '大阪廚房！新鮮海鮮、水果、熟食攤位，邊走邊吃' },
+            { name: 'Don Quijote 道頓堀店', note: '24 小時，化妝品藥妝最便宜' },
           ],
         },
       },
