@@ -242,29 +242,51 @@ export const ITINERARY: Day[] = [
         },
       },
       {
-        id: 'd3-to-uji',
+        id: 'd3-to-shourinji',
         time: '12:00',
+        title: '移動至勝林寺',
+        type: 'transport',
+        group: 'YY+Rae',
+        details: {
+          transportInfo: '稻荷站搭 JR 奈良線 往京都方向 → 東福寺站（1 站，約 3 分）→ 步行約 8 分',
+        },
+      },
+      {
+        id: 'd3-shourinji',
+        time: '12:15',
+        title: '勝林寺',
+        type: 'attraction',
+        group: 'YY+Rae',
+        details: {
+          culturalNote: '勝林寺是東福寺的塔頭，建於 1550 年，供奉毘沙門天。以「東福寺的毘沙門天」聞名，境內清靜，花手水（花朵裝飾水盆）是熱門拍照景點。開放時間 10:00–16:00。',
+          mapQuery: '勝林寺 東福寺 京都',
+          recommendations: ['花手水隨季節更換，色彩繽紛，很適合拍照', '御朱印種類豐富'],
+        },
+      },
+      {
+        id: 'd3-to-uji',
+        time: '13:00',
         title: '移動至宇治',
         type: 'transport',
         group: 'YY+Rae',
         details: {
-          transportInfo: '稻荷站搭 JR 奈良線 → JR 宇治站（車程約 18 分）',
+          transportInfo: '東福寺站搭 JR 奈良線 往奈良方向 → JR 宇治站（約 20 分）',
         },
       },
       {
         id: 'd3-uji',
-        time: '12:30',
+        time: '13:30',
         title: '宇治散步',
         type: 'attraction',
         group: 'YY+Rae',
         details: {
           culturalNote: '宇治是日本抹茶的發源地，自平安時代起就以茶葉聞名。宇治川沿岸風景優美，沿河散步可串聯各大景點。',
           mapQuery: '宇治市 京都府',
+          specialties: ['宇治茶（抹茶・煎茶・玉露）', '茶だんご（抹茶丸子）', '源氏物語おかき'],
           spotRecs: [
-            { name: '平等院鳳凰堂', note: '10 円硬幣圖案，湖中倒影超美，門票 ¥600' },
+            { name: '平等院鳳凰堂', note: '10 円硬幣圖案，湖中倒影超美，門票 ¥600，內部另購 ¥300（每場限 50 人）' },
             { name: '宇治神社', note: '兔子意象，可愛御守' },
             { name: '宇治上神社', note: '世界遺產，綠意盎然' },
-            { name: '勝林寺', note: '毘沙門天，境內靜謐' },
           ],
           foodRecs: [
             { name: '中村藤吉本店', note: '宇治最著名抹茶老舖，生茶凍、抹茶聖代超人氣，一定要先拿號碼牌！' },
@@ -272,17 +294,6 @@ export const ITINERARY: Day[] = [
             { name: '伊藤久右衛門 宇治本店', note: '百年宇治茶老舖，茶蕎麥麵和抹茶甜點都值得嚐' },
             { name: '茶房 竹林', note: '宇治川旁小店，抹茶冰淇淋配景緻很好拍' },
           ],
-        },
-      },
-      {
-        id: 'd3-byodoin',
-        title: '平等院鳳凰堂',
-        type: 'attraction',
-        group: 'YY+Rae',
-        details: {
-          culturalNote: '平等院建於西元 1052 年，是藤原賴通將父親道長的別墅改建而成的佛寺。鳳凰堂是日本 10 円硬幣背面的圖案，也是 NHK 大河劇常見場景。鳳凰堂內供奉的阿彌陀如來像（國寶）為定朝所作，是日本雕刻史上的里程碑。',
-          ticketInfo: '庭園入場 ¥600，鳳凰堂內部參觀需另購 ¥300（每次限 50 人）',
-          mapQuery: '平等院 宇治',
         },
       },
       // 東京巨蛋組（Wei）
@@ -316,6 +327,12 @@ export const ITINERARY: Day[] = [
         details: {
           ticketInfo: '記得拿 pick up！領 zone 卡！\n16:30 開演｜約 19:30 結束',
           mapQuery: '東京ドーム',
+          foodRecs: [
+            { name: '東京ドームドッグ', note: '場內名物大熱狗，¥550，各層都有賣' },
+            { name: '金猫揚げ餃子', note: '脆皮煎餃，一口一個，¥650，紅杯裝超好拍' },
+            { name: 'チーズバーガーメルト', note: '融化 Gouda 起司 + 牛肉漢堡，¥1,280' },
+            { name: 'チュリトス', note: '條狀甜甜圈，¥450，肉桂 or 巧克力口味' },
+          ],
         },
       },
       {
