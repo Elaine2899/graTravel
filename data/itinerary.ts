@@ -366,36 +366,43 @@ export const ITINERARY: Day[] = [
     activities: [
       {
         id: 'd4-checkout',
-        time: '10:00',
+        time: '09:00',
         title: '退房｜行李寄放飯店',
         type: 'hotel',
         details: {
-          recommendations: ['11:00 前退房，行李寄放後輕裝出發'],
+          recommendations: [
+            '11:00 前退房，行李寄放飯店大廳，傍晚回取後再出發',
+            '【省事選項】crosta 行李轉送：¥2,500/件，09:00 前交件至京都車站，17:00–20:00 在難波飯店領取，可省去回飯店取行李的路程（詳見 d4-to-osaka 備案）',
+          ],
         },
       },
       {
         id: 'd4-to-gosho',
-        time: '10:30',
+        time: '09:30',
         title: '移動至京都御所',
         type: 'transport',
         details: {
-          transportInfo: '飯店步行至四條站 → 地鐵烏丸線 → 丸太町站，步行約 5 分',
+          transportInfo: '飯店步行至四條站 → 地鐵烏丸線 → 丸太町站，步行約 5 分（共約 15 分）',
         },
       },
       {
         id: 'd4-gosho',
-        time: '11:00',
+        time: '09:50',
         title: '京都御所・葵祭',
         type: 'attraction',
         details: {
           culturalNote: '京都御所是天皇自 14 世紀至明治維新（1869 年）遷都東京前的居所，現為免費開放的國民公園。\n\n【紫宸殿】御所最重要的正殿，天皇即位大典和重要儀式的舞台，屋頂採傳統桧皮葺工法，樓前左橘右櫻（「左近之桜、右近之橘」）為最具代表的景象。\n\n【清涼殿】天皇日常起居的私人殿堂，建築以通風涼爽著稱，是平安文學描述的宮廷日常場景所在。\n\n【御池庭】御所內最大庭園，以池泉迴遊式造景呈現，錦鯉悠游其中，春季楓紅秋季金黃。\n\n【葵祭】京都三大祭之一，每年 5 月 15 日舉行，超過 1,000 年歷史。遊行隊伍由上賀茂神社、下鴨神社的齋王代率領，穿著平安時代宮廷服飾從御所出發，超過 500 人、全程約 8 公里。\n\n免費入場｜導覽行程：09:30 / 10:30 / 13:30 / 14:30 各一場（英語）',
           mapQuery: '京都御苑',
-          recommendations: ['葵祭遊行隊伍 10:30 從御所南門出發，提早 30 分鐘佔位', '免費入場，無需預約'],
+          recommendations: [
+            '遊行隊伍 10:30 從御所南門出發，提早 30–40 分鐘到佔位置',
+            '人多時可退至御苑外側道路，逆著隊伍方向站定等待也是好視角',
+            '免費入場，無需預約',
+          ],
         },
       },
       {
         id: 'd4-lunch',
-        time: '12:30',
+        time: '11:30',
         title: '御所附近午餐',
         type: 'food',
         details: {
@@ -409,17 +416,17 @@ export const ITINERARY: Day[] = [
       },
       {
         id: 'd4-to-arashiyama',
-        time: '13:30',
+        time: '12:30',
         title: '移動至嵐山',
         type: 'transport',
         details: {
           transportInfo: '丸太町站 烏丸線 → 四条站 → 步行至四条大宮站 → 嵐電 → 嵐山站（約 40 分）',
-          transportAlt: '阪急：大宮站 → 桂站轉嵐山線 → 嵐山站',
+          transportAlt: '【有 crosta 寄行李時】丸太町站 烏丸線 → 京都站（交件行李）→ JR 山陰本線 → 嵯峨嵐山站（約 35 分）',
         },
       },
       {
         id: 'd4-arashiyama',
-        time: '14:30',
+        time: '13:30',
         title: '嵐山',
         type: 'attraction',
         details: {
@@ -427,25 +434,32 @@ export const ITINERARY: Day[] = [
           mapQuery: '嵐山 京都',
           spotRecs: [
             { name: '渡月橋', note: '建於 9 世紀，因龜山天皇詠月而得名，曾出現在葛飾北齋浮世繪' },
-            { name: '嵯峨野竹林小徑', note: '從野宮神社至天龍寺北門，長約 400 公尺，清晨人最少' },
+            { name: '嵯峨野竹林小徑', note: '從野宮神社至天龍寺北門，長約 400 公尺' },
             { name: '御髮神社', note: '全日本唯一理髮業守護神社' },
+            { name: '常寂光寺', note: '竹林旁安靜的山腹寺院，楓葉景點，可遠眺嵐山全景' },
             { name: '京都音樂盒堂嵯峨店', note: '門口有舞妓裝置藝術，打卡聖地' },
           ],
-          recommendations: ['商店街覓食', '可搭船遊保津川'],
+          foodRecs: [
+            { name: 'Petit Bonheur', note: '嵐山商店街現做可麗餅，甜鹹口味齊全，排隊必吃' },
+            { name: '豆乳冰淇淋', note: '商店街多家販售，濃郁豆香' },
+            { name: '嵐山よしむら', note: '竹林旁景觀蕎麥麵，可從座位欣賞大堰川，午間 11:00–17:00' },
+          ],
+          recommendations: ['商店街有足湯（免費）可泡腳', '有 Snoopy、拉拉熊、miffy 周邊店', '可搭船遊保津川（需另外預約）'],
         },
       },
       {
         id: 'd4-to-osaka',
-        time: '19:40',
+        time: '18:30',
         title: '前往大阪',
         type: 'transport',
         details: {
-          transportInfo: '嵐山站 嵐電 → 四条大宮站，取行李後\n四條站 阪急京都線 → 大阪梅田站\n梅田站 御堂筋線 → 難波站，步行約 14 分至飯店',
+          transportInfo: '嵐電 嵐山站 → 四条大宮站 → 步行回飯店取行李\n四條站 阪急京都線 急行 → 大阪梅田站（約 45 分）\n梅田站 御堂筋線 → 難波站，步行約 14 分至飯店',
+          transportAlt: '【有 crosta 寄行李時，免回飯店】JR 嵯峨嵐山站 → JR 大阪站（約 1 小時）→ 梅田站 御堂筋線 → 難波站',
         },
       },
       {
         id: 'd4-hotel-osaka',
-        time: '21:00',
+        time: '20:30',
         title: '✅ 入住 Hotel Abitare Namba West',
         type: 'hotel',
         details: {
