@@ -169,9 +169,19 @@ export default function ActivityItem({
             {details?.transportInfo && (
               <section>
                 <h4 className="text-xs font-semibold text-gray-400 uppercase tracking-wide mt-3 mb-1.5">交通</h4>
-                <p className="text-sm text-gray-700 leading-relaxed whitespace-pre-line">{details.transportInfo}</p>
-                {details.transportAlt && (
-                  <p className="text-xs text-gray-400 mt-1.5 leading-relaxed">備案：{details.transportAlt}</p>
+                {details.transportAlt ? (
+                  <div className="space-y-2">
+                    <div>
+                      <span className="text-[10px] font-semibold text-blue-400 uppercase tracking-wide">主案</span>
+                      <p className="text-sm text-gray-700 leading-relaxed whitespace-pre-line mt-0.5">{details.transportInfo}</p>
+                    </div>
+                    <div>
+                      <span className="text-[10px] font-semibold text-gray-400 uppercase tracking-wide">備案</span>
+                      <p className="text-sm text-gray-500 leading-relaxed whitespace-pre-line mt-0.5">{details.transportAlt}</p>
+                    </div>
+                  </div>
+                ) : (
+                  <p className="text-sm text-gray-700 leading-relaxed whitespace-pre-line">{details.transportInfo}</p>
                 )}
               </section>
             )}

@@ -12,9 +12,6 @@ export const ITINERARY: Day[] = [
         time: '12:00',
         title: '共乘出發前往桃園機場',
         type: 'transport',
-        details: {
-          transportInfo: '共乘，記得出發時通知大家',
-        },
       },
       {
         id: 'd1-checkin',
@@ -114,13 +111,21 @@ export const ITINERARY: Day[] = [
         },
       },
       {
+        id: 'd2-to-shimogamo',
+        time: '14:30',
+        title: '移動至下鴨神社',
+        type: 'transport',
+        details: {
+          transportInfo: '祇園四條站搭京阪本線 → 出町柳站',
+          transportAlt: '公車 205/206',
+        },
+      },
+      {
         id: 'd2-shimogamo',
         time: '15:00',
         title: '下鴨神社・糺之森',
         type: 'attraction',
         details: {
-          transportInfo: '祇園四條站搭京阪本線 → 出町柳站',
-          transportAlt: '公車 205/206',
           culturalNote: '下鴨神社（賀茂御祖神社）建立於西元前，是京都最古老的神社之一。境內的「糺之森」是面積約 12.4 公頃的原始森林，自古便是神聖之地。',
           mapQuery: '下鴨神社 京都',
           recommendations: [
@@ -421,13 +426,21 @@ export const ITINERARY: Day[] = [
     theme: '都市 day',
     activities: [
       {
+        id: 'd6-to-osaka-castle',
+        time: '09:30',
+        title: '移動至大阪城',
+        type: 'transport',
+        details: {
+          transportInfo: 'JR 難波站 → JR 大阪城公園站',
+          transportAlt: '櫻川站 千日前線 → 谷町九丁目站 → 谷町線 → 谷町四丁目站',
+        },
+      },
+      {
         id: 'd6-osaka-castle',
         time: '10:00',
         title: '大阪城公園',
         type: 'attraction',
         details: {
-          transportInfo: 'JR 難波站 → JR 大阪城公園站',
-          transportAlt: '櫻川站 千日前線 → 谷町九丁目站 → 谷町線 → 谷町四丁目站',
           culturalNote: '大阪城由豐臣秀吉於 1583 年開始修建，是當時日本最大的城堡。現在的天守閣是 1931 年重建的鋼筋水泥版，但城壁和護城河仍保留歷史原貌。附近 ytv 大樓有柯南角色雕像！柯南最近也有相關活動。',
           ticketInfo: '天守閣門票 ¥600（可不進去）',
           mapQuery: '大阪城公園',
