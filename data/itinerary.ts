@@ -120,17 +120,17 @@ export const ITINERARY: Day[] = [
       },
       {
         id: 'd2-return-kimono',
-        time: '17:00',
+        time: '14:00',
         title: '歸還和服',
         type: 'transport',
         details: {
-          transportInfo: '17:30 前必須歸還！預留交通時間',
+          transportInfo: 'Deadline 17:30，提早 14:00 歸還，不趕時間',
           mapQuery: '愛和服清水本店 京都',
         },
       },
       {
         id: 'd2-to-shimogamo',
-        time: '17:30',
+        time: '14:30',
         title: '移動至下鴨神社',
         type: 'transport',
         details: {
@@ -140,7 +140,7 @@ export const ITINERARY: Day[] = [
       },
       {
         id: 'd2-shimogamo',
-        time: '18:00',
+        time: '15:00',
         title: '下鴨神社・糺之森・河合神社',
         type: 'attraction',
         details: {
@@ -153,8 +153,27 @@ export const ITINERARY: Day[] = [
           recommendations: [
             '四季御守',
             '水占卜（水みくじ）：將御籤浸入水中顯現文字',
-            '御守攤位約 17:00 關閉，可能看不到，以實際為準',
+            '御守攤位約 17:00 關閉，16:30 前入內較保險',
           ],
+        },
+      },
+      {
+        id: 'd2-to-haircut',
+        time: '16:30',
+        title: '移動至四条大宮',
+        type: 'transport',
+        details: {
+          transportInfo: '出町柳站搭阪急京都本線 → 大宮站，步行約 5 分',
+          transportAlt: '公車直達四条大宮站',
+        },
+      },
+      {
+        id: 'd2-haircut',
+        time: '17:00',
+        title: '✂ INCE HAIR 京都四条大宮店',
+        type: 'attraction',
+        details: {
+          mapQuery: 'INCE HAIR 京都四条大宮',
         },
       },
       {
@@ -163,7 +182,7 @@ export const ITINERARY: Day[] = [
         title: '晚餐（已預約）モリタ屋 四条猪熊本店',
         type: 'food',
         details: {
-          ticketInfo: '已預約，請準時抵達',
+          ticketInfo: '已預約，請準時抵達。離 INCE HAIR 步行約 5 分',
           mapQuery: 'モリタ屋 四条猪熊本店 京都',
         },
       },
