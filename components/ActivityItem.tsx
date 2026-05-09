@@ -220,7 +220,12 @@ export default function ActivityItem({
                 <ul className="space-y-2">
                   {details.foodRecs.map((r, i) => (
                     <li key={i} className="text-sm text-gray-700">
-                      <span className="font-medium">{r.name}</span>
+                      <a
+                        href={`https://maps.google.com/maps?q=${encodeURIComponent(r.name + ' 京都')}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="font-medium underline decoration-gray-300 underline-offset-2"
+                      >{r.name}</a>
                       {r.note && <span className="text-gray-400 text-xs block">{r.note}</span>}
                     </li>
                   ))}
