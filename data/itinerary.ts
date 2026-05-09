@@ -370,16 +370,24 @@ export const ITINERARY: Day[] = [
         title: '退房｜行李寄放飯店',
         type: 'hotel',
         details: {
-          transportInfo: 'WAYFARER Kyoto Shijo check-out：11:00 前\n行李寄放後輕裝出發',
+          recommendations: ['11:00 前退房，行李寄放後輕裝出發'],
+        },
+      },
+      {
+        id: 'd4-to-gosho',
+        time: '10:30',
+        title: '移動至京都御所',
+        type: 'transport',
+        details: {
+          transportInfo: '四條站搭地鐵烏丸線 → 丸太町站，步行約 5 分',
         },
       },
       {
         id: 'd4-gosho',
-        time: '10:30',
+        time: '11:00',
         title: '京都御所・葵祭',
         type: 'attraction',
         details: {
-          transportInfo: '四條站 → 烏丸線 → 丸太町站',
           culturalNote: '葵祭是京都三大祭之一，每年 5 月 15 日舉行，有超過 1,000 年歷史。遊行隊伍由上賀茂神社、下鴨神社的齋王代率領，穿著平安時代宮廷服飾，從京都御所出發。隊伍超過 500 人，全程約 8 公里。',
           mapQuery: '京都御苑',
           recommendations: ['遊行隊伍從御所出發，人會很多，提早到佔位置'],
@@ -387,28 +395,35 @@ export const ITINERARY: Day[] = [
       },
       {
         id: 'd4-lunch',
-        time: '12:00',
+        time: '12:30',
         title: '御所附近午餐',
         type: 'food',
       },
-
+      {
+        id: 'd4-to-arashiyama',
+        time: '13:30',
+        title: '移動至嵐山',
+        type: 'transport',
+        details: {
+          transportInfo: '丸太町站 烏丸線 → 四条站 → 步行至四条大宮站 → 嵐電 → 嵐山站（約 40 分）',
+          transportAlt: '阪急：大宮站 → 桂站轉嵐山線 → 嵐山站',
+        },
+      },
       {
         id: 'd4-arashiyama',
-        time: '15:10',
+        time: '14:30',
         title: '嵐山',
         type: 'attraction',
         details: {
           culturalNote: '嵐山自平安時代起就是貴族的度假勝地，保存了許多歷史建築和自然景觀。',
           mapQuery: '嵐山 京都',
-          recommendations: [
-            '商店街覓食',
-            '渡月橋：建於 9 世紀，因龜山天皇詠月而得名，曾出現在葛飾北齋浮世繪中',
-            '嵯峨野竹林小徑：從野宮神社至天龍寺北門，長約 400 公尺',
-            '御髮神社：全日本唯一的理髮業守護神社',
-            '京都音樂盒堂嵯峨店：門口有舞妓裝置藝術，打卡聖地',
-            '搭船遊嵐山（保津川）',
+          spotRecs: [
+            { name: '渡月橋', note: '建於 9 世紀，因龜山天皇詠月而得名，曾出現在葛飾北齋浮世繪' },
+            { name: '嵯峨野竹林小徑', note: '從野宮神社至天龍寺北門，長約 400 公尺，清晨人最少' },
+            { name: '御髮神社', note: '全日本唯一理髮業守護神社' },
+            { name: '京都音樂盒堂嵯峨店', note: '門口有舞妓裝置藝術，打卡聖地' },
           ],
-          transportInfo: 'JR 嵐山站 山陰本線 → 京都車站（研究行李寄送服務可不用回飯店）',
+          recommendations: ['商店街覓食', '可搭船遊保津川'],
         },
       },
       {
@@ -417,7 +432,7 @@ export const ITINERARY: Day[] = [
         title: '前往大阪',
         type: 'transport',
         details: {
-          transportInfo: '四條站取行李 → 阪急京都線 → 大阪梅田站（末班 23:17）\n梅田站轉御堂筋線 → 難波站\n步行約 14 分鐘至飯店',
+          transportInfo: '嵐山站 嵐電 → 四条大宮站，取行李後\n四條站 阪急京都線 → 大阪梅田站\n梅田站 御堂筋線 → 難波站，步行約 14 分至飯店',
         },
       },
       {
@@ -426,7 +441,7 @@ export const ITINERARY: Day[] = [
         title: '✅ 入住 Hotel Abitare Namba West',
         type: 'hotel',
         details: {
-          transportInfo: '地址：2 Chome-2-44 Saiwaicho, Naniwa Ward, Osaka\n自助 check-in｜Check-in：16:00 起｜Check-out：10:00',
+          recommendations: ['地址：2 Chome-2-44 Saiwaicho, Naniwa Ward, Osaka', '自助 check-in｜16:00 起｜退房 10:00'],
           mapQuery: 'Hotel Abitare Namba West Osaka',
         },
       },
@@ -496,14 +511,24 @@ export const ITINERARY: Day[] = [
         },
       },
       {
-        id: 'd5-abeno',
+        id: 'd5-to-abeno',
         time: '17:00',
+        title: '移動至阿倍野',
+        type: 'transport',
+        details: {
+          transportInfo: 'JR 奈良站 → JR 天王寺站（約 40 分）',
+          transportAlt: '近鐵奈良站 → 鶴橋站 → 大阪環狀線 → 天王寺站',
+        },
+      },
+      {
+        id: 'd5-abeno',
+        time: '18:00',
         title: '阿倍野 Harukas 夜景（可選）',
         type: 'attraction',
         details: {
-          transportInfo: 'JR 奈良站 → JR 天王寺站\n或 近鐵奈良站 → 鶴橋站 → 大阪環狀線 → 天王寺站',
           culturalNote: '阿倍野 Harukas 高 300 公尺，是日本最高摩天大樓之一。58–60 樓為展望台，現有芙莉蓮聯動活動。',
           ticketInfo: '展望台門票 ¥1,800，從黃昏待到天黑最美',
+          mapQuery: 'あべのハルカス 天王寺',
         },
       },
     ],
@@ -537,12 +562,20 @@ export const ITINERARY: Day[] = [
         },
       },
       {
-        id: 'd6-shinsaibashi',
+        id: 'd6-to-shinsaibashi',
         time: '13:00',
+        title: '移動至心齋橋',
+        type: 'transport',
+        details: {
+          transportInfo: '森之宮站 長堀鶴見綠地線 → 心齋橋站（約 10 分）',
+        },
+      },
+      {
+        id: 'd6-shinsaibashi',
+        time: '13:15',
         title: '心齋橋 → 道頓堀 → 難波 慢慢逛',
         type: 'attraction',
         details: {
-          transportInfo: '森之宮站 長堀鶴見綠地線 → 心齋橋站',
           culturalNote: '道頓堀是大阪最著名的娛樂街，以巨大的螃蟹、河童廣告招牌和固力果跑步人看板聞名。心齋橋筋商店街有超過 600 公尺長，是大阪最熱鬧的購物街。',
           mapQuery: '心斎橋筋商店街 大阪',
           recommendations: [
@@ -575,25 +608,29 @@ export const ITINERARY: Day[] = [
         title: '前往 USJ',
         type: 'transport',
         details: {
-          transportInfo: '櫻川站 阪神難波線 → 西九條站 → JR 夢咲線 → 環球城站\n車程約 30 分鐘',
-          ticketInfo: '門票已買好！記得提前查當天開園時間（通常 9:00–21:00，有時提早）\n前一天查好隔天時間表',
+          transportInfo: '櫻川站 阪神難波線 → 西九條站 → JR 夢咲線 → 環球城站，車程約 30 分',
         },
       },
       {
         id: 'd7-usj',
+        time: '09:00',
         title: '環球影城 USJ',
         type: 'attraction',
         details: {
-          culturalNote: '大阪環球影城是日本第一座環球影城，2001 年開幕。任天堂園區（超級任天堂世界）是 USJ 最新也最熱門的園區，需要抽整理券才能入場（早上一到就要抽！）天黑後人潮減少，較容易直接進入。',
+          culturalNote: '大阪環球影城是日本第一座環球影城，2001 年開幕。任天堂園區（超級任天堂世界）是最熱門的園區，需要抽整理券才能入場。天黑後人潮減少，較容易直接進入。',
+          ticketInfo: '門票已買好！開園時間通常 9:00–21:00，前一天確認隔日時間表',
           mapQuery: 'Universal Studios Japan Osaka',
+          spotRecs: [
+            { name: '超級任天堂世界', note: '進場第一件事先抽整理券！天黑後人少可直接入場' },
+            { name: '哈利波特魔法世界', note: '禁忌之旅、霍格華茲城堡、奶油啤酒必喝' },
+            { name: '大白鯊', note: '刺激，排隊時間相對短' },
+            { name: '咚奇剛礦山車', note: '新設施，熱門，建議早去' },
+            { name: '水世界', note: '表演秀，事先查好場次時間' },
+          ],
           recommendations: [
-            '進場第一件事：抽任天堂園區整理券！',
             '哪裡人少去哪裡，不用硬照順序走',
             '現有聯動：咒術迴戰、東野圭吾、名偵探柯南',
-            '想玩：大白鯊、咚奇剛礦山車、哈利波特禁忌之旅',
-            '想看：水世界',
-            '奶油啤酒（必喝）',
-            '任天堂手錶遊戲需有 Nintendo Switch 手環（現場購買）',
+            '任天堂手環遊戲需購買 Nintendo Switch 手環（現場購買）',
             '停運中：飛天翼龍',
           ],
         },
@@ -612,7 +649,7 @@ export const ITINERARY: Day[] = [
         title: '退房',
         type: 'hotel',
         details: {
-          transportInfo: 'Hotel Abitare Namba West check-out：10:00 前',
+          recommendations: ['10:00 前退房'],
         },
       },
       {
@@ -640,7 +677,7 @@ export const ITINERARY: Day[] = [
         title: '抵達桃園機場',
         type: 'flight',
         details: {
-          transportInfo: 'Terminal 1 入境\n記得安排共乘接送！',
+          recommendations: ['Terminal 1 入境', '記得安排共乘接送！'],
         },
       },
     ],
