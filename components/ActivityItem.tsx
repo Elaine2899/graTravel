@@ -34,6 +34,7 @@ const MEMBER_MOOD_COLOR: Record<Member, string> = {
 interface Props {
   activity: Activity
   onDelete?: () => void
+  editHref?: string
   wishlistItems?: WishlistItem[]
   dayNumber?: number
   currentMember?: Member | null
@@ -44,6 +45,7 @@ interface Props {
 export default function ActivityItem({
   activity,
   onDelete,
+  editHref,
   wishlistItems = [],
   dayNumber = 1,
   currentMember,
@@ -132,13 +134,13 @@ export default function ActivityItem({
             </div>
           </button>
 
-          {/* 刪除按鈕（僅動態行程） */}
-          {onDelete && (
-            <div className="flex items-center pr-3">
+          {/* 編輯 / 刪除按鈕（僅動態行程） */}
+          {(onDelete || editHref) && (
+            <div className="flex items-center pr-3 gap-1">
               {confirming ? (
                 <div className="flex gap-1">
                   <button
-                    onClick={() => onDelete()}
+                    onClick={() => onDelete?.()}
                     className="text-xs px-2 py-1 bg-red-500 text-white rounded-lg font-medium"
                   >
                     確定
@@ -151,14 +153,28 @@ export default function ActivityItem({
                   </button>
                 </div>
               ) : (
-                <button
-                  onClick={() => setConfirming(true)}
-                  className="w-7 h-7 flex items-center justify-center rounded-lg text-gray-300 hover:text-red-400 hover:bg-red-50 transition-colors"
-                >
-                  <svg viewBox="0 0 24 24" className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2}>
-                    <path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                </button>
+                <>
+                  {editHref && (
+                    <Link
+                      href={editHref}
+                      className="w-7 h-7 flex items-center justify-center rounded-lg text-gray-300 hover:text-blue-400 hover:bg-blue-50 transition-colors"
+                    >
+                      <svg viewBox="0 0 24 24" className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2}>
+                        <path d="M15.232 5.232l3.536 3.536M9 13l6.586-6.586a2 2 0 112.828 2.828L11.828 15.828A2 2 0 0110 16.414H8v-2a2 2 0 01.586-1.414z" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                    </Link>
+                  )}
+                  {onDelete && (
+                    <button
+                      onClick={() => setConfirming(true)}
+                      className="w-7 h-7 flex items-center justify-center rounded-lg text-gray-300 hover:text-red-400 hover:bg-red-50 transition-colors"
+                    >
+                      <svg viewBox="0 0 24 24" className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2}>
+                        <path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                    </button>
+                  )}
+                </>
               )}
             </div>
           )}

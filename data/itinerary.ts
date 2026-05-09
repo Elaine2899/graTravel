@@ -179,7 +179,7 @@ export const ITINERARY: Day[] = [
       {
         id: 'd2-dinner',
         time: '20:00',
-        title: '晚餐（已預約）モリタ屋 四条猪熊本店',
+        title: '晚餐（已預約）⭐ モリタ屋 四条猪熊本店',
         type: 'food',
         details: {
           ticketInfo: '已預約，請準時抵達。離 INCE HAIR 步行約 5 分',
@@ -293,6 +293,21 @@ export const ITINERARY: Day[] = [
             { name: 'OHARA WARABIMOCHI', note: '現做蕨餅，口感超 Q 彈，宇治排隊名物' },
             { name: '伊藤久右衛門 宇治本店', note: '百年宇治茶老舖，茶蕎麥麵和抹茶甜點都值得嚐' },
             { name: '茶房 竹林', note: '宇治川旁小店，抹茶冰淇淋配景緻很好拍' },
+          ],
+        },
+      },
+      {
+        id: 'd3-dinner',
+        time: '18:30',
+        title: '晚餐（宇治稻荷組）',
+        type: 'food',
+        group: 'YY+Rae',
+        details: {
+          recommendations: ['宇治回京都車程約 30 分（JR 宇治線 → 京都站 → 地鐵烏丸線 → 四條站），建議 17:30–18:00 出發'],
+          foodRecs: [
+            { name: 'AWOMB 烏丸本店', note: '手織り寿司：托盤式自選食材手卷，蛋奶素可選蔬菜/蛋配料，葷食者選魚/肉；近四條烏丸，⚠️ 需事先線上預約（awomb.com）' },
+            { name: 'Mumokuteki Cafe & Foods', note: '四條河原町步行 5 分，自然派日式料理，蛋奶素選項豐富，也有部分魚料理，晚餐 17:30 起' },
+            { name: '錦市場周邊おばんざい居酒屋', note: '多道小菜形式，蔬菜/豆腐/蛋料理豐富，葷食者也可點肉料理，適合兩人各取所需' },
           ],
         },
       },
@@ -443,6 +458,8 @@ export const ITINERARY: Day[] = [
             { name: 'Petit Bonheur', note: '嵐山商店街現做可麗餅，甜鹹口味齊全，排隊必吃' },
             { name: '豆乳冰淇淋', note: '商店街多家販售，濃郁豆香' },
             { name: '嵐山よしむら', note: '竹林旁景觀蕎麥麵，可從座位欣賞大堰川，午間 11:00–17:00' },
+            { name: '⭐ 茶三楽（CHASANRAKU）', note: '日本茶茶房，抹茶飲品精緻——茶比冰讚！也有刨冰，天龍寺旁' },
+            { name: '⭐ Taiyaki Shop Matsukaze', note: '天龍寺旁鯛魚燒專門店' },
           ],
           recommendations: ['商店街有足湯（免費）可泡腳', '有 Snoopy、拉拉熊、miffy 周邊店', '可搭船遊保津川（需另外預約）'],
         },

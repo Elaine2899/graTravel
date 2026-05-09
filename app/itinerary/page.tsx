@@ -237,6 +237,7 @@ export default function ItineraryPage() {
               key={activity.id}
               activity={activity}
               onDelete={dynamicIds.has(activity.id) ? () => handleDelete(activity.id) : undefined}
+              editHref={dynamicIds.has(activity.id) ? `/itinerary/edit?id=${activity.id}&day=${activeDay}` : undefined}
               wishlistItems={wishlistByActivityId[activity.id] ?? []}
               dayNumber={activeDay}
               currentMember={currentMember}
