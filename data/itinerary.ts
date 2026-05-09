@@ -756,35 +756,35 @@ export const ITINERARY: Day[] = [
     activities: [
       {
         id: 'd8-breakfast',
-        time: '08:00',
+        time: '07:30',
         title: '最後早餐',
         type: 'food',
         details: {
           foodRecs: [
             { name: '喫茶店モーニング', note: '大阪喫茶文化：一杯咖啡附贈吐司 + 水煮蛋，¥500–700，道地早餐體驗，難波周邊隨處可見' },
-            { name: '551蓬萊 難波本店', note: '大阪名物豬肉包，現蒸熱騰騰，可當早餐外帶，09:00 起（確認當日開門時間），帶幾個上機！' },
-            { name: '便利商店', note: '最後一次日本便利商店早餐，飯糰 + 關東煮，簡單但也是回憶' },
+            { name: '551蓬萊 難波本店', note: '大阪名物豬肉包外帶，帶幾個上機！（確認當日開門時間）' },
+            { name: '便利商店', note: '最後一次日本便利商店早餐，飯糰 + 咖啡，快速解決' },
           ],
-          recommendations: ['10:30 前要出門前往南海難波站，早餐控制在 1 小時內', '551蓬萊肉包帶上飛機可以！（熟食可帶登機）'],
+          recommendations: ['09:00 前要出門，早餐控制在 30 分鐘', '551蓬萊肉包（熟食）可帶登機'],
         },
       },
       {
         id: 'd8-checkout',
-        time: '09:00',
+        time: '08:30',
         title: '退房',
         type: 'hotel',
         details: {
-          recommendations: ['10:00 前退房'],
+          recommendations: ['提早退房（deadline 10:00），09:00 前出門才能準時到機場'],
         },
       },
       {
         id: 'd8-to-airport',
-        time: '10:30',
+        time: '09:00',
         title: '前往關西機場',
         type: 'transport',
         details: {
-          transportInfo: '南海難波站 搭南海特急（rapi:t）→ 關西機場站\n車程約 1 小時｜難波站超大，提早出發！\n（難波站到南海難波站需步行約 1.2 公里）',
-          ticketInfo: '建議 10:30 前出發，留足夠時間',
+          transportInfo: '飯店步行至南海難波站（約 15 分，1.2 公里）→ 南海特急 rapi:t → 關西機場站（約 34 分）\n目標 10:00 抵達機場辦理登機',
+          ticketInfo: 'rapi:t 指定席需購票，票價約 ¥1,450（一般南海線 ¥930 但較慢）',
         },
       },
       {
