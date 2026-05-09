@@ -118,77 +118,8 @@ function ChecklistContent() {
         <p className="text-xs text-gray-400 mt-1">行前清單 × 危機處理</p>
       </header>
 
-      {/* 三人完成率橫幅 */}
-      <div className="mx-4 mb-4 p-4 bg-white rounded-2xl border border-gray-100 shadow-sm">
-        <div className="flex gap-3">
-          {MEMBERS.map((m) => {
-            const count = checkedByMember[m].filter((id) =>
-              CHECKLIST_ITEMS.some((i) => i.id === id)
-            ).length
-            const pct = Math.round((count / total) * 100)
-            return (
-              <div key={m} className="flex-1 min-w-0">
-                <div className="flex items-center justify-between mb-1">
-                  <span className={`text-xs font-semibold ${MEMBER_NAME_COLOR[m]}`}>{m}</span>
-                  <span className="text-[10px] text-gray-500">{count}/{total}</span>
-                </div>
-                <div className={`h-1.5 rounded-full ${MEMBER_PROGRESS_BG[m]}`}>
-                  <div
-                    className={`h-1.5 rounded-full transition-all ${MEMBER_PROGRESS_FILL[m]}`}
-                    style={{ width: `${pct}%` }}
-                  />
-                </div>
-                {count === total && (
-                  <p className="text-[10px] text-center mt-0.5">✓ 完成</p>
-                )}
-              </div>
-            )
-          })}
-        </div>
-      </div>
-
-      {/* 分類清單 */}
-      <div className="px-4 space-y-4 pb-4">
-        {CHECKLIST_CATEGORIES.map((cat) => (
-          <div key={cat}>
-            <p className="text-[11px] font-semibold text-gray-400 uppercase tracking-wide mb-2">{cat}</p>
-            <div className="bg-white rounded-2xl border border-gray-100 shadow-sm divide-y divide-gray-50">
-              {itemsByCategory[cat].map((item) => (
-                <div key={item.id} className="flex items-center gap-3 px-4 py-3">
-                  <p className="flex-1 text-sm text-gray-800">{item.label}</p>
-                  <div className="flex gap-2 shrink-0">
-                    {MEMBERS.map((m) => {
-                      const checked = checkedByMember[m].includes(item.id)
-                      const isMe = m === currentMember
-                      return (
-                        <button
-                          key={m}
-                          onClick={() => isMe && toggle(item.id)}
-                          disabled={!isMe}
-                          className={`w-6 h-6 rounded-full border-2 flex items-center justify-center transition-colors ${
-                            checked
-                              ? MEMBER_CHECKED[m]
-                              : `bg-white ${MEMBER_UNCHECKED[m]}`
-                          } ${!isMe ? 'cursor-default' : 'active:scale-90'}`}
-                        >
-                          {checked && (
-                            <svg viewBox="0 0 24 24" className="w-3 h-3 text-white" fill="none" stroke="currentColor" strokeWidth={3}>
-                              <path d="M5 13l4 4L19 7" strokeLinecap="round" strokeLinejoin="round" />
-                            </svg>
-                          )}
-                        </button>
-                      )
-                    })}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        ))}
-      </div>
-
       {/* 危機處理錦囊 */}
-      <div className="px-4 pb-28">
+      <div className="px-4 pb-4">
         <p className="text-[11px] font-semibold text-gray-400 uppercase tracking-wide mb-2">危機處理</p>
         <div className="space-y-2">
           {CRISIS_TIPS.map((tip) => {
@@ -251,6 +182,75 @@ function ChecklistContent() {
             )
           })}
         </div>
+      </div>
+
+      {/* 三人完成率橫幅 */}
+      <div className="mx-4 mb-4 p-4 bg-white rounded-2xl border border-gray-100 shadow-sm">
+        <div className="flex gap-3">
+          {MEMBERS.map((m) => {
+            const count = checkedByMember[m].filter((id) =>
+              CHECKLIST_ITEMS.some((i) => i.id === id)
+            ).length
+            const pct = Math.round((count / total) * 100)
+            return (
+              <div key={m} className="flex-1 min-w-0">
+                <div className="flex items-center justify-between mb-1">
+                  <span className={`text-xs font-semibold ${MEMBER_NAME_COLOR[m]}`}>{m}</span>
+                  <span className="text-[10px] text-gray-500">{count}/{total}</span>
+                </div>
+                <div className={`h-1.5 rounded-full ${MEMBER_PROGRESS_BG[m]}`}>
+                  <div
+                    className={`h-1.5 rounded-full transition-all ${MEMBER_PROGRESS_FILL[m]}`}
+                    style={{ width: `${pct}%` }}
+                  />
+                </div>
+                {count === total && (
+                  <p className="text-[10px] text-center mt-0.5">✓ 完成</p>
+                )}
+              </div>
+            )
+          })}
+        </div>
+      </div>
+
+      {/* 分類清單 */}
+      <div className="px-4 space-y-4 pb-28">
+        {CHECKLIST_CATEGORIES.map((cat) => (
+          <div key={cat}>
+            <p className="text-[11px] font-semibold text-gray-400 uppercase tracking-wide mb-2">{cat}</p>
+            <div className="bg-white rounded-2xl border border-gray-100 shadow-sm divide-y divide-gray-50">
+              {itemsByCategory[cat].map((item) => (
+                <div key={item.id} className="flex items-center gap-3 px-4 py-3">
+                  <p className="flex-1 text-sm text-gray-800">{item.label}</p>
+                  <div className="flex gap-2 shrink-0">
+                    {MEMBERS.map((m) => {
+                      const checked = checkedByMember[m].includes(item.id)
+                      const isMe = m === currentMember
+                      return (
+                        <button
+                          key={m}
+                          onClick={() => isMe && toggle(item.id)}
+                          disabled={!isMe}
+                          className={`w-6 h-6 rounded-full border-2 flex items-center justify-center transition-colors ${
+                            checked
+                              ? MEMBER_CHECKED[m]
+                              : `bg-white ${MEMBER_UNCHECKED[m]}`
+                          } ${!isMe ? 'cursor-default' : 'active:scale-90'}`}
+                        >
+                          {checked && (
+                            <svg viewBox="0 0 24 24" className="w-3 h-3 text-white" fill="none" stroke="currentColor" strokeWidth={3}>
+                              <path d="M5 13l4 4L19 7" strokeLinecap="round" strokeLinejoin="round" />
+                            </svg>
+                          )}
+                        </button>
+                      )
+                    })}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   )
