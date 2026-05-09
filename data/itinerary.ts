@@ -588,8 +588,8 @@ export const ITINERARY: Day[] = [
         title: '移動至阿倍野',
         type: 'transport',
         details: {
-          transportInfo: '近鐵奈良站 急行 → 大阪難波站（約 40 分）→ 御堂筋線 → 天王寺站（約 7 分）',
-          transportAlt: 'JR 奈良站 大和路線 → JR 天王寺站（約 40 分，步行至 JR 奈良站需 20 分）',
+          transportInfo: '近鐵奈良站 → 鶴橋站（約 30 分）→ 大阪環狀線 → 天王寺站（約 10 分）',
+          transportAlt: 'JR 奈良站 大和路線 → JR 天王寺站（直達，約 40 分，¥510，步行至 JR 奈良站需 20 分）',
         },
       },
       {
