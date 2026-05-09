@@ -62,18 +62,6 @@ export interface Settlement {
   amount: number
 }
 
-export type ReservationType = 'restaurant' | 'ticket' | 'hotel' | 'transport'
-
-export interface Reservation {
-  id: string
-  name: string
-  dayNumber: number
-  time?: string
-  confirmCode?: string
-  type: ReservationType
-  done: boolean
-  createdAt: Timestamp
-}
 
 export interface WishlistItem {
   id: string

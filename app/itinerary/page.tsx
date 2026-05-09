@@ -2,16 +2,15 @@
 
 import { useEffect, useMemo, useRef, useState } from 'react'
 import Link from 'next/link'
-import { collection, deleteDoc, doc, onSnapshot, orderBy, query, updateDoc, where } from 'firebase/firestore'
+import { collection, deleteDoc, doc, onSnapshot, orderBy, query, updateDoc } from 'firebase/firestore'
 import { db } from '@/lib/firebase'
 import { useAuth } from '@/lib/AuthContext'
 import { ITINERARY } from '@/data/itinerary'
 import { getMemberFromEmail } from '@/data/members'
-import { Activity, ActivityType, Expense, Group, Member, Reservation, WishlistItem } from '@/types'
+import { Activity, ActivityType, Expense, Group, Member, WishlistItem } from '@/types'
 import ActivityItem from '@/components/ActivityItem'
 import GroupTabs from '@/components/GroupTabs'
 import JournalSection from '@/components/JournalSection'
-import ReservationSection from '@/components/ReservationSection'
 import WishlistDaySection from '@/components/WishlistDaySection'
 
 const TRIP_START = new Date('2026-05-12T00:00:00+08:00')
@@ -54,7 +53,6 @@ export default function ItineraryPage() {
   const [dynamicActivities, setDynamicActivities] = useState<DynamicActivity[]>([])
   const [wishlistItems, setWishlistItems] = useState<WishlistItem[]>([])
   const [journalEntries, setJournalEntries] = useState<Partial<Record<Member, string>>>({})
-  const [reservations, setReservations] = useState<Reservation[]>([])
   const [activityMoodsMap, setActivityMoodsMap] = useState<Record<string, Partial<Record<Member, string>>>>({})
   const [expenses, setExpenses] = useState<Expense[]>([])
   const tabsRef = useRef<HTMLDivElement>(null)
@@ -88,17 +86,6 @@ export default function ItineraryPage() {
   useEffect(() => {
     return onSnapshot(doc(db, 'journal', String(activeDay)), (snap) => {
       setJournalEntries(snap.exists() ? (snap.data() as Partial<Record<Member, string>>) : {})
-    })
-  }, [activeDay])
-
-  useEffect(() => {
-    const q = query(
-      collection(db, 'reservations'),
-      where('dayNumber', '==', activeDay),
-      orderBy('createdAt', 'asc')
-    )
-    return onSnapshot(q, (snap) => {
-      setReservations(snap.docs.map((d) => ({ id: d.id, ...d.data() } as Reservation)))
     })
   }, [activeDay])
 
@@ -251,12 +238,11 @@ export default function ItineraryPage() {
         )}
       </div>
 
-      {/* 當日購物清單 + 訂位票券 + 日記 */}
+      {/* 當日購物清單 + 日記 */}
       <div className="px-4 pt-3 pb-24 space-y-3">
         {wishlistForDay.length > 0 && (
           <WishlistDaySection items={wishlistForDay} onToggle={handleWishlistToggle} />
         )}
-        <ReservationSection dayNumber={activeDay} items={reservations} />
         <JournalSection
           dayNumber={activeDay}
           currentMember={currentMember}

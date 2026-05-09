@@ -9,7 +9,7 @@ export interface ShoppingLocation {
 // Clean display names for each shopping-relevant activity
 const CLEAN_NAMES: Record<string, string> = {
   'd1-arrive':        '關西機場（入境）',
-  'd2-higashiyama':   '東山・二年坂・三年坂',
+  'd2-higasfhiyama':   '東山・二年坂・三年坂',
   'd2-kiyomizudera':  '清水寺',
   'd2-yasaka':        '八坂神社・祇園',
   'd2-shimogamo':     '下鴨神社・糺之森',
