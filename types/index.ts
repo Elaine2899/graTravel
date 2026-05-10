@@ -8,6 +8,7 @@ export type Member = 'YY' | 'Wei' | 'Rae'
 export interface FoodRec {
   name: string
   note?: string
+  mapUrl?: string
 }
 
 export interface SpotRec {

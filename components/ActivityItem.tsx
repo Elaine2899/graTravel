@@ -237,7 +237,7 @@ export default function ActivityItem({
                   {details.foodRecs.map((r, i) => (
                     <li key={i} className="text-sm text-gray-700">
                       <a
-                        href={`https://maps.google.com/maps?q=${encodeURIComponent(r.name + ' 京都')}`}
+                        href={r.mapUrl ?? `https://maps.google.com/maps?q=${encodeURIComponent(r.name + ' 京都')}`}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="font-medium underline decoration-gray-300 underline-offset-2"
