@@ -9,14 +9,12 @@ export const CHECKLIST_ITEMS: ChecklistItem[] = [
   { id: 'passport',      label: '護照',                              category: '證件' },
   { id: 'student-id',    label: '學生證',                            category: '證件' },
   { id: 'flight',        label: '機票確認信',                        category: '證件' },
-  { id: 'hotel',         label: '訂房確認信',                        category: '證件' },
   { id: 'insurance',     label: '旅遊保險文件',                      category: '證件' },
   { id: 'visit-japan',   label: 'Visit Japan Web（海關預登記）',      category: '證件' },
 
   // 票券
   { id: 'jrpass',        label: 'Haruka 票（KIX→京都）',             category: '票券' },
   { id: 'usj',           label: 'USJ 門票',                          category: '票券' },
-  { id: 'card-holder',   label: '票卡夾',                            category: '票券' },
 
   // 金錢
   { id: 'cash',          label: '日幣現金',                          category: '金錢' },
@@ -31,6 +29,7 @@ export const CHECKLIST_ITEMS: ChecklistItem[] = [
   { id: 'umbrella',      label: '雨傘 / 陽傘',                       category: '衣物' },
   { id: 'hat',           label: '帽子 / 墨鏡（可選）',               category: '衣物' },
   { id: 'dirty-bag',     label: '裝髒衣服的袋子',                    category: '衣物' },
+  { id: 'sash',          label: '學士領巾',                          category: '衣物' },
 
   // 3C
   { id: 'phone',         label: '手機 + 充電器',                     category: '3C' },
