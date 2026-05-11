@@ -27,16 +27,16 @@ export default function MoodPicker({ member, activityId, onClose }: Props) {
   return createPortal(
     <div className="fixed inset-0 z-50" onClick={onClose}>
       <div
-        className="absolute bottom-24 left-4 right-4 bg-white rounded-2xl shadow-xl border border-gray-100 p-4"
+        className="absolute bottom-24 left-4 right-4 bg-white dark:bg-gray-800 rounded-2xl shadow-xl border border-gray-100 dark:border-gray-700 p-4"
         onClick={(e) => e.stopPropagation()}
       >
-        <p className="text-xs text-gray-400 text-center mb-3">選一個心情</p>
+        <p className="text-xs text-gray-400 dark:text-gray-500 text-center mb-3">選一個心情</p>
         <div className="flex justify-around">
           {MOOD_EMOJIS.map((emoji) => (
             <button
               key={emoji}
               onClick={() => handlePick(emoji)}
-              className="text-2xl p-1.5 rounded-xl hover:bg-gray-100 active:scale-90 transition-all"
+              className="text-2xl p-1.5 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-700 active:scale-90 transition-all"
             >
               {emoji}
             </button>
@@ -44,7 +44,7 @@ export default function MoodPicker({ member, activityId, onClose }: Props) {
         </div>
         <button
           onClick={handleClear}
-          className="mt-3 w-full py-2 rounded-xl text-xs font-medium text-red-400 bg-red-50 active:bg-red-100 transition-colors"
+          className="mt-3 w-full py-2 rounded-xl text-xs font-medium text-red-400 bg-red-50 dark:bg-red-950 active:bg-red-100 dark:active:bg-red-900 transition-colors"
         >
           清除心情
         </button>

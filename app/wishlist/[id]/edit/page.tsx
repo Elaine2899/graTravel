@@ -12,9 +12,9 @@ import { ITINERARY } from '@/data/itinerary'
 import AuthGuard from '@/components/AuthGuard'
 
 const MEMBER_COLOR: Record<Member, string> = {
-  YY:  'border-rose-400 bg-rose-50 text-rose-700',
-  Wei: 'border-blue-400 bg-blue-50 text-blue-700',
-  Rae: 'border-purple-400 bg-purple-50 text-purple-700',
+  YY:  'border-rose-400 bg-rose-50 text-rose-700 dark:bg-rose-950 dark:text-rose-300',
+  Wei: 'border-blue-400 bg-blue-50 text-blue-700 dark:bg-blue-950 dark:text-blue-300',
+  Rae: 'border-purple-400 bg-purple-50 text-purple-700 dark:bg-purple-950 dark:text-purple-300',
 }
 
 const DAY_THEME = Object.fromEntries(ITINERARY.map((d) => [d.dayNumber, d.theme]))
@@ -108,32 +108,32 @@ function EditWishlistForm() {
           </svg>
           返回購物清單
         </Link>
-        <h1 className="text-2xl font-bold text-gray-900">編輯願望</h1>
+        <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-50">編輯願望</h1>
       </header>
 
       <div className="px-4 space-y-5 pb-10">
         {/* 物品名稱 */}
         <div>
-          <label className="text-xs font-semibold text-gray-500 uppercase tracking-wide">物品名稱</label>
+          <label className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide">物品名稱</label>
           <input
             type="text"
             value={item}
             onChange={(e) => setItem(e.target.value)}
             placeholder="e.g. 抹茶點心、藥妝品..."
-            className="w-full mt-2 bg-white rounded-xl border border-gray-200 px-4 py-3 text-sm text-gray-800 outline-none focus:border-rose-400 transition-colors"
+            className="w-full mt-2 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 px-4 py-3 text-sm text-gray-800 dark:text-gray-100 outline-none focus:border-rose-400 transition-colors"
           />
         </div>
 
         {/* 誰想買 */}
         <div>
-          <label className="text-xs font-semibold text-gray-500 uppercase tracking-wide">誰想買</label>
+          <label className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide">誰想買</label>
           <div className="flex gap-2 mt-2">
             {MEMBERS.map((m) => (
               <button
                 key={m}
                 onClick={() => toggleMember(m)}
                 className={`flex-1 py-2.5 rounded-xl border text-sm font-semibold transition-colors ${
-                  wantedBy.includes(m) ? MEMBER_COLOR[m] : 'border-gray-200 bg-white text-gray-400'
+                  wantedBy.includes(m) ? MEMBER_COLOR[m] : 'border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-400 dark:text-gray-500'
                 }`}
               >
                 {m}
@@ -144,19 +144,19 @@ function EditWishlistForm() {
 
         {/* 購買景點 */}
         <div>
-          <label className="text-xs font-semibold text-gray-500 uppercase tracking-wide">購買景點（選填）</label>
+          <label className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide">購買景點（選填）</label>
           <div className="mt-2 space-y-3">
             <button
               onClick={() => { setLocationId(null); setDayNumber(null) }}
               className={`w-full text-left px-3 py-2 rounded-xl border text-sm transition-colors ${
-                locationId === null ? 'bg-gray-800 border-gray-800 text-white' : 'bg-white border-gray-200 text-gray-500'
+                locationId === null ? 'bg-gray-800 border-gray-800 text-white dark:bg-gray-200 dark:border-gray-200 dark:text-gray-900' : 'bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-500 dark:text-gray-400'
               }`}
             >
               不指定
             </button>
             {Object.entries(locationsByDay).map(([day, locs]) => (
               <div key={day}>
-                <p className="text-[11px] font-semibold text-gray-400 uppercase tracking-wide px-1 mb-1.5">
+                <p className="text-[11px] font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wide px-1 mb-1.5">
                   Day {day}・{DAY_THEME[Number(day)]}
                 </p>
                 <div className="flex flex-wrap gap-2">
@@ -167,7 +167,7 @@ function EditWishlistForm() {
                       className={`px-3 py-1.5 rounded-full border text-xs font-medium transition-colors ${
                         locationId === loc.id
                           ? 'bg-rose-500 border-rose-500 text-white'
-                          : 'bg-white border-gray-200 text-gray-600'
+                          : 'bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400'
                       }`}
                     >
                       {loc.name}
@@ -181,25 +181,25 @@ function EditWishlistForm() {
 
         {/* 購買店家 */}
         <div>
-          <label className="text-xs font-semibold text-gray-500 uppercase tracking-wide">購買店家（選填）</label>
+          <label className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide">購買店家（選填）</label>
           <input
             type="text"
             value={store}
             onChange={(e) => setStore(e.target.value)}
             placeholder="e.g. 中村藤吉、ドン・キホーテ..."
-            className="w-full mt-2 bg-white rounded-xl border border-gray-200 px-4 py-3 text-sm text-gray-800 outline-none focus:border-rose-400 transition-colors"
+            className="w-full mt-2 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 px-4 py-3 text-sm text-gray-800 dark:text-gray-100 outline-none focus:border-rose-400 transition-colors"
           />
         </div>
 
         {/* 備注 */}
         <div>
-          <label className="text-xs font-semibold text-gray-500 uppercase tracking-wide">備注（選填）</label>
+          <label className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide">備注（選填）</label>
           <textarea
             value={note}
             onChange={(e) => setNote(e.target.value)}
             placeholder="顏色、規格、數量..."
             rows={2}
-            className="w-full mt-2 bg-white rounded-xl border border-gray-200 px-4 py-3 text-sm text-gray-800 outline-none focus:border-rose-400 transition-colors resize-none"
+            className="w-full mt-2 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 px-4 py-3 text-sm text-gray-800 dark:text-gray-100 outline-none focus:border-rose-400 transition-colors resize-none"
           />
         </div>
 

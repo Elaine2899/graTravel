@@ -88,7 +88,7 @@ function EditActivityForm() {
           </svg>
           返回行程
         </Link>
-        <h1 className="text-2xl font-bold text-gray-900">編輯行程</h1>
+        <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-50">編輯行程</h1>
       </header>
 
       <div className="px-4 space-y-5 pb-10">
@@ -103,14 +103,14 @@ function EditActivityForm() {
                 className={`shrink-0 flex flex-col items-center px-3 py-2 rounded-xl border text-center min-w-[56px] transition-colors ${
                   selectedDay === d.dayNumber
                     ? 'bg-rose-500 border-rose-500 text-white'
-                    : 'bg-white border-gray-200 text-gray-600'
+                    : 'bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-300'
                 }`}
               >
-                <span className={`text-[10px] ${selectedDay === d.dayNumber ? 'text-rose-100' : 'text-gray-400'}`}>
+                <span className={`text-[10px] ${selectedDay === d.dayNumber ? 'text-rose-100' : 'text-gray-400 dark:text-gray-500'}`}>
                   {d.weekday}
                 </span>
                 <span className="text-base font-bold leading-tight">{d.date.split('/')[1]}</span>
-                <span className={`text-[10px] ${selectedDay === d.dayNumber ? 'text-rose-100' : 'text-gray-400'}`}>
+                <span className={`text-[10px] ${selectedDay === d.dayNumber ? 'text-rose-100' : 'text-gray-400 dark:text-gray-500'}`}>
                   Day {d.dayNumber}
                 </span>
               </button>
@@ -120,19 +120,19 @@ function EditActivityForm() {
 
         {/* 標題 */}
         <div>
-          <label className="text-xs font-semibold text-gray-500 uppercase tracking-wide">行程名稱</label>
+          <label className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide">行程名稱</label>
           <input
             type="text"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             placeholder="e.g. 錦市場午餐、嵐山散步..."
-            className="w-full mt-2 bg-white rounded-xl border border-gray-200 px-4 py-3 text-sm text-gray-800 outline-none focus:border-rose-400 transition-colors"
+            className="w-full mt-2 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 px-4 py-3 text-sm text-gray-800 dark:text-gray-100 outline-none focus:border-rose-400 transition-colors"
           />
         </div>
 
         {/* 類型 */}
         <div>
-          <label className="text-xs font-semibold text-gray-500 uppercase tracking-wide">類型</label>
+          <label className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide">類型</label>
           <div className="flex gap-2 mt-2">
             {ACTIVITY_TYPES.map(({ type: t, label, emoji }) => (
               <button
@@ -140,8 +140,8 @@ function EditActivityForm() {
                 onClick={() => setType(t)}
                 className={`flex-1 flex flex-col items-center gap-0.5 px-2 py-2.5 rounded-xl border text-xs font-medium transition-colors ${
                   type === t
-                    ? 'bg-rose-50 border-rose-400 text-rose-700'
-                    : 'bg-white border-gray-200 text-gray-500'
+                    ? 'bg-rose-50 border-rose-400 text-rose-700 dark:bg-rose-950 dark:text-rose-300'
+                    : 'bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-500 dark:text-gray-400'
                 }`}
               >
                 <span className="text-base">{emoji}</span>
@@ -153,21 +153,21 @@ function EditActivityForm() {
 
         {/* 時間（選填） */}
         <div>
-          <label className="text-xs font-semibold text-gray-500 uppercase tracking-wide">時間（選填）</label>
+          <label className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide">時間（選填）</label>
           <input
             type="text"
             value={time}
             onChange={(e) => setTime(e.target.value)}
             placeholder="e.g. 10:00"
             inputMode="numeric"
-            className="w-full mt-2 bg-white rounded-xl border border-gray-200 px-4 py-3 text-sm text-gray-800 outline-none focus:border-rose-400 transition-colors"
+            className="w-full mt-2 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 px-4 py-3 text-sm text-gray-800 dark:text-gray-100 outline-none focus:border-rose-400 transition-colors"
           />
         </div>
 
         {/* Day 3 分組 */}
         {selectedDay === 3 && (
           <div>
-            <label className="text-xs font-semibold text-gray-500 uppercase tracking-wide">分組</label>
+            <label className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide">分組</label>
             <div className="flex gap-2 mt-2">
               {GROUPS.map(({ group: g, label }) => (
                 <button
@@ -175,8 +175,8 @@ function EditActivityForm() {
                   onClick={() => setGroup(g)}
                   className={`flex-1 py-2.5 rounded-xl border text-sm font-medium transition-colors ${
                     group === g
-                      ? 'bg-gray-800 border-gray-800 text-white'
-                      : 'bg-white border-gray-200 text-gray-500'
+                      ? 'bg-gray-800 border-gray-800 text-white dark:bg-gray-200 dark:border-gray-200 dark:text-gray-900'
+                      : 'bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-500 dark:text-gray-400'
                   }`}
                 >
                   {label}
@@ -188,13 +188,13 @@ function EditActivityForm() {
 
         {/* 備注（選填） */}
         <div>
-          <label className="text-xs font-semibold text-gray-500 uppercase tracking-wide">備注（選填）</label>
+          <label className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide">備注（選填）</label>
           <textarea
             value={note}
             onChange={(e) => setNote(e.target.value)}
             placeholder="交通資訊、注意事項..."
             rows={3}
-            className="w-full mt-2 bg-white rounded-xl border border-gray-200 px-4 py-3 text-sm text-gray-800 outline-none focus:border-rose-400 transition-colors resize-none"
+            className="w-full mt-2 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 px-4 py-3 text-sm text-gray-800 dark:text-gray-100 outline-none focus:border-rose-400 transition-colors resize-none"
           />
         </div>
 

@@ -54,17 +54,17 @@ export default function SpendingAnalysis({ expenses, fmt }: Props) {
   }
 
   return (
-    <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+    <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-gray-700 shadow-sm overflow-hidden">
       {/* Header tabs */}
-      <div className="flex overflow-x-auto scrollbar-none border-b border-gray-100">
+      <div className="flex overflow-x-auto scrollbar-none border-b border-gray-100 dark:border-gray-700">
         {(['all', ...MEMBERS] as ('all' | Member)[]).map((v) => (
           <button
             key={v}
             onClick={() => setView(v)}
             className={`shrink-0 px-4 py-3 text-sm font-medium transition-colors border-b-2 -mb-px ${
               view === v
-                ? 'border-rose-500 text-rose-600'
-                : 'border-transparent text-gray-400'
+                ? 'border-rose-500 text-rose-600 dark:text-rose-400'
+                : 'border-transparent text-gray-400 dark:text-gray-500'
             }`}
           >
             {v === 'all' ? '總覽' : v}
@@ -77,14 +77,14 @@ export default function SpendingAnalysis({ expenses, fmt }: Props) {
           <>
             {/* 總金額 */}
             <div>
-              <p className="text-xs text-gray-400 mb-0.5">總支出</p>
-              <p className="text-2xl font-bold text-gray-900">{fmt(total)}</p>
+              <p className="text-xs text-gray-400 dark:text-gray-500 mb-0.5">總支出</p>
+              <p className="text-2xl font-bold text-gray-900 dark:text-gray-50">{fmt(total)}</p>
             </div>
 
             {/* 類別分布 */}
             {total > 0 && (
               <div>
-                <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-2">類別分布</p>
+                <p className="text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wide mb-2">類別分布</p>
                 <div className="space-y-2">
                   {CATEGORY_ORDER.filter((c) => byCategory[c]).map((cat) => {
                     const amt = byCategory[cat]!
@@ -93,12 +93,12 @@ export default function SpendingAnalysis({ expenses, fmt }: Props) {
                     return (
                       <div key={cat}>
                         <div className="flex items-center justify-between mb-1">
-                          <span className="text-sm text-gray-700">{info.emoji} {info.label}</span>
-                          <span className="text-sm font-semibold text-gray-800">
-                            {fmt(amt)} <span className="text-xs text-gray-400 font-normal">{pct}%</span>
+                          <span className="text-sm text-gray-700 dark:text-gray-300">{info.emoji} {info.label}</span>
+                          <span className="text-sm font-semibold text-gray-800 dark:text-gray-100">
+                            {fmt(amt)} <span className="text-xs text-gray-400 dark:text-gray-500 font-normal">{pct}%</span>
                           </span>
                         </div>
-                        <div className="h-1.5 bg-gray-100 rounded-full overflow-hidden">
+                        <div className="h-1.5 bg-gray-100 dark:bg-gray-800 rounded-full overflow-hidden">
                           <div className={`h-full rounded-full ${info.bar}`} style={{ width: `${pct}%` }} />
                         </div>
                       </div>
@@ -111,7 +111,7 @@ export default function SpendingAnalysis({ expenses, fmt }: Props) {
             {/* 各人付出 */}
             {total > 0 && (
               <div>
-                <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-2">各人付出</p>
+                <p className="text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wide mb-2">各人付出</p>
                 <div className="space-y-2">
                   {MEMBERS.map((m) => {
                     const amt = paidByPerson[m]
@@ -122,10 +122,10 @@ export default function SpendingAnalysis({ expenses, fmt }: Props) {
                         <div className="flex items-center justify-between mb-1">
                           <span className={`text-sm font-semibold ${c.text}`}>{m}</span>
                           <span className="text-sm font-semibold text-gray-800">
-                            {fmt(amt)} <span className="text-xs text-gray-400 font-normal">{pct}%</span>
+                            {fmt(amt)} <span className="text-xs text-gray-400 dark:text-gray-500 font-normal">{pct}%</span>
                           </span>
                         </div>
-                        <div className="h-1.5 bg-gray-100 rounded-full overflow-hidden">
+                        <div className="h-1.5 bg-gray-100 dark:bg-gray-800 rounded-full overflow-hidden">
                           <div className={`h-full rounded-full ${c.bar}`} style={{ width: `${pct}%` }} />
                         </div>
                       </div>
@@ -136,7 +136,7 @@ export default function SpendingAnalysis({ expenses, fmt }: Props) {
             )}
 
             {total === 0 && (
-              <p className="text-sm text-gray-400 text-center py-2">還沒有任何消費記錄</p>
+              <p className="text-sm text-gray-400 dark:text-gray-500 text-center py-2">還沒有任何消費記錄</p>
             )}
           </>
         ) : (
@@ -154,8 +154,8 @@ export default function SpendingAnalysis({ expenses, fmt }: Props) {
                   prefix: personNet >= 0 ? '+' : '-',
                 },
               ].map(({ label, value, color, prefix }) => (
-                <div key={label} className="bg-gray-50 rounded-xl p-3 text-center">
-                  <p className="text-xs text-gray-400 mb-1">{label}</p>
+                <div key={label} className="bg-gray-50 dark:bg-gray-800 rounded-xl p-3 text-center">
+                  <p className="text-xs text-gray-400 dark:text-gray-500 mb-1">{label}</p>
                   <p className={`text-sm font-bold ${color}`}>
                     {prefix ?? ''}{fmt(Math.round(value))}
                   </p>
@@ -163,7 +163,7 @@ export default function SpendingAnalysis({ expenses, fmt }: Props) {
               ))}
             </div>
 
-            <p className="text-xs text-gray-400 text-center -mt-1">
+            <p className="text-xs text-gray-400 dark:text-gray-500 text-center -mt-1">
               {personNet > 0
                 ? `其他人共欠 ${person} ${fmt(Math.round(personNet))}`
                 : personNet < 0
@@ -174,7 +174,7 @@ export default function SpendingAnalysis({ expenses, fmt }: Props) {
             {/* 付出類別分布 */}
             {personPaid > 0 && (
               <div>
-                <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-2">付出類別</p>
+                <p className="text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wide mb-2">付出類別</p>
                 <div className="space-y-2">
                   {CATEGORY_ORDER.filter((c) => personByCategory[c]).map((cat) => {
                     const amt = personByCategory[cat]!
@@ -183,12 +183,12 @@ export default function SpendingAnalysis({ expenses, fmt }: Props) {
                     return (
                       <div key={cat}>
                         <div className="flex items-center justify-between mb-1">
-                          <span className="text-sm text-gray-700">{info.emoji} {info.label}</span>
-                          <span className="text-sm font-semibold text-gray-800">
-                            {fmt(amt)} <span className="text-xs text-gray-400 font-normal">{pct}%</span>
+                          <span className="text-sm text-gray-700 dark:text-gray-300">{info.emoji} {info.label}</span>
+                          <span className="text-sm font-semibold text-gray-800 dark:text-gray-100">
+                            {fmt(amt)} <span className="text-xs text-gray-400 dark:text-gray-500 font-normal">{pct}%</span>
                           </span>
                         </div>
-                        <div className="h-1.5 bg-gray-100 rounded-full overflow-hidden">
+                        <div className="h-1.5 bg-gray-100 dark:bg-gray-800 rounded-full overflow-hidden">
                           <div className={`h-full rounded-full ${info.bar}`} style={{ width: `${pct}%` }} />
                         </div>
                       </div>
@@ -199,7 +199,7 @@ export default function SpendingAnalysis({ expenses, fmt }: Props) {
             )}
 
             {personPaid === 0 && personOwed === 0 && (
-              <p className="text-sm text-gray-400 text-center py-2">{person} 尚無消費記錄</p>
+              <p className="text-sm text-gray-400 dark:text-gray-500 text-center py-2">{person} 尚無消費記錄</p>
             )}
           </>
         )}

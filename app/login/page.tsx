@@ -26,12 +26,12 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center px-6 bg-[#f8f7f4]">
+    <div className="min-h-screen flex flex-col items-center justify-center px-6 bg-[#f8f7f4] dark:bg-gray-900">
       <div className="w-full max-w-sm">
         <div className="text-center mb-8">
           <p className="text-4xl mb-2">🇯🇵</p>
-          <h1 className="text-2xl font-bold text-gray-900">graTravel</h1>
-          <p className="text-sm text-gray-400 mt-1">YY・Wei・Rae 日本旅遊</p>
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-50">graTravel</h1>
+          <p className="text-sm text-gray-400 dark:text-gray-500 mt-1">YY・Wei・Rae 日本旅遊</p>
         </div>
 
         <div className="space-y-3">
@@ -40,7 +40,7 @@ export default function LoginPage() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="Email"
-            className="w-full bg-white rounded-xl border border-gray-200 px-4 py-3.5 text-sm outline-none focus:border-rose-400 transition-colors"
+            className="w-full bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 px-4 py-3.5 text-sm text-gray-900 dark:text-gray-100 outline-none focus:border-rose-400 transition-colors"
             autoComplete="email"
           />
           <input
@@ -48,7 +48,7 @@ export default function LoginPage() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             placeholder="密碼"
-            className="w-full bg-white rounded-xl border border-gray-200 px-4 py-3.5 text-sm outline-none focus:border-rose-400 transition-colors"
+            className="w-full bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 px-4 py-3.5 text-sm text-gray-900 dark:text-gray-100 outline-none focus:border-rose-400 transition-colors"
             autoComplete="current-password"
             onKeyDown={(e) => e.key === 'Enter' && handleLogin()}
           />

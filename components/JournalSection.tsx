@@ -7,9 +7,9 @@ import { Member } from '@/types'
 import { MEMBERS } from '@/data/members'
 
 const MEMBER_COLOR: Record<Member, { bg: string; border: string; name: string }> = {
-  YY:  { bg: 'bg-rose-50',   border: 'border-rose-100',   name: 'text-rose-600' },
-  Wei: { bg: 'bg-blue-50',   border: 'border-blue-100',   name: 'text-blue-600' },
-  Rae: { bg: 'bg-purple-50', border: 'border-purple-100', name: 'text-purple-600' },
+  YY:  { bg: 'bg-rose-50 dark:bg-rose-950',     border: 'border-rose-100 dark:border-rose-800',     name: 'text-rose-600 dark:text-rose-400' },
+  Wei: { bg: 'bg-blue-50 dark:bg-blue-950',     border: 'border-blue-100 dark:border-blue-800',     name: 'text-blue-600 dark:text-blue-400' },
+  Rae: { bg: 'bg-purple-50 dark:bg-purple-950', border: 'border-purple-100 dark:border-purple-800', name: 'text-purple-600 dark:text-purple-400' },
 }
 
 interface Props {
@@ -56,23 +56,23 @@ export default function JournalSection({ dayNumber, currentMember, entries }: Pr
   }
 
   return (
-    <div className="rounded-2xl border border-gray-100 bg-white shadow-sm overflow-hidden">
+    <div className="rounded-2xl border border-gray-100 dark:border-gray-700 bg-white dark:bg-gray-900 shadow-sm overflow-hidden">
       <button
         onClick={() => setCollapsed((c) => !c)}
-        className="w-full px-4 py-3 bg-gray-50 border-b border-gray-100 flex items-center justify-between"
+        className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700 flex items-center justify-between"
       >
         <div className="flex items-center gap-2">
           <span>📝</span>
-          <p className="text-sm font-semibold text-gray-700">今日日記</p>
+          <p className="text-sm font-semibold text-gray-700 dark:text-gray-200">今日日記</p>
           {hasContent && (
-            <span className="text-xs bg-amber-100 text-amber-600 font-medium px-2 py-0.5 rounded-full">
+            <span className="text-xs bg-amber-100 dark:bg-amber-900 text-amber-600 dark:text-amber-300 font-medium px-2 py-0.5 rounded-full">
               {MEMBERS.filter((m) => entries[m]?.trim()).length} 人已記錄
             </span>
           )}
         </div>
         <svg
           viewBox="0 0 24 24"
-          className={`w-4 h-4 text-gray-400 transition-transform ${collapsed ? '-rotate-90' : ''}`}
+          className={`w-4 h-4 text-gray-400 dark:text-gray-500 transition-transform ${collapsed ? '-rotate-90' : ''}`}
           fill="none"
           stroke="currentColor"
           strokeWidth={2}
@@ -82,7 +82,7 @@ export default function JournalSection({ dayNumber, currentMember, entries }: Pr
       </button>
 
       {!collapsed && (
-        <div className="divide-y divide-gray-50">
+        <div className="divide-y divide-gray-50 dark:divide-gray-800">
           {MEMBERS.map((m) => {
             const isMe = m === currentMember
             const text = entries[m]
@@ -95,7 +95,7 @@ export default function JournalSection({ dayNumber, currentMember, entries }: Pr
                   {isMe && !editing && (
                     <button
                       onClick={startEdit}
-                      className="text-[10px] text-gray-400 hover:text-gray-600 transition-colors"
+                      className="text-[10px] text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
                     >
                       {text ? '編輯' : '+ 寫點什麼'}
                     </button>
@@ -111,17 +111,17 @@ export default function JournalSection({ dayNumber, currentMember, entries }: Pr
                     onKeyDown={handleKeyDown}
                     placeholder="今天的亮點 / 糗事..."
                     rows={2}
-                    className={`w-full rounded-xl border px-3 py-2 text-sm text-gray-800 outline-none resize-none ${colors.bg} ${colors.border} focus:border-gray-300`}
+                    className={`w-full rounded-xl border px-3 py-2 text-sm text-gray-800 dark:text-gray-100 outline-none resize-none ${colors.bg} ${colors.border} focus:border-gray-300 dark:focus:border-gray-600`}
                   />
                 ) : text ? (
                   <p
-                    className="text-sm text-gray-700 leading-relaxed"
+                    className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed"
                     onClick={() => isMe && startEdit()}
                   >
                     {text}
                   </p>
                 ) : (
-                  <p className="text-sm text-gray-300 italic">
+                  <p className="text-sm text-gray-300 dark:text-gray-600 italic">
                     {isMe ? '點擊記錄今天的心情...' : '還沒寫'}
                   </p>
                 )}

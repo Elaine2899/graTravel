@@ -38,7 +38,7 @@ export default function GroupTabs({ activities, dynamicIds, onDelete, wishlistBy
             className={`shrink-0 px-4 py-2 rounded-full text-xs font-medium whitespace-pre-line text-center transition-colors ${
               active === tab.key
                 ? 'bg-rose-500 text-white'
-                : 'bg-white text-gray-600 border border-gray-200'
+                : 'bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-700'
             }`}
           >
             {tab.label}

@@ -56,29 +56,29 @@ export default function HelpPage() {
           </svg>
           返回行程
         </Link>
-        <h1 className="text-2xl font-bold text-gray-900">使用說明</h1>
-        <p className="text-xs text-gray-400 mt-1">YY・Wei・Rae 日本行 2026/5/12–5/19</p>
+        <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-50">使用說明</h1>
+        <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">YY・Wei・Rae 日本行 2026/5/12–5/19</p>
       </header>
 
       <div className="px-4 space-y-5">
         {SECTIONS.map((section) => (
           <div key={section.title}>
-            <p className="text-[11px] font-semibold text-gray-400 uppercase tracking-wide mb-2">
+            <p className="text-[11px] font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wide mb-2">
               {section.emoji} {section.title}
             </p>
-            <div className="bg-white rounded-2xl border border-gray-100 shadow-sm divide-y divide-gray-50">
+            <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-gray-700 shadow-sm divide-y divide-gray-50 dark:divide-gray-800">
               {section.items.map((item) => (
                 <div key={item.label} className="px-4 py-3">
-                  <p className="text-sm font-semibold text-gray-800">{item.label}</p>
-                  <p className="text-xs text-gray-500 mt-0.5 leading-relaxed">{item.desc}</p>
+                  <p className="text-sm font-semibold text-gray-800 dark:text-gray-100">{item.label}</p>
+                  <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5 leading-relaxed">{item.desc}</p>
                 </div>
               ))}
             </div>
           </div>
         ))}
 
-        <div className="bg-rose-50 rounded-2xl border border-rose-100 px-4 py-3">
-          <p className="text-xs text-rose-600 leading-relaxed">
+        <div className="bg-rose-50 dark:bg-rose-950 rounded-2xl border border-rose-100 dark:border-rose-800 px-4 py-3">
+          <p className="text-xs text-rose-600 dark:text-rose-300 leading-relaxed">
             各人的打勾、心情、日記都是即時同步的，換裝置登入也看得到。
           </p>
         </div>

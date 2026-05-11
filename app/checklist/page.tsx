@@ -25,9 +25,9 @@ const MEMBER_NAME_COLOR: Record<Member, string> = {
   Rae: 'text-purple-600',
 }
 const MEMBER_PROGRESS_BG: Record<Member, string> = {
-  YY:  'bg-rose-100',
-  Wei: 'bg-blue-100',
-  Rae: 'bg-purple-100',
+  YY:  'bg-rose-100 dark:bg-rose-900',
+  Wei: 'bg-blue-100 dark:bg-blue-900',
+  Rae: 'bg-purple-100 dark:bg-purple-900',
 }
 const MEMBER_PROGRESS_FILL: Record<Member, string> = {
   YY:  'bg-rose-500',
@@ -114,26 +114,26 @@ function ChecklistContent() {
   return (
     <div>
       <header className="px-5 pt-10 pb-4">
-        <h1 className="text-2xl font-bold text-gray-900">錦囊</h1>
-        <p className="text-xs text-gray-400 mt-1">行前清單 × 危機處理</p>
+        <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-50">錦囊</h1>
+        <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">行前清單 × 危機處理</p>
       </header>
 
       {/* 危機處理錦囊 */}
       <div className="px-4 pb-4">
-        <p className="text-[11px] font-semibold text-gray-400 uppercase tracking-wide mb-2">危機處理</p>
+        <p className="text-[11px] font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wide mb-2">危機處理</p>
         <div className="space-y-2">
           {CRISIS_TIPS.map((tip) => {
             const isOpen = openCrisis === tip.id
             return (
-              <div key={tip.id} className="bg-white rounded-2xl border border-orange-100 shadow-sm overflow-hidden">
+              <div key={tip.id} className="bg-white dark:bg-gray-900 rounded-2xl border border-orange-100 dark:border-orange-900 shadow-sm overflow-hidden">
                 <button
                   className="w-full flex items-center gap-3 px-4 py-3 text-left"
                   onClick={() => setOpenCrisis(isOpen ? null : tip.id)}
                 >
                   <span className="text-2xl">{tip.emoji}</span>
-                  <span className="flex-1 text-sm font-semibold text-gray-800">{tip.title}</span>
+                  <span className="flex-1 text-sm font-semibold text-gray-800 dark:text-gray-100">{tip.title}</span>
                   <svg
-                    viewBox="0 0 24 24" className={`w-4 h-4 text-gray-400 transition-transform shrink-0 ${isOpen ? 'rotate-180' : ''}`}
+                    viewBox="0 0 24 24" className={`w-4 h-4 text-gray-400 dark:text-gray-500 transition-transform shrink-0 ${isOpen ? 'rotate-180' : ''}`}
                     fill="none" stroke="currentColor" strokeWidth={2}
                   >
                     <path d="M6 9l6 6 6-6" strokeLinecap="round" strokeLinejoin="round" />
@@ -141,14 +141,14 @@ function ChecklistContent() {
                 </button>
 
                 {isOpen && (
-                  <div className="px-4 pb-4 space-y-3 border-t border-orange-50">
+                  <div className="px-4 pb-4 space-y-3 border-t border-orange-50 dark:border-orange-950">
                     {tip.symptoms.length > 0 && (
                       <div className="mt-3">
-                        <p className="text-[11px] font-semibold text-orange-400 uppercase tracking-wide mb-1.5">症狀</p>
+                        <p className="text-[11px] font-semibold text-orange-400 dark:text-orange-500 uppercase tracking-wide mb-1.5">症狀</p>
                         <ul className="space-y-1">
                           {tip.symptoms.map((s, i) => (
-                            <li key={i} className="text-sm text-gray-700 flex gap-2">
-                              <span className="text-orange-400 shrink-0">•</span>
+                            <li key={i} className="text-sm text-gray-700 dark:text-gray-300 flex gap-2">
+                              <span className="text-orange-400 dark:text-orange-500 shrink-0">•</span>
                               <span>{s}</span>
                             </li>
                           ))}
@@ -157,23 +157,23 @@ function ChecklistContent() {
                     )}
 
                     <div className={tip.symptoms.length === 0 ? 'mt-3' : ''}>
-                      <p className="text-[11px] font-semibold text-orange-400 uppercase tracking-wide mb-1.5">處理步驟</p>
+                      <p className="text-[11px] font-semibold text-orange-400 dark:text-orange-500 uppercase tracking-wide mb-1.5">處理步驟</p>
                       <ol className="space-y-1">
                         {tip.steps.map((s, i) => (
-                          <li key={i} className="text-sm text-gray-700 flex gap-2">
-                            <span className="text-orange-500 font-semibold shrink-0 w-4">{i + 1}.</span>
+                          <li key={i} className="text-sm text-gray-700 dark:text-gray-300 flex gap-2">
+                            <span className="text-orange-500 dark:text-orange-400 font-semibold shrink-0 w-4">{i + 1}.</span>
                             <span>{s}</span>
                           </li>
                         ))}
                       </ol>
                     </div>
 
-                    <div className="bg-red-50 rounded-xl px-3 py-2.5">
-                      <p className="text-xs text-red-600 font-medium leading-relaxed">⚠️ {tip.warning}</p>
+                    <div className="bg-red-50 dark:bg-red-950 rounded-xl px-3 py-2.5">
+                      <p className="text-xs text-red-600 dark:text-red-400 font-medium leading-relaxed">⚠️ {tip.warning}</p>
                     </div>
 
                     <div className="flex items-center gap-2">
-                      <span className="text-xs text-gray-500">緊急電話</span>
+                      <span className="text-xs text-gray-500 dark:text-gray-400">緊急電話</span>
                       <span className="text-sm font-bold text-red-500">{tip.emergency}</span>
                     </div>
                   </div>
@@ -185,7 +185,7 @@ function ChecklistContent() {
       </div>
 
       {/* 三人完成率橫幅 */}
-      <div className="mx-4 mb-4 p-4 bg-white rounded-2xl border border-gray-100 shadow-sm">
+      <div className="mx-4 mb-4 p-4 bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-gray-700 shadow-sm">
         <div className="flex gap-3">
           {MEMBERS.map((m) => {
             const count = checkedByMember[m].filter((id) =>
@@ -196,7 +196,7 @@ function ChecklistContent() {
               <div key={m} className="flex-1 min-w-0">
                 <div className="flex items-center justify-between mb-1">
                   <span className={`text-xs font-semibold ${MEMBER_NAME_COLOR[m]}`}>{m}</span>
-                  <span className="text-[10px] text-gray-500">{count}/{total}</span>
+                  <span className="text-[10px] text-gray-500 dark:text-gray-400">{count}/{total}</span>
                 </div>
                 <div className={`h-1.5 rounded-full ${MEMBER_PROGRESS_BG[m]}`}>
                   <div
@@ -217,11 +217,11 @@ function ChecklistContent() {
       <div className="px-4 space-y-4 pb-28">
         {CHECKLIST_CATEGORIES.map((cat) => (
           <div key={cat}>
-            <p className="text-[11px] font-semibold text-gray-400 uppercase tracking-wide mb-2">{cat}</p>
-            <div className="bg-white rounded-2xl border border-gray-100 shadow-sm divide-y divide-gray-50">
+            <p className="text-[11px] font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wide mb-2">{cat}</p>
+            <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-gray-700 shadow-sm divide-y divide-gray-50 dark:divide-gray-800">
               {itemsByCategory[cat].map((item) => (
                 <div key={item.id} className="flex items-center gap-3 px-4 py-3">
-                  <p className="flex-1 text-sm text-gray-800">{item.label}</p>
+                  <p className="flex-1 text-sm text-gray-800 dark:text-gray-100">{item.label}</p>
                   <div className="flex gap-2 shrink-0">
                     {MEMBERS.map((m) => {
                       const checked = checkedByMember[m].includes(item.id)
@@ -234,7 +234,7 @@ function ChecklistContent() {
                           className={`w-6 h-6 rounded-full border-2 flex items-center justify-center transition-colors ${
                             checked
                               ? MEMBER_CHECKED[m]
-                              : `bg-white ${MEMBER_UNCHECKED[m]}`
+                              : `bg-white dark:bg-gray-800 ${MEMBER_UNCHECKED[m]}`
                           } ${!isMe ? 'cursor-default' : 'active:scale-90'}`}
                         >
                           {checked && (

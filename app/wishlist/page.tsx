@@ -11,10 +11,10 @@ import WishlistCard from '@/components/WishlistCard'
 import AuthGuard from '@/components/AuthGuard'
 
 const FILTER_STYLE: Record<string, { active: string; inactive: string }> = {
-  all: { active: 'bg-gray-800 border-gray-800 text-white',     inactive: 'bg-white border-gray-200 text-gray-500' },
-  YY:  { active: 'bg-rose-500 border-rose-500 text-white',     inactive: 'bg-white border-gray-200 text-gray-500' },
-  Wei: { active: 'bg-blue-500 border-blue-500 text-white',     inactive: 'bg-white border-gray-200 text-gray-500' },
-  Rae: { active: 'bg-purple-500 border-purple-500 text-white', inactive: 'bg-white border-gray-200 text-gray-500' },
+  all: { active: 'bg-gray-800 border-gray-800 text-white dark:bg-gray-200 dark:border-gray-200 dark:text-gray-900', inactive: 'bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-500 dark:text-gray-400' },
+  YY:  { active: 'bg-rose-500 border-rose-500 text-white',                                                           inactive: 'bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-500 dark:text-gray-400' },
+  Wei: { active: 'bg-blue-500 border-blue-500 text-white',                                                           inactive: 'bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-500 dark:text-gray-400' },
+  Rae: { active: 'bg-purple-500 border-purple-500 text-white',                                                       inactive: 'bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-500 dark:text-gray-400' },
 }
 
 const DAY_LABEL: Record<number, string> = Object.fromEntries(
@@ -77,8 +77,8 @@ function WishlistContent() {
       <header className="px-5 pt-10 pb-3">
         <div className="flex items-start justify-between">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900">購物清單</h1>
-            <p className="text-sm text-gray-500 mt-0.5">
+            <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-50">購物清單</h1>
+            <p className="text-sm text-gray-500 dark:text-gray-400 mt-0.5">
               {purchased}/{filtered.length} 件已購買
             </p>
           </div>
@@ -109,7 +109,7 @@ function WishlistContent() {
           <p className="text-center text-sm text-gray-400 py-8">載入中...</p>
         )}
         {snapError && (
-          <div className="bg-red-50 border border-red-200 rounded-xl p-4 text-sm text-red-600">
+          <div className="bg-red-50 dark:bg-red-950 border border-red-200 dark:border-red-800 rounded-xl p-4 text-sm text-red-600 dark:text-red-400">
             <p className="font-medium">無法載入資料</p>
             <p className="mt-1 text-xs text-red-400">{snapError}</p>
           </div>
@@ -120,7 +120,7 @@ function WishlistContent() {
 
         {dayGroups.map(({ key, label, items: groupItems }) => (
           <div key={String(key)}>
-            <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-2 px-1">
+            <p className="text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wide mb-2 px-1">
               {label}
             </p>
             <div className="space-y-2">

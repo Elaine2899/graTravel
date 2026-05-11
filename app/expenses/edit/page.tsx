@@ -11,9 +11,9 @@ import { CATEGORIES, CATEGORY_ORDER, ExpenseCategory } from '@/data/categories'
 import AuthGuard from '@/components/AuthGuard'
 
 const MEMBER_COLOR: Record<Member, string> = {
-  YY: 'border-rose-400 bg-rose-50 text-rose-700',
-  Wei: 'border-blue-400 bg-blue-50 text-blue-700',
-  Rae: 'border-purple-400 bg-purple-50 text-purple-700',
+  YY: 'border-rose-400 bg-rose-50 text-rose-700 dark:bg-rose-950 dark:text-rose-300',
+  Wei: 'border-blue-400 bg-blue-50 text-blue-700 dark:bg-blue-950 dark:text-blue-300',
+  Rae: 'border-purple-400 bg-purple-50 text-purple-700 dark:bg-purple-950 dark:text-purple-300',
 }
 
 type SplitMode = 'equal' | 'custom'
@@ -126,41 +126,41 @@ function EditExpenseForm() {
           </svg>
           返回拆帳
         </Link>
-        <h1 className="text-2xl font-bold text-gray-900">編輯費用</h1>
+        <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-50">編輯費用</h1>
       </header>
 
       <div className="px-4 space-y-5">
         {/* 金額 */}
         <div>
-          <label className="text-xs font-semibold text-gray-500 uppercase tracking-wide">金額（日幣 ¥）</label>
-          <div className="flex items-center mt-2 bg-white rounded-xl border border-gray-200 px-4 py-3 gap-2">
-            <span className="text-xl font-bold text-gray-400">¥</span>
+          <label className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide">金額（日幣 ¥）</label>
+          <div className="flex items-center mt-2 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 px-4 py-3 gap-2">
+            <span className="text-xl font-bold text-gray-400 dark:text-gray-500">¥</span>
             <input
               type="number"
               inputMode="numeric"
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
               placeholder="0"
-              className="flex-1 text-2xl font-bold text-gray-900 outline-none bg-transparent"
+              className="flex-1 text-2xl font-bold text-gray-900 dark:text-gray-50 outline-none bg-transparent"
             />
           </div>
         </div>
 
         {/* 品項 */}
         <div>
-          <label className="text-xs font-semibold text-gray-500 uppercase tracking-wide">品項</label>
+          <label className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide">品項</label>
           <input
             type="text"
             value={item}
             onChange={(e) => setItem(e.target.value)}
             placeholder="e.g. 清水寺門票、午餐..."
-            className="w-full mt-2 bg-white rounded-xl border border-gray-200 px-4 py-3 text-sm text-gray-800 outline-none focus:border-rose-400 transition-colors"
+            className="w-full mt-2 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 px-4 py-3 text-sm text-gray-800 dark:text-gray-100 outline-none focus:border-rose-400 transition-colors"
           />
         </div>
 
         {/* 類別 */}
         <div>
-          <label className="text-xs font-semibold text-gray-500 uppercase tracking-wide">類別</label>
+          <label className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide">類別</label>
           <div className="flex gap-2 mt-2 overflow-x-auto scrollbar-none pb-0.5">
             {CATEGORY_ORDER.map((cat) => {
               const info = CATEGORIES[cat]
@@ -170,7 +170,7 @@ function EditExpenseForm() {
                   key={cat}
                   onClick={() => setCategory(cat)}
                   className={`shrink-0 flex flex-col items-center gap-0.5 px-3 py-2 rounded-xl border text-xs font-medium transition-colors ${
-                    active ? `${info.bg} ${info.text} border-transparent` : 'bg-white border-gray-200 text-gray-500'
+                    active ? `${info.bg} ${info.text} border-transparent` : 'bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-500 dark:text-gray-400'
                   }`}
                 >
                   <span className="text-base">{info.emoji}</span>
@@ -183,14 +183,14 @@ function EditExpenseForm() {
 
         {/* 付款人 */}
         <div>
-          <label className="text-xs font-semibold text-gray-500 uppercase tracking-wide">付款人</label>
+          <label className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide">付款人</label>
           <div className="flex gap-2 mt-2">
             {MEMBERS.map((member) => (
               <button
                 key={member}
                 onClick={() => setPaidBy(member)}
                 className={`flex-1 py-2.5 rounded-xl border text-sm font-semibold transition-colors ${
-                  paidBy === member ? MEMBER_COLOR[member] : 'border-gray-200 bg-white text-gray-500'
+                  paidBy === member ? MEMBER_COLOR[member] : 'border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-500 dark:text-gray-400'
                 }`}
               >
                 {member}
@@ -201,12 +201,12 @@ function EditExpenseForm() {
 
         {/* 分帳模式 */}
         <div>
-          <label className="text-xs font-semibold text-gray-500 uppercase tracking-wide">分帳方式</label>
+          <label className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide">分帳方式</label>
           <div className="flex gap-2 mt-2">
             <button
               onClick={() => setSplitMode('equal')}
               className={`flex-1 py-2 rounded-xl border text-sm font-medium transition-colors ${
-                splitMode === 'equal' ? 'bg-gray-800 border-gray-800 text-white' : 'bg-white border-gray-200 text-gray-500'
+                splitMode === 'equal' ? 'bg-gray-800 border-gray-800 text-white dark:bg-gray-200 dark:border-gray-200 dark:text-gray-900' : 'bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-500 dark:text-gray-400'
               }`}
             >
               均分
@@ -214,7 +214,7 @@ function EditExpenseForm() {
             <button
               onClick={() => setSplitMode('custom')}
               className={`flex-1 py-2 rounded-xl border text-sm font-medium transition-colors ${
-                splitMode === 'custom' ? 'bg-gray-800 border-gray-800 text-white' : 'bg-white border-gray-200 text-gray-500'
+                splitMode === 'custom' ? 'bg-gray-800 border-gray-800 text-white dark:bg-gray-200 dark:border-gray-200 dark:text-gray-900' : 'bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-500 dark:text-gray-400'
               }`}
             >
               自訂金額
@@ -233,7 +233,7 @@ function EditExpenseForm() {
                   key={member}
                   onClick={() => toggleSplit(member)}
                   className={`flex-1 py-2.5 rounded-xl border text-sm font-semibold transition-colors ${
-                    splitAmong.includes(member) ? MEMBER_COLOR[member] : 'border-gray-200 bg-white text-gray-400'
+                    splitAmong.includes(member) ? MEMBER_COLOR[member] : 'border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-400 dark:text-gray-500'
                   }`}
                 >
                   {member}
@@ -255,16 +255,16 @@ function EditExpenseForm() {
             </div>
             <div className="space-y-2">
               {MEMBERS.map((member) => (
-                <div key={member} className="flex items-center gap-3 bg-white rounded-xl border border-gray-200 px-4 py-2.5">
+                <div key={member} className="flex items-center gap-3 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 px-4 py-2.5">
                   <span className={`text-sm font-semibold w-8 ${MEMBER_COLOR[member].split(' ')[1]}`}>{member}</span>
-                  <span className="text-gray-400 text-sm">¥</span>
+                  <span className="text-gray-400 dark:text-gray-500 text-sm">¥</span>
                   <input
                     type="number"
                     inputMode="numeric"
                     value={customSplits[member] ?? ''}
                     onChange={(e) => setCustomSplits((prev) => ({ ...prev, [member]: e.target.value }))}
                     placeholder="0"
-                    className="flex-1 text-sm font-bold text-gray-800 outline-none bg-transparent"
+                    className="flex-1 text-sm font-bold text-gray-800 dark:text-gray-100 outline-none bg-transparent"
                   />
                 </div>
               ))}

@@ -53,7 +53,7 @@ export default function BottomNav() {
   ]
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100 safe-area-pb z-50">
+    <nav className="fixed bottom-0 left-0 right-0 bg-white dark:bg-gray-900 border-t border-gray-100 dark:border-gray-700 safe-area-pb z-50">
       <div className="flex max-w-lg mx-auto">
         {tabs.map((tab) => {
           const active = pathname.startsWith(tab.href)

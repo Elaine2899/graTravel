@@ -55,14 +55,14 @@ function ExpensesContent() {
       <header className="px-5 pt-10 pb-3">
         <div className="flex items-start justify-between">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900">拆帳</h1>
-            <p className="text-sm text-gray-500 mt-0.5">
+            <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-50">拆帳</h1>
+            <p className="text-sm text-gray-500 dark:text-gray-400 mt-0.5">
               共 {expenses.length} 筆 ・ 合計 {fmt(total)}
             </p>
           </div>
           <button
             onClick={() => signOut(auth)}
-            className="text-xs text-gray-400 mt-2 px-3 py-1.5 rounded-lg bg-gray-100"
+            className="text-xs text-gray-400 dark:text-gray-500 mt-2 px-3 py-1.5 rounded-lg bg-gray-100 dark:bg-gray-800"
           >
             登出
           </button>
@@ -70,13 +70,13 @@ function ExpensesContent() {
 
         {/* 幣別切換 */}
         <div className="flex items-center gap-2 mt-2">
-          <div className="flex bg-gray-100 rounded-lg p-0.5">
+          <div className="flex bg-gray-100 dark:bg-gray-800 rounded-lg p-0.5">
             {(['JPY', 'TWD'] as Currency[]).map((c) => (
               <button
                 key={c}
                 onClick={() => setCurrency(c)}
                 className={`px-3 py-1 rounded-md text-xs font-semibold transition-colors ${
-                  currency === c ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-400'
+                  currency === c ? 'bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 shadow-sm' : 'text-gray-400 dark:text-gray-500'
                 }`}
               >
                 {c === 'JPY' ? '¥ JPY' : 'NT$ TWD'}
@@ -85,7 +85,7 @@ function ExpensesContent() {
           </div>
 
           {currency === 'TWD' && (
-            <div className="flex items-center gap-1 text-xs text-gray-400">
+            <div className="flex items-center gap-1 text-xs text-gray-400 dark:text-gray-500">
               <span>1¥ =</span>
               {editingRate ? (
                 <input
@@ -94,14 +94,14 @@ function ExpensesContent() {
                   onChange={(e) => setRateInput(e.target.value)}
                   onBlur={commitRate}
                   onKeyDown={(e) => e.key === 'Enter' && commitRate()}
-                  className="w-16 border border-gray-300 rounded px-1.5 py-0.5 text-xs text-gray-700 outline-none focus:border-rose-400"
+                  className="w-16 border border-gray-300 dark:border-gray-600 rounded px-1.5 py-0.5 text-xs text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-800 outline-none focus:border-rose-400"
                   autoFocus
                   step="0.001"
                 />
               ) : (
                 <button
                   onClick={() => { setRateInput(String(rate)); setEditingRate(true) }}
-                  className="text-gray-600 font-medium underline decoration-dotted"
+                  className="text-gray-600 dark:text-gray-300 font-medium underline decoration-dotted"
                 >
                   {rate}
                 </button>
@@ -112,13 +112,13 @@ function ExpensesContent() {
         </div>
 
         {/* 明細 / 分析 tab */}
-        <div className="flex gap-1 mt-3 bg-gray-100 rounded-xl p-1">
+        <div className="flex gap-1 mt-3 bg-gray-100 dark:bg-gray-800 rounded-xl p-1">
           {([['list', '明細'], ['analysis', '📊 分析']] as [Tab, string][]).map(([t, label]) => (
             <button
               key={t}
               onClick={() => setTab(t)}
               className={`flex-1 py-1.5 rounded-lg text-sm font-medium transition-colors ${
-                tab === t ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-500'
+                tab === t ? 'bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 shadow-sm' : 'text-gray-500 dark:text-gray-400'
               }`}
             >
               {label}
@@ -132,7 +132,7 @@ function ExpensesContent() {
           <>
             <SettlementSummary settlements={settlements} fmt={fmt} />
             {loading && (
-              <p className="text-center text-sm text-gray-400 py-8">載入中...</p>
+              <p className="text-center text-sm text-gray-400 dark:text-gray-500 py-8">載入中...</p>
             )}
             {!loading && expenses.length === 0 && (
               <p className="text-center text-sm text-gray-400 py-8">還沒有任何記帳記錄</p>

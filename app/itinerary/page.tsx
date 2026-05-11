@@ -173,15 +173,15 @@ export default function ItineraryPage() {
   return (
     <div>
       {/* Sticky header */}
-      <div className="sticky top-0 bg-[#f8f7f4] z-10">
+      <div className="sticky top-0 bg-[#f8f7f4] dark:bg-gray-900 z-10">
         <div className="px-5 pt-10 pb-2 flex items-start justify-between">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900">日本深造</h1>
-            <p className="text-xs text-gray-400 mt-0.5">2026 / 5 / 12 – 5 / 19 ・ YY・Wei・Rae</p>
+            <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-50">日本深造</h1>
+            <p className="text-xs text-gray-400 dark:text-gray-500 mt-0.5">2026 / 5 / 12 – 5 / 19 ・ YY・Wei・Rae</p>
           </div>
           <Link
             href="/help"
-            className="mt-2 w-7 h-7 flex items-center justify-center rounded-full bg-gray-100 text-gray-400 text-sm font-semibold hover:bg-gray-200 transition-colors shrink-0"
+            className="mt-2 w-7 h-7 flex items-center justify-center rounded-full bg-gray-100 dark:bg-gray-800 text-gray-400 dark:text-gray-500 text-sm font-semibold hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors shrink-0"
           >
             ?
           </Link>
@@ -199,27 +199,27 @@ export default function ItineraryPage() {
                 className={`shrink-0 flex flex-col items-center px-3 py-2 rounded-xl border text-center transition-colors min-w-[60px] ${
                   active
                     ? 'bg-rose-500 border-rose-500 text-white'
-                    : 'bg-white border-gray-200 text-gray-600'
+                    : 'bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-300'
                 }`}
               >
-                <span className={`text-[10px] ${active ? 'text-rose-100' : 'text-gray-400'}`}>{d.weekday}</span>
+                <span className={`text-[10px] ${active ? 'text-rose-100' : 'text-gray-400 dark:text-gray-500'}`}>{d.weekday}</span>
                 <span className="text-lg font-bold leading-tight">{d.date.split('/')[1]}</span>
-                <span className={`text-[10px] ${active ? 'text-rose-100' : 'text-gray-400'}`}>{d.date.split('/')[0]}月</span>
+                <span className={`text-[10px] ${active ? 'text-rose-100' : 'text-gray-400 dark:text-gray-500'}`}>{d.date.split('/')[0]}月</span>
               </button>
             )
           })}
         </div>
 
         {/* Day theme bar */}
-        <div className="px-4 py-2.5 flex items-center gap-2 border-b border-gray-100">
+        <div className="px-4 py-2.5 flex items-center gap-2 border-b border-gray-100 dark:border-gray-700">
           <span className="text-lg">{THEME_EMOJI[day.theme] ?? '📅'}</span>
-          <span className="text-sm font-semibold text-gray-800">{day.theme}</span>
-          <span className="text-xs text-gray-400">Day {day.dayNumber}</span>
+          <span className="text-sm font-semibold text-gray-800 dark:text-gray-100">{day.theme}</span>
+          <span className="text-xs text-gray-400 dark:text-gray-500">Day {day.dayNumber}</span>
           <a
             href={DRIVE_LINKS[day.dayNumber]}
             target="_blank"
             rel="noopener noreferrer"
-            className="ml-auto flex items-center gap-1 text-xs text-gray-400 hover:text-blue-500 transition-colors"
+            className="ml-auto flex items-center gap-1 text-xs text-gray-400 dark:text-gray-500 hover:text-blue-500 dark:hover:text-blue-400 transition-colors"
           >
             📷 相簿
           </a>
