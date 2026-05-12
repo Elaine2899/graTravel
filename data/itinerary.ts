@@ -110,7 +110,7 @@ export const ITINERARY: Day[] = [
             { name: '寧寧之道 → 八坂神社 → 祇園 → 花見小路', note: '往下走，沿路可買點心' },
           ],
           foodRecs: [
-            { name: 'GOKAGO', note: '抹茶焙茶甜點，東山知名打卡店，要排隊' },
+            { name: '⭐ GOKAGO', note: '抹茶焙茶甜點，東山知名打卡店，要排隊', mapUrl: 'https://maps.app.goo.gl/MherE1g9gSiYKBNW7' },
             { name: '二年坂 茶寮 都路里', note: '抹茶冰淇淋、聖代，連鎖但品質穩定' },
             { name: '阿古屋茶屋', note: '豆腐料理，清水寺旁，適合午餐' },
             { name: 'Yorozuya Okageya', note: '日式甜點，麻糬年糕口感 Q，三年坂旁' },
