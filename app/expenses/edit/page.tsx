@@ -9,6 +9,7 @@ import { Expense, Member } from '@/types'
 import { MEMBERS } from '@/data/members'
 import { CATEGORIES, CATEGORY_ORDER, ExpenseCategory } from '@/data/categories'
 import AuthGuard from '@/components/AuthGuard'
+import { Currency } from '@/lib/currency'
 
 const MEMBER_COLOR: Record<Member, string> = {
   YY: 'border-rose-400 bg-rose-50 text-rose-700 dark:bg-rose-950 dark:text-rose-300',
@@ -25,6 +26,7 @@ function EditExpenseForm() {
 
   const [loadError, setLoadError] = useState(false)
   const [loaded, setLoaded] = useState(false)
+  const [currency, setCurrency] = useState<Currency>('JPY')
   const [amount, setAmount] = useState('')
   const [item, setItem] = useState('')
   const [category, setCategory] = useState<ExpenseCategory>('food')
@@ -41,6 +43,7 @@ function EditExpenseForm() {
     getDoc(doc(db, 'expenses', id)).then((snap) => {
       if (!snap.exists()) { setLoadError(true); return }
       const data = snap.data() as Omit<Expense, 'id'>
+      setCurrency(data.currency ?? 'JPY')
       setAmount(String(data.amount))
       setItem(data.item ?? '')
       setCategory(data.category ?? 'food')
@@ -89,12 +92,12 @@ function EditExpenseForm() {
       if (Object.keys(splits).length === 0) { setSubmitting(false); return }
       payload = {
         amount: totalAmount, item: item.trim(), category, paidBy,
-        splitAmong: Object.keys(splits), splits,
+        splitAmong: Object.keys(splits), splits, currency,
       }
     } else {
       payload = {
         amount: totalAmount, item: item.trim(), category, paidBy, splitAmong,
-        splits: null,
+        splits: null, currency,
       }
     }
 
@@ -132,9 +135,26 @@ function EditExpenseForm() {
       <div className="px-4 space-y-5">
         {/* 金額 */}
         <div>
-          <label className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide">金額（日幣 ¥）</label>
+          <div className="flex items-center justify-between">
+            <label className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide">
+              金額（{currency === 'JPY' ? '日幣 ¥' : '台幣 NT$'}）
+            </label>
+            <div className="flex bg-gray-100 dark:bg-gray-800 rounded-lg p-0.5">
+              {(['JPY', 'TWD'] as Currency[]).map((c) => (
+                <button
+                  key={c}
+                  onClick={() => setCurrency(c)}
+                  className={`px-3 py-1 rounded-md text-xs font-semibold transition-colors ${
+                    currency === c ? 'bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 shadow-sm' : 'text-gray-400 dark:text-gray-500'
+                  }`}
+                >
+                  {c === 'JPY' ? '¥ JPY' : 'NT$ TWD'}
+                </button>
+              ))}
+            </div>
+          </div>
           <div className="flex items-center mt-2 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 px-4 py-3 gap-2">
-            <span className="text-xl font-bold text-gray-400 dark:text-gray-500">¥</span>
+            <span className="text-xl font-bold text-gray-400 dark:text-gray-500">{currency === 'JPY' ? '¥' : 'NT$'}</span>
             <input
               type="number"
               inputMode="numeric"
@@ -225,7 +245,7 @@ function EditExpenseForm() {
         {splitMode === 'equal' && (
           <div>
             <label className="text-xs font-semibold text-gray-500 uppercase tracking-wide">
-              分帳成員{totalAmount > 0 && splitAmong.length > 0 && `（每人 ¥${perPerson.toLocaleString()}）`}
+              分帳成員{totalAmount > 0 && splitAmong.length > 0 && `（每人 ${currency === 'JPY' ? '¥' : 'NT$'}${perPerson.toLocaleString()}）`}
             </label>
             <div className="flex gap-2 mt-2">
               {MEMBERS.map((member) => (
@@ -249,7 +269,7 @@ function EditExpenseForm() {
               <label className="text-xs font-semibold text-gray-500 uppercase tracking-wide">各人負擔金額</label>
               {totalAmount > 0 && (
                 <span className={`text-xs font-medium ${remaining === 0 ? 'text-green-600' : 'text-orange-500'}`}>
-                  {remaining === 0 ? '✓ 金額正確' : remaining > 0 ? `還剩 ¥${remaining.toLocaleString()}` : `超出 ¥${(-remaining).toLocaleString()}`}
+                  {remaining === 0 ? '✓ 金額正確' : remaining > 0 ? `還剩 ${currency === 'JPY' ? '¥' : 'NT$'}${remaining.toLocaleString()}` : `超出 ${currency === 'JPY' ? '¥' : 'NT$'}${(-remaining).toLocaleString()}`}
                 </span>
               )}
             </div>
@@ -257,7 +277,7 @@ function EditExpenseForm() {
               {MEMBERS.map((member) => (
                 <div key={member} className="flex items-center gap-3 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 px-4 py-2.5">
                   <span className={`text-sm font-semibold w-8 ${MEMBER_COLOR[member].split(' ')[1]}`}>{member}</span>
-                  <span className="text-gray-400 dark:text-gray-500 text-sm">¥</span>
+                  <span className="text-gray-400 dark:text-gray-500 text-sm">{currency === 'JPY' ? '¥' : 'NT$'}</span>
                   <input
                     type="number"
                     inputMode="numeric"

@@ -22,9 +22,14 @@ export default function ExpenseItem({ expense, onDelete, fmt }: Props) {
 
   const cat = expense.category ? CATEGORIES[expense.category] : null
 
+  const nativeFmt = (amount: number) =>
+    (expense.currency ?? 'JPY') === 'TWD'
+      ? `NT$${Math.round(amount).toLocaleString()}`
+      : `¥${Math.round(amount).toLocaleString()}`
+
   const splitDisplay = expense.splits && Object.keys(expense.splits).length > 0
     ? Object.entries(expense.splits)
-        .map(([m, amt]) => `${m} ${fmt(amt!)}`)
+        .map(([m, amt]) => `${m} ${nativeFmt(amt!)}`)
         .join('・')
     : `÷ ${expense.splitAmong.join('・')} 均分`
 
@@ -49,7 +54,7 @@ export default function ExpenseItem({ expense, onDelete, fmt }: Props) {
         </div>
 
         <div className="flex items-center gap-2 shrink-0">
-          <p className="text-base font-bold text-gray-900 dark:text-gray-50">{fmt(expense.amount)}</p>
+          <p className="text-base font-bold text-gray-900 dark:text-gray-50">{nativeFmt(expense.amount)}</p>
 
           <Link
             href={`/expenses/edit?id=${expense.id}`}

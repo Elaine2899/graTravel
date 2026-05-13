@@ -55,6 +55,7 @@ export interface Expense {
   splitAmong: Member[]
   splits?: Partial<Record<Member, number>>
   activityId?: string
+  currency?: 'JPY' | 'TWD'
   createdAt: Timestamp
 }
 

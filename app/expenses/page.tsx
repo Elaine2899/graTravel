@@ -23,6 +23,11 @@ function ExpensesContent() {
   const [tab, setTab] = useState<Tab>('list')
   const [currency, setCurrency] = useState<Currency>('JPY')
   const [rate, setRate] = useState(DEFAULT_RATE)
+
+  useEffect(() => {
+    const saved = localStorage.getItem('expenses_currency') as Currency | null
+    if (saved === 'JPY' || saved === 'TWD') setCurrency(saved)
+  }, [])
   const [editingRate, setEditingRate] = useState(false)
   const [rateInput, setRateInput] = useState(String(DEFAULT_RATE))
 
@@ -47,8 +52,8 @@ function ExpensesContent() {
   }
 
   const fmt = makeFormatter(currency, rate)
-  const settlements = calculateSettlement(expenses)
-  const total = expenses.reduce((s, e) => s + e.amount, 0)
+  const settlements = calculateSettlement(expenses, rate)
+  const total = expenses.reduce((s, e) => s + ((e.currency ?? 'JPY') === 'TWD' ? e.amount / rate : e.amount), 0)
 
   return (
     <div>
@@ -74,7 +79,7 @@ function ExpensesContent() {
             {(['JPY', 'TWD'] as Currency[]).map((c) => (
               <button
                 key={c}
-                onClick={() => setCurrency(c)}
+                onClick={() => { setCurrency(c); localStorage.setItem('expenses_currency', c) }}
                 className={`px-3 py-1 rounded-md text-xs font-semibold transition-colors ${
                   currency === c ? 'bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 shadow-sm' : 'text-gray-400 dark:text-gray-500'
                 }`}

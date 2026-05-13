@@ -1,20 +1,21 @@
 import { Expense, Member, Settlement } from '@/types'
 import { MEMBERS } from '@/data/members'
+import { DEFAULT_RATE } from '@/lib/currency'
 
-export function calculateSettlement(expenses: Expense[]): Settlement[] {
+export function calculateSettlement(expenses: Expense[], rate: number = DEFAULT_RATE): Settlement[] {
   const balance: Record<Member, number> = { YY: 0, Wei: 0, Rae: 0 }
 
   for (const expense of expenses) {
-    balance[expense.paidBy] += expense.amount
+    const toJpy = (n: number) => (expense.currency ?? 'JPY') === 'TWD' ? n / rate : n
+    const jpyAmount = toJpy(expense.amount)
+    balance[expense.paidBy] += jpyAmount
 
     if (expense.splits && Object.keys(expense.splits).length > 0) {
-      // Custom split: each member owes their explicit share
       for (const [member, share] of Object.entries(expense.splits)) {
-        balance[member as Member] -= share!
+        balance[member as Member] -= toJpy(share!)
       }
     } else {
-      // Equal split among splitAmong
-      const share = expense.amount / expense.splitAmong.length
+      const share = jpyAmount / expense.splitAmong.length
       for (const member of expense.splitAmong) {
         balance[member] -= share
       }
