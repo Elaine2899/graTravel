@@ -27,6 +27,18 @@ export default function ExpenseItem({ expense, onDelete, fmt }: Props) {
       ? `NT$${Math.round(amount).toLocaleString()}`
       : `¥${Math.round(amount).toLocaleString()}`
 
+  const dateLabel = (() => {
+    if (expense.expenseDate) {
+      const [, m, d] = expense.expenseDate.split('-')
+      return `${parseInt(m)}/${parseInt(d)}`
+    }
+    if (expense.createdAt) {
+      const dt = expense.createdAt.toDate()
+      return `${dt.getMonth() + 1}/${dt.getDate()}`
+    }
+    return null
+  })()
+
   const splitDisplay = expense.splits && Object.keys(expense.splits).length > 0
     ? Object.entries(expense.splits)
         .map(([m, amt]) => `${m} ${nativeFmt(amt!)}`)
@@ -50,6 +62,9 @@ export default function ExpenseItem({ expense, onDelete, fmt }: Props) {
               {expense.paidBy} 付
             </span>
             <span className="text-xs text-gray-400 dark:text-gray-500">{splitDisplay}</span>
+            {dateLabel && (
+              <span className="text-xs text-gray-300 dark:text-gray-600">{dateLabel}</span>
+            )}
           </div>
         </div>
 

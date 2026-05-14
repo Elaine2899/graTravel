@@ -36,6 +36,7 @@ function EditExpenseForm() {
   const [customSplits, setCustomSplits] = useState<Partial<Record<Member, string>>>({
     YY: '', Wei: '', Rae: '',
   })
+  const [expenseDate, setExpenseDate] = useState('')
   const [submitting, setSubmitting] = useState(false)
 
   useEffect(() => {
@@ -48,6 +49,7 @@ function EditExpenseForm() {
       setItem(data.item ?? '')
       setCategory(data.category ?? 'food')
       setPaidBy(data.paidBy)
+      setExpenseDate(data.expenseDate ?? '')
       if (data.splits && Object.keys(data.splits).length > 0) {
         setSplitMode('custom')
         const cs: Partial<Record<Member, string>> = { YY: '', Wei: '', Rae: '' }
@@ -92,12 +94,12 @@ function EditExpenseForm() {
       if (Object.keys(splits).length === 0) { setSubmitting(false); return }
       payload = {
         amount: totalAmount, item: item.trim(), category, paidBy,
-        splitAmong: Object.keys(splits), splits, currency,
+        splitAmong: Object.keys(splits), splits, currency, expenseDate,
       }
     } else {
       payload = {
         amount: totalAmount, item: item.trim(), category, paidBy, splitAmong,
-        splits: null, currency,
+        splits: null, currency, expenseDate,
       }
     }
 
@@ -174,6 +176,19 @@ function EditExpenseForm() {
             value={item}
             onChange={(e) => setItem(e.target.value)}
             placeholder="e.g. 清水寺門票、午餐..."
+            className="w-full mt-2 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 px-4 py-3 text-sm text-gray-800 dark:text-gray-100 outline-none focus:border-rose-400 transition-colors"
+          />
+        </div>
+
+        {/* 日期 */}
+        <div>
+          <label className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide">日期</label>
+          <input
+            type="date"
+            value={expenseDate}
+            onChange={(e) => setExpenseDate(e.target.value)}
+            min="2026-05-12"
+            max="2026-05-19"
             className="w-full mt-2 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 px-4 py-3 text-sm text-gray-800 dark:text-gray-100 outline-none focus:border-rose-400 transition-colors"
           />
         </div>

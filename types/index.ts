@@ -57,6 +57,7 @@ export interface Expense {
   activityId?: string
   currency?: 'JPY' | 'TWD'
   createdAt: Timestamp
+  expenseDate?: string
 }
 
 export interface Settlement {

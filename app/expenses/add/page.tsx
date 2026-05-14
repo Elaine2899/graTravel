@@ -41,6 +41,7 @@ function AddExpenseForm() {
   const [customSplits, setCustomSplits] = useState<Partial<Record<Member, string>>>({
     YY: '', Wei: '', Rae: '',
   })
+  const [expenseDate, setExpenseDate] = useState(() => new Date().toISOString().slice(0, 10))
   const [submitting, setSubmitting] = useState(false)
 
   const totalAmount = parseInt(amount.replace(/,/g, ''), 10) || 0
@@ -79,6 +80,7 @@ function AddExpenseForm() {
         splitAmong: Object.keys(splits),
         splits,
         activityId: activityId ?? null,
+        expenseDate,
         createdAt: serverTimestamp(),
       }
     } else {
@@ -89,6 +91,7 @@ function AddExpenseForm() {
         paidBy,
         splitAmong,
         activityId: activityId ?? null,
+        expenseDate,
         createdAt: serverTimestamp(),
       }
     }
@@ -167,6 +170,19 @@ function AddExpenseForm() {
             value={item}
             onChange={(e) => setItem(e.target.value)}
             placeholder="e.g. 清水寺門票、午餐..."
+            className="w-full mt-2 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 px-4 py-3 text-sm text-gray-800 dark:text-gray-100 outline-none focus:border-rose-400 transition-colors"
+          />
+        </div>
+
+        {/* 日期 */}
+        <div>
+          <label className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide">日期</label>
+          <input
+            type="date"
+            value={expenseDate}
+            onChange={(e) => setExpenseDate(e.target.value)}
+            min="2026-05-12"
+            max="2026-05-19"
             className="w-full mt-2 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 px-4 py-3 text-sm text-gray-800 dark:text-gray-100 outline-none focus:border-rose-400 transition-colors"
           />
         </div>
