@@ -55,6 +55,24 @@ function ExpensesContent() {
   const settlements = calculateSettlement(expenses, rate)
   const total = expenses.reduce((s, e) => s + ((e.currency ?? 'JPY') === 'TWD' ? e.amount / rate : e.amount), 0)
 
+  const getDateKey = (e: Expense) =>
+    e.expenseDate ?? e.createdAt?.toDate().toISOString().slice(0, 10) ?? ''
+
+  const grouped = expenses.reduce<Record<string, Expense[]>>((acc, e) => {
+    const key = getDateKey(e)
+    if (!acc[key]) acc[key] = []
+    acc[key].push(e)
+    return acc
+  }, {})
+  const sortedDates = Object.keys(grouped).filter(Boolean).sort()
+
+  const formatDateHeader = (dateKey: string) => {
+    const [y, m, d] = dateKey.split('-').map(Number)
+    const dt = new Date(y, m - 1, d)
+    const weekdays = ['日', '一', '二', '三', '四', '五', '六']
+    return `${m}月${d}日（${weekdays[dt.getDay()]}）`
+  }
+
   return (
     <div>
       <header className="px-5 pt-10 pb-3">
@@ -142,9 +160,28 @@ function ExpensesContent() {
             {!loading && expenses.length === 0 && (
               <p className="text-center text-sm text-gray-400 py-8">還沒有任何記帳記錄</p>
             )}
-            {expenses.map((expense) => (
-              <ExpenseItem key={expense.id} expense={expense} onDelete={handleDelete} fmt={fmt} />
-            ))}
+            {sortedDates.map((dateKey) => {
+              const group = grouped[dateKey]
+              const dayTotal = group.reduce(
+                (s, e) => s + ((e.currency ?? 'JPY') === 'TWD' ? e.amount / rate : e.amount), 0
+              )
+              return (
+                <div key={dateKey}>
+                  <div className="flex items-center gap-2 pt-2 pb-1">
+                    <span className="text-xs font-semibold text-gray-500 dark:text-gray-400">
+                      {formatDateHeader(dateKey)}
+                    </span>
+                    <div className="flex-1 h-px bg-gray-100 dark:bg-gray-800" />
+                    <span className="text-xs text-gray-400 dark:text-gray-500">{fmt(dayTotal)}</span>
+                  </div>
+                  <div className="space-y-2">
+                    {group.map((expense) => (
+                      <ExpenseItem key={expense.id} expense={expense} onDelete={handleDelete} fmt={fmt} />
+                    ))}
+                  </div>
+                </div>
+              )
+            })}
           </>
         ) : (
           <SpendingAnalysis expenses={expenses} fmt={fmt} />
