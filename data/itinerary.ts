@@ -421,6 +421,89 @@ export const ITINERARY: Day[] = [
     dayNumber: 5,
     date: '05/16',
     weekday: '週六',
+    theme: '都市 day',
+    activities: [
+      {
+        id: 'd6-to-osaka-castle',
+        time: '09:30',
+        title: '移動至大阪城',
+        type: 'transport',
+        details: {
+          transportInfo: '飯店步行至桜川站 → 千日前線 → 谷町九丁目站 → 谷町線 → 谷町四丁目站（¥240，大阪城最近出口）',
+          transportAlt: '步行至 JR 難波站（約 10 分）→ 大和路快速 → JR 大阪城公園站',
+        },
+      },
+      {
+        id: 'd6-osaka-castle',
+        time: '10:00',
+        title: '大阪城公園・柯南巡禮',
+        type: 'attraction',
+        details: {
+          culturalNote: '大阪城由豐臣秀吉於 1583 年開始修建，是當時日本最大的城堡，秀吉以此為根基統一天下。現在的天守閣是 1931 年重建版本，但城壁、石垣和護城河仍保留歷史原貌。\n\n1614 年大坂冬之陣後雙方議和，德川家以「填平護城河」為條件讓大坂城幾乎成為裸城。次年豐臣方重挖護城河，德川家康以此為藉口再度開戰（大坂夏之陣）。最終城內燃起大火，豐臣秀賴切腹，幼子國松被捕殺，豐臣家就此滅門，戰國時代正式落幕。你現在踩著的石垣，正是那場大戰倖存下來的歷史原物。\n\n【柯南巡禮】大阪城旁的讀賣電視台（ytv 大樓）外廣場設有柯南偵探團多座角色銅像，是名偵探柯南粉絲必訪打卡點。',
+          culturalNoteRef: 'https://gtec.tw/osakajo/',
+          ticketInfo: '城郭免費散步｜天守閣 ¥600（可跳過）',
+          mapQuery: '大阪城公園',
+          spotRecs: [
+            { name: 'ytv 大樓（読売テレビ）', note: '大阪城旁，戶外廣場有柯南偵探團多座角色銅像，步行約 5 分' },
+            { name: 'MIRAIZA OSAKA-JO', note: '城郭內歷史建築改建，有咖啡廳、義大利餐廳、伴手禮店，環境優雅' },
+          ],
+          recommendations: [
+            '柯南 25 周年活動中，出發前可查詢大阪城公園最新活動資訊',
+            '天守閣 8 樓頂端可遠眺大阪市區，可進可不進',
+          ],
+        },
+      },
+      {
+        id: 'd6-lunch',
+        time: '12:00',
+        title: '大阪城附近午餐',
+        type: 'food',
+        details: {
+          foodRecs: [
+            { name: 'MIRAIZA OSAKA-JO', note: '城郭內歷史建築，義大利料理，景觀佳，午間 11:00–16:00' },
+            { name: '京橋 商店街', note: '森之宮站搭大阪環狀線 1 站到京橋，串炸、燒鳥、定食選擇多，大阪庶民風格' },
+          ],
+        },
+      },
+      {
+        id: 'd6-to-shinsaibashi',
+        time: '13:00',
+        title: '移動至心齋橋',
+        type: 'transport',
+        details: {
+          transportInfo: '森之宮站 長堀鶴見綠地線 → 心齋橋站（約 10 分，¥240）',
+        },
+      },
+      {
+        id: 'd6-shinsaibashi',
+        time: '13:15',
+        title: '心齋橋 → 道頓堀 → 難波 慢慢逛',
+        type: 'attraction',
+        details: {
+          culturalNote: '道頓堀是大阪最著名的娛樂街，以螃蟹廣告招牌和固力果跑步人看板聞名。心齋橋筋商店街長超過 600 公尺，是大阪最熱鬧的購物街。黑門市場被稱為「大阪的廚房」，可邊走邊吃新鮮海鮮熟食。',
+          mapQuery: '心斎橋筋商店街 大阪',
+          recommendations: [
+            '固力果跑步人看板打卡：道頓堀橋上朝東望最佳角度',
+            '梅田空中展望庭園（梅田 Sky Building，¥1,500，22:00 前，可選）',
+          ],
+          foodRecs: [
+            { name: '道頓堀 今井うどん', note: '百年老舖烏龍麵，湯頭鮮甜，道頓堀必吃之一' },
+            { name: '⭐ たこ家道頓堀くくる', note: '道頓堀知名章魚燒，皮薄內軟，醬料選擇多' },
+            { name: '千とせ 本店', note: '大阪名物「肉吸」（肉湯泡飯），吉本藝人愛店，黑門市場附近' },
+            { name: '美津野 大阪燒', note: '道頓堀老字號，山芋比例高，口感鬆軟，要排隊' },
+          ],
+          spotRecs: [
+            { name: '黑門市場', note: '新鮮海鮮、水果、熟食攤位，邊走邊吃，週六最熱鬧' },
+            { name: 'Don Quijote 道頓堀店', note: '24 小時，化妝品藥妝最便宜，最齊全' },
+          ],
+        },
+      },
+    ],
+  },
+  {
+    dayNumber: 6,
+    date: '05/17',
+    weekday: '週日',
     theme: '小鹿 day',
     activities: [
       {
@@ -553,89 +636,6 @@ export const ITINERARY: Day[] = [
           ticketInfo: '展望台 Harukas 300 ¥1,800，建議黃昏前進場待到天黑',
           mapQuery: 'あべのハルカス 天王寺',
           recommendations: ['17:00 後入場可看夕陽也可看夜景，最划算', '天王寺公園和動物園在旁邊，可提早到附近晃'],
-        },
-      },
-    ],
-  },
-  {
-    dayNumber: 6,
-    date: '05/17',
-    weekday: '週日',
-    theme: '都市 day',
-    activities: [
-      {
-        id: 'd6-to-osaka-castle',
-        time: '09:30',
-        title: '移動至大阪城',
-        type: 'transport',
-        details: {
-          transportInfo: '飯店步行至桜川站 → 千日前線 → 谷町九丁目站 → 谷町線 → 谷町四丁目站（¥240，大阪城最近出口）',
-          transportAlt: '步行至 JR 難波站（約 10 分）→ 大和路快速 → JR 大阪城公園站',
-        },
-      },
-      {
-        id: 'd6-osaka-castle',
-        time: '10:00',
-        title: '大阪城公園・柯南巡禮',
-        type: 'attraction',
-        details: {
-          culturalNote: '大阪城由豐臣秀吉於 1583 年開始修建，是當時日本最大的城堡，秀吉以此為根基統一天下。現在的天守閣是 1931 年重建版本，但城壁、石垣和護城河仍保留歷史原貌。\n\n1614 年大坂冬之陣後雙方議和，德川家以「填平護城河」為條件讓大坂城幾乎成為裸城。次年豐臣方重挖護城河，德川家康以此為藉口再度開戰（大坂夏之陣）。最終城內燃起大火，豐臣秀賴切腹，幼子國松被捕殺，豐臣家就此滅門，戰國時代正式落幕。你現在踩著的石垣，正是那場大戰倖存下來的歷史原物。\n\n【柯南巡禮】大阪城旁的讀賣電視台（ytv 大樓）外廣場設有柯南偵探團多座角色銅像，是名偵探柯南粉絲必訪打卡點。',
-          culturalNoteRef: 'https://gtec.tw/osakajo/',
-          ticketInfo: '城郭免費散步｜天守閣 ¥600（可跳過）',
-          mapQuery: '大阪城公園',
-          spotRecs: [
-            { name: 'ytv 大樓（読売テレビ）', note: '大阪城旁，戶外廣場有柯南偵探團多座角色銅像，步行約 5 分' },
-            { name: 'MIRAIZA OSAKA-JO', note: '城郭內歷史建築改建，有咖啡廳、義大利餐廳、伴手禮店，環境優雅' },
-          ],
-          recommendations: [
-            '柯南 25 周年活動中，出發前可查詢大阪城公園最新活動資訊',
-            '天守閣 8 樓頂端可遠眺大阪市區，可進可不進',
-          ],
-        },
-      },
-      {
-        id: 'd6-lunch',
-        time: '12:00',
-        title: '大阪城附近午餐',
-        type: 'food',
-        details: {
-          foodRecs: [
-            { name: 'MIRAIZA OSAKA-JO', note: '城郭內歷史建築，義大利料理，景觀佳，午間 11:00–16:00' },
-            { name: '京橋 商店街', note: '森之宮站搭大阪環狀線 1 站到京橋，串炸、燒鳥、定食選擇多，大阪庶民風格' },
-          ],
-        },
-      },
-      {
-        id: 'd6-to-shinsaibashi',
-        time: '13:00',
-        title: '移動至心齋橋',
-        type: 'transport',
-        details: {
-          transportInfo: '森之宮站 長堀鶴見綠地線 → 心齋橋站（約 10 分，¥240）',
-        },
-      },
-      {
-        id: 'd6-shinsaibashi',
-        time: '13:15',
-        title: '心齋橋 → 道頓堀 → 難波 慢慢逛',
-        type: 'attraction',
-        details: {
-          culturalNote: '道頓堀是大阪最著名的娛樂街，以螃蟹廣告招牌和固力果跑步人看板聞名。心齋橋筋商店街長超過 600 公尺，是大阪最熱鬧的購物街。黑門市場被稱為「大阪的廚房」，可邊走邊吃新鮮海鮮熟食。',
-          mapQuery: '心斎橋筋商店街 大阪',
-          recommendations: [
-            '固力果跑步人看板打卡：道頓堀橋上朝東望最佳角度',
-            '梅田空中展望庭園（梅田 Sky Building，¥1,500，22:00 前，可選）',
-          ],
-          foodRecs: [
-            { name: '道頓堀 今井うどん', note: '百年老舖烏龍麵，湯頭鮮甜，道頓堀必吃之一' },
-            { name: '⭐ たこ家道頓堀くくる', note: '道頓堀知名章魚燒，皮薄內軟，醬料選擇多' },
-            { name: '千とせ 本店', note: '大阪名物「肉吸」（肉湯泡飯），吉本藝人愛店，黑門市場附近' },
-            { name: '美津野 大阪燒', note: '道頓堀老字號，山芋比例高，口感鬆軟，要排隊' },
-          ],
-          spotRecs: [
-            { name: '黑門市場', note: '新鮮海鮮、水果、熟食攤位，邊走邊吃，週日最熱鬧' },
-            { name: 'Don Quijote 道頓堀店', note: '24 小時，化妝品藥妝最便宜，最齊全' },
-          ],
         },
       },
     ],
