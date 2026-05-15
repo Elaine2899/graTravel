@@ -7,7 +7,7 @@ import { MEMBERS } from '@/data/members'
 import { getLocationName } from '@/data/locations'
 import { getTransitDirectionsUrl, getWalkingDirectionsUrl, getStreetViewUrl } from '@/lib/mapIntents'
 import CulturalNoteModal from './CulturalNoteModal'
-import FreeMap from './FreeMap'
+import GoogleMapEmbed from './GoogleMapEmbed'
 import MoodPicker from './MoodPicker'
 import WishlistActivityModal from './WishlistActivityModal'
 
@@ -266,14 +266,12 @@ export default function ActivityItem({
             )}
 
             {details?.coordinates && (
-              <div className="mt-3 rounded-xl overflow-hidden">
-                <FreeMap
-                  center={[details.coordinates.lat, details.coordinates.lng]}
-                  markers={[{ lat: details.coordinates.lat, lng: details.coordinates.lng, label: activity.title }]}
-                  zoom={15}
-                  className="h-48"
-                />
-              </div>
+              <GoogleMapEmbed
+                lat={details.coordinates.lat}
+                lng={details.coordinates.lng}
+                label={activity.title}
+                className="mt-3"
+              />
             )}
 
             {/* Action buttons */}
