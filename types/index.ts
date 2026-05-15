@@ -27,6 +27,8 @@ export interface ActivityDetails {
   foodRecs?: FoodRec[]
   spotRecs?: SpotRec[]
   mapQuery?: string
+  coordinates?: { lat: number; lng: number }
+  googleMapsUrl?: string
 }
 
 export interface Activity {
