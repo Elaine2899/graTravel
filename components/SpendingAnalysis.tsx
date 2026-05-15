@@ -44,12 +44,15 @@ export default function SpendingAnalysis({ expenses, fmt }: Props) {
     : 0
   const personNet = personPaid - personOwed
 
-  // 個人付出的類別分布
-  const personByCategory: Partial<Record<ExpenseCategory, number>> = {}
+  // 個人分攤花費的類別分布
+  const personShareByCategory: Partial<Record<ExpenseCategory, number>> = {}
   if (person) {
-    for (const e of expenses.filter((e) => e.paidBy === person)) {
-      const cat = e.category ?? 'other'
-      personByCategory[cat] = (personByCategory[cat] ?? 0) + e.amount
+    for (const e of expenses) {
+      const share = getPersonShare(e, person)
+      if (share > 0) {
+        const cat = e.category ?? 'other'
+        personShareByCategory[cat] = (personShareByCategory[cat] ?? 0) + share
+      }
     }
   }
 
@@ -145,19 +148,18 @@ export default function SpendingAnalysis({ expenses, fmt }: Props) {
             {/* 摘要卡片 */}
             <div className="grid grid-cols-3 gap-2">
               {[
-                { label: '付出', value: personPaid, color: MEMBER_COLOR[person!].text },
-                { label: '應付', value: personOwed, color: 'text-gray-700' },
+                { label: '個人花費', value: personOwed, color: 'text-gray-700 dark:text-gray-200' },
+                { label: '支出費用', value: personPaid, color: MEMBER_COLOR[person!].text },
                 {
-                  label: '淨值',
+                  label: personNet >= 0 ? '應收' : '應付',
                   value: Math.abs(personNet),
-                  color: personNet >= 0 ? 'text-green-600' : 'text-red-500',
-                  prefix: personNet >= 0 ? '+' : '-',
+                  color: personNet > 0 ? 'text-green-600' : personNet < 0 ? 'text-red-500' : 'text-gray-400 dark:text-gray-500',
                 },
-              ].map(({ label, value, color, prefix }) => (
+              ].map(({ label, value, color }) => (
                 <div key={label} className="bg-gray-50 dark:bg-gray-800 rounded-xl p-3 text-center">
                   <p className="text-xs text-gray-400 dark:text-gray-500 mb-1">{label}</p>
                   <p className={`text-sm font-bold ${color}`}>
-                    {prefix ?? ''}{fmt(Math.round(value))}
+                    {fmt(Math.round(value))}
                   </p>
                 </div>
               ))}
@@ -171,14 +173,14 @@ export default function SpendingAnalysis({ expenses, fmt }: Props) {
                 : '已結清 🎉'}
             </p>
 
-            {/* 付出類別分布 */}
-            {personPaid > 0 && (
+            {/* 花費類別分布 */}
+            {personOwed > 0 && (
               <div>
-                <p className="text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wide mb-2">付出類別</p>
+                <p className="text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wide mb-2">花費類別</p>
                 <div className="space-y-2">
-                  {CATEGORY_ORDER.filter((c) => personByCategory[c]).map((cat) => {
-                    const amt = personByCategory[cat]!
-                    const pct = Math.round((amt / personPaid) * 100)
+                  {CATEGORY_ORDER.filter((c) => personShareByCategory[c]).map((cat) => {
+                    const amt = personShareByCategory[cat]!
+                    const pct = Math.round((amt / personOwed) * 100)
                     const info = CATEGORIES[cat]
                     return (
                       <div key={cat}>
@@ -198,7 +200,7 @@ export default function SpendingAnalysis({ expenses, fmt }: Props) {
               </div>
             )}
 
-            {personPaid === 0 && personOwed === 0 && (
+            {personOwed === 0 && personPaid === 0 && (
               <p className="text-sm text-gray-400 dark:text-gray-500 text-center py-2">{person} 尚無消費記錄</p>
             )}
           </>
