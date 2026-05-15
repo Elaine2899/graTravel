@@ -5,7 +5,6 @@ import Link from 'next/link'
 import { Activity, Member, WishlistItem } from '@/types'
 import { MEMBERS } from '@/data/members'
 import { getLocationName } from '@/data/locations'
-import { getTransitDirectionsUrl, getWalkingDirectionsUrl, getStreetViewUrl } from '@/lib/mapIntents'
 import CulturalNoteModal from './CulturalNoteModal'
 import GoogleMapEmbed from './GoogleMapEmbed'
 import MoodPicker from './MoodPicker'
@@ -69,9 +68,8 @@ export default function ActivityItem({
     (details.foodRecs?.length ?? 0) > 0 || (details.spotRecs?.length ?? 0) > 0 || details.specialties?.length
   )
   const hasCulturalNote = !!details?.culturalNote
-  const hasMapQuery = !!details?.mapQuery
   const hasCoordinates = !!details?.coordinates
-  const hasAnyDetails = hasMainDetails || hasCulturalNote || hasWishlistLocation || hasMapQuery || hasCoordinates
+  const hasAnyDetails = hasMainDetails || hasCulturalNote || hasWishlistLocation || hasCoordinates
 
   // Mood chip: show emoji for members who reacted, + for current user if not yet
   const moodChips = MEMBERS.map((m) => {
@@ -276,46 +274,6 @@ export default function ActivityItem({
 
             {/* Action buttons */}
             <div className="flex flex-wrap gap-2 mt-2">
-              {details?.mapQuery && (
-                <>
-                  <a
-                    href={getTransitDirectionsUrl(details.mapQuery)}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-1 px-2.5 py-2 rounded-xl bg-blue-50 border border-blue-200 dark:bg-blue-950 dark:border-blue-800 text-blue-600 dark:text-blue-400"
-                  >
-                    <svg viewBox="0 0 24 24" className="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" strokeWidth={2}>
-                      <rect x="4" y="3" width="16" height="13" rx="2" />
-                      <path d="M4 10h16M8 10v6M16 10v6M6 19l2-3M18 19l-2-3" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                    <span className="text-xs font-medium">導航</span>
-                  </a>
-                  <a
-                    href={getWalkingDirectionsUrl(details.mapQuery)}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-1 px-2.5 py-2 rounded-xl bg-emerald-50 border border-emerald-200 dark:bg-emerald-950 dark:border-emerald-800 text-emerald-600 dark:text-emerald-400"
-                  >
-                    <svg viewBox="0 0 24 24" className="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" strokeWidth={2}>
-                      <circle cx="13" cy="4" r="1.5" />
-                      <path d="M9 8l2.5 2.5L10 14l3 4" strokeLinecap="round" strokeLinejoin="round" />
-                      <path d="M14.5 8.5L16 13l-2 1" strokeLinecap="round" strokeLinejoin="round" />
-                      <path d="M8 13l-2 5M17 13l1 5" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                    <span className="text-xs font-medium">步行</span>
-                  </a>
-                </>
-              )}
-              {details?.coordinates && (
-                <a
-                  href={getStreetViewUrl(details.coordinates.lat, details.coordinates.lng)}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-10 h-10 flex items-center justify-center rounded-xl bg-gray-50 border border-gray-200 dark:bg-gray-800 dark:border-gray-700 text-xl"
-                >
-                  👁
-                </a>
-              )}
 {hasCulturalNote && (
                 <button
                   onClick={() => setShowCulturalNote(true)}
