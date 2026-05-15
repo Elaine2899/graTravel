@@ -51,6 +51,7 @@ export const ITINERARY: Day[] = [
         details: {
           transportInfo: '地址：768 Honryusuicho, Shimogyo Ward, Kyoto\nCheck-in：15:00–23:00｜Check-out：11:00',
           mapQuery: 'WAYFARER Kyoto Shijo',
+          coordinates: { lat: 35.0037, lng: 135.7581 },
         },
       },
       {
@@ -95,6 +96,7 @@ export const ITINERARY: Day[] = [
           ticketInfo: '換裝約 1 小時｜17:30 前歸還｜記得帶學生證！',
           recommendations: ['穿和服普遍被勒很緊，不好進食，袴相對舒適'],
           mapQuery: '愛和服清水本店 京都',
+          coordinates: { lat: 34.9999, lng: 135.7787 },
         },
       },
       {
@@ -105,6 +107,7 @@ export const ITINERARY: Day[] = [
         details: {
           culturalNote: '東山地區保留了京都最完整的傳統町家街道，是江戶時代庶民生活的縮影。',
           mapQuery: '東山 二年坂 三年坂 京都',
+          coordinates: { lat: 35.0000, lng: 135.7803 },
           spotRecs: [
             { name: '八坂五重塔 → 二年坂 → 三年坂 → 清水寺（門票 ¥500）', note: '往上走' },
             { name: '寧寧之道 → 八坂神社 → 祇園 → 花見小路', note: '往下走，沿路可買點心' },
@@ -126,6 +129,7 @@ export const ITINERARY: Day[] = [
         details: {
           transportInfo: 'Deadline 17:30，提早 14:00 歸還，不趕時間',
           mapQuery: '愛和服清水本店 京都',
+          coordinates: { lat: 34.9999, lng: 135.7787 },
         },
       },
       {
@@ -145,6 +149,7 @@ export const ITINERARY: Day[] = [
         type: 'attraction',
         details: {
           mapQuery: 'INCE HAIR 京都四条大宮',
+          coordinates: { lat: 35.0023, lng: 135.7481 },
         },
       },
       {
@@ -155,6 +160,7 @@ export const ITINERARY: Day[] = [
         details: {
           ticketInfo: '已預約，請準時抵達。離 INCE HAIR 步行約 5 分',
           mapQuery: 'モリタ屋 四条猪熊本店 京都',
+          coordinates: { lat: 35.0024, lng: 135.7508 },
         },
       },
     ],
@@ -201,6 +207,7 @@ export const ITINERARY: Day[] = [
           culturalNote: '伏見稻荷大社是全日本約 30,000 座稻荷神社的總本社，建立於西元 711 年。以「千本鳥居」聞名，實際上有超過 1 萬座朱紅色鳥居綿延山道。鳥居由信眾和企業奉納，祈求生意興隆或願望成真。\n\n奉納傳統的最著名案例：豐臣秀吉的母親病危時，他向稻荷神許願求治癒，母親康復後親自捐建現存的樓門（1589 年）表達謝恩。每根鳥居柱子上都刻著捐贈者的姓名與日期，最小的奉納費用約 ¥175,000，最大超過百萬——橘紅色在古代神道中象徵辟邪與生命力，整座山超過 1 萬座，「千本」不過是「無數」的意思。',
           culturalNoteRef: 'https://www.letsgojp.com/archives/301064/',
           mapQuery: '伏見稲荷大社 京都',
+          coordinates: { lat: 34.9671, lng: 135.7727 },
           specialties: ['稻荷壽司', '狐狸烏龍麵', '稻荷仙貝'],
           spotRecs: [
             { name: '千本鳥居', note: '過四辻後人潮銳減，後半段更寧靜神聖' },
@@ -232,6 +239,7 @@ export const ITINERARY: Day[] = [
         details: {
           culturalNote: '勝林寺是東福寺的塔頭，建於 1550 年，供奉毘沙門天。以「東福寺的毘沙門天」聞名，境內清靜，花手水（花朵裝飾水盆）是熱門拍照景點。開放時間 10:00–16:00。',
           mapQuery: '勝林寺 東福寺 京都',
+          coordinates: { lat: 34.9739, lng: 135.7727 },
           recommendations: ['花手水隨季節更換，色彩繽紛，很適合拍照', '御朱印種類豐富'],
         },
       },
@@ -281,6 +289,7 @@ export const ITINERARY: Day[] = [
         details: {
           ticketInfo: '記得拿 pick up！領 zone 卡！\n16:30 開演｜約 19:30 結束',
           mapQuery: '東京ドーム',
+          coordinates: { lat: 35.7057, lng: 139.7519 },
           foodRecs: [
             { name: '東京ドームドッグ', note: '場內名物大熱狗，¥550，各層都有賣' },
             { name: '金猫揚げ餃子', note: '脆皮煎餃，一口一個，¥650，紅杯裝超好拍' },
@@ -347,6 +356,7 @@ export const ITINERARY: Day[] = [
           culturalNoteRef: 'https://ja.kyoto.travel/event/major/aoi/understand.php',
           culturalNote: '葵祭是京都三大祭之一，每年 5 月 15 日舉行，超過 1,000 年歷史。遊行隊伍由上賀茂神社、下鴨神社的齋王代率領，穿著平安時代宮廷服飾從御所出發，超過 500 人、全程約 8 公里。\n\n遊行隊伍 10:30 從御所南門出發，沿著加茂街道往北行進，約 11:30 抵達下鴨神社社頭（糺之森参道入口），在社頭儀式後繼續前往上賀茂神社。\n\n葵祭起源於 6 世紀，據說是因鴨神降怒、飢荒與疫病肆虐才開始舉辦。《源氏物語》「車爭ひ」一段，描述貴族在葵祭觀覽時為爭奪觀賞位置大打出手，光源氏的情人六条御息所在此被羞辱後，化作生靈降禍光源氏之妻葵上——這場小說裡的衝突，真實反映了平安宮廷的階級張力。',
           mapQuery: '下鴨神社 京都',
+          coordinates: { lat: 35.0391, lng: 135.7724 },
           recommendations: [
             '抵達下鴨神社後，從糺之森参道出口往南、沿加茂街道逆行走（遊行由南往北而來）',
             '葵祭 10:30 從御所出發往北，兩者相向行進，約 10:45–11:00 在南方路段迎面相遇',
@@ -372,6 +382,7 @@ export const ITINERARY: Day[] = [
         details: {
           culturalNote: '嵐山自平安時代起就是貴族的度假勝地，保存了許多歷史建築和自然景觀。',
           mapQuery: '嵐山 京都',
+          coordinates: { lat: 35.0095, lng: 135.6733 },
           spotRecs: [
             { name: '渡月橋', note: '建於 9 世紀，因龜山天皇詠月而得名，曾出現在葛飾北齋浮世繪' },
             { name: '嵯峨野竹林小徑', note: '從野宮神社至天龍寺北門，長約 400 公尺' },
@@ -413,6 +424,7 @@ export const ITINERARY: Day[] = [
         details: {
           recommendations: ['地址：2 Chome-2-44 Saiwaicho, Naniwa Ward, Osaka', '自助 check-in｜16:00 起｜退房 10:00'],
           mapQuery: 'Hotel Abitare Namba West Osaka',
+          coordinates: { lat: 34.6613, lng: 135.5018 },
         },
       },
     ],
@@ -443,6 +455,7 @@ export const ITINERARY: Day[] = [
           culturalNoteRef: 'https://gtec.tw/osakajo/',
           ticketInfo: '城郭免費散步｜天守閣 ¥600（可跳過）',
           mapQuery: '大阪城公園',
+          coordinates: { lat: 34.6873, lng: 135.5262 },
           spotRecs: [
             { name: 'ytv 大樓（読売テレビ）', note: '大阪城旁，戶外廣場有柯南偵探團多座角色銅像，步行約 5 分' },
             { name: 'MIRAIZA OSAKA-JO', note: '城郭內歷史建築改建，有咖啡廳、義大利餐廳、伴手禮店，環境優雅' },
@@ -482,6 +495,7 @@ export const ITINERARY: Day[] = [
         details: {
           culturalNote: '道頓堀是大阪最著名的娛樂街，以螃蟹廣告招牌和固力果跑步人看板聞名。心齋橋筋商店街長超過 600 公尺，是大阪最熱鬧的購物街。黑門市場被稱為「大阪的廚房」，可邊走邊吃新鮮海鮮熟食。',
           mapQuery: '心斎橋筋商店街 大阪',
+          coordinates: { lat: 34.6724, lng: 135.5023 },
           recommendations: [
             '固力果跑步人看板打卡：道頓堀橋上朝東望最佳角度',
             '梅田空中展望庭園（梅田 Sky Building，¥1,500，22:00 前，可選）',
@@ -526,6 +540,7 @@ export const ITINERARY: Day[] = [
           culturalNoteRef: 'https://yunyun-hoikunikki.com/kofukuji-asura-statue-nara/',
           ticketInfo: '境內免費｜國寶館 ¥1,000｜東金堂 ¥300',
           mapQuery: '興福寺 奈良',
+          coordinates: { lat: 34.6853, lng: 135.8327 },
         },
       },
       {
@@ -536,6 +551,7 @@ export const ITINERARY: Day[] = [
         details: {
           culturalNote: '奈良公園面積約 660 公頃，自由放養超過 1,200 頭梅花鹿，被視為春日大社神的使者，是國家天然紀念物。鹿仙貝（shika senbei）¥200/捆，鹿會學著向人低頭鞠躬討食。',
           mapQuery: '奈良公園',
+          coordinates: { lat: 34.6854, lng: 135.8435 },
           foodRecs: [
             { name: '中谷堂', note: '猿沢池旁超速現打麻糬，師傅手速驚人如表演，可免費試吃' },
           ],
@@ -575,6 +591,7 @@ export const ITINERARY: Day[] = [
           culturalNoteRef: 'https://pauls89080.medium.com/%E5%A4%A7%E4%BD%9B%E9%96%8B%E7%9C%BC-%E5%A5%88%E8%89%AF%E6%9D%B1%E5%A4%A7%E5%AF%BA%E8%88%87%E8%81%96%E6%AD%A6%E5%A4%A9%E7%9A%87%E7%9A%84%E5%8B%95%E7%9B%AA%E6%AD%B2%E6%9C%88-3b30364c4db0',
           ticketInfo: '大佛殿 ¥600｜二月堂免費',
           mapQuery: '東大寺 奈良',
+          coordinates: { lat: 34.6888, lng: 135.8399 },
           recommendations: ['殿內木柱有個與大佛鼻孔同尺寸的洞（37×30 cm），鑽過去據說得幸運', '二月堂在東大寺後方山路步行 5 分，值得繞過去'],
           spotRecs: [
             { name: '春鹿酒造', note: '奈良知名清酒廠，東大寺周邊，可試飲，¥500 五杯套組，帶伴手禮的好地方' },
@@ -600,6 +617,7 @@ export const ITINERARY: Day[] = [
           culturalNoteRef: 'https://storystudio.tw/article/gushi/%E3%80%90%E4%B8%96%E7%95%8C%E9%81%BA%E7%94%A2%E6%95%85%E4%BA%8B%E3%80%91%E6%98%A5%E6%97%A5%E5%A4%A7%E7%A4%BE%E2%94%80%E2%94%80%E8%88%87%E5%BB%BA%E5%BE%A1%E9%9B%B7%E9%A8%8E%E9%B9%BF%E5%82%B3%E8%AA%AA',
           ticketInfo: '外苑免費｜本殿特別參拜 ¥500',
           mapQuery: '春日大社 奈良',
+          coordinates: { lat: 34.6814, lng: 135.8481 },
           foodRecs: [
             { name: '春日荷茶屋', note: '神苑內百年茶屋，萬葉粥套餐清淡雅緻，11:00–16:00' },
           ],
@@ -614,6 +632,7 @@ export const ITINERARY: Day[] = [
           ticketInfo: '登山費 ¥150，單程約 30 分可到山頂，提供奈良全景',
           recommendations: ['時間不夠可跳過', '山頂可同時看到東大寺屋頂與奈良市街'],
           mapQuery: '若草山 奈良',
+          coordinates: { lat: 34.6862, lng: 135.8481 },
         },
       },
       {
@@ -635,6 +654,7 @@ export const ITINERARY: Day[] = [
           culturalNote: '阿倍野近鐵百貨本店（Abeno Harukas）高 300 公尺，是僅次於麻布台之丘、東京鐵塔、晴空塔的日本第四高建築。「HARUKAS」一詞源自平安時期古日本語，有「晴朗明亮」之意，希望來到 HARUKAS 的人都能感受到快樂心情。\n\n整棟建築 B2 至 14 樓是「阿倍野近鐵百貨海闊天空總店」的購物範圍，分為「塔館」和「翼館」兩棟，固定樓層設有聯絡道互通，涵蓋購物、精品、美食等各區。在此消費可享 8% 免稅優惠，支援全館累計金額，統一到翼館 3.5 樓「國際貴賓沙龍」辦理退稅。\n\n58–60 樓「Harukas 300」展望台視野 360 度無阻，晴天可見大阪灣和六甲山脈。從黃昏等到入夜可同時看到夕陽西沉和大阪夜景。想上展望台推薦在線上購票，記得到 16 樓兌換實體票，再跟著指示搭電梯上樓。\n\n不想花錢的話，16 樓有免費露臺可眺望整個大阪、通天閣所在的新世界，不過關門時間是 19:00。\n\n現有《葬送のフリーレン》（芙莉蓮）聯動企劃，展望台內有限定裝飾與合照點。',
           ticketInfo: '展望台 Harukas 300 ¥1,800，建議黃昏前進場待到天黑',
           mapQuery: 'あべのハルカス 天王寺',
+          coordinates: { lat: 34.6462, lng: 135.5133 },
           recommendations: ['17:00 後入場可看夕陽也可看夜景，最划算', '天王寺公園和動物園在旁邊，可提早到附近晃'],
         },
       },
@@ -678,6 +698,7 @@ export const ITINERARY: Day[] = [
           culturalNote: '大阪環球影城 2001 年開幕，是日本最大的主題樂園之一。任天堂世界（超級任天堂世界）是最熱門的園區，以《超級瑪利歐》為主題，可配合 Nintendo Switch 手環進行互動遊戲。哈利波特魔法世界的霍格華茲城堡入夜後有燈光秀，奶油啤酒是必喝飲料（冰熱皆有）。\n\n現有聯動：咒術迴戰・東野圭吾・名偵探柯南。',
           ticketInfo: '門票已買好！開園時間通常 9:00–21:00（每日不同），前一天晚上記得確認隔日時間表',
           mapQuery: 'Universal Studios Japan Osaka',
+          coordinates: { lat: 34.6654, lng: 135.4324 },
           spotRecs: [
             { name: '超級任天堂世界', note: '進場第一件事立刻用 App 抽整理券！天黑後人少可直接進' },
             { name: '哈利波特魔法世界', note: '禁忌之旅（模擬飛行）、霍格華茲城堡，奶油啤酒必喝' },
