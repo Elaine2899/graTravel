@@ -44,10 +44,10 @@ function AddExpenseForm() {
   const [expenseDate, setExpenseDate] = useState(() => new Date().toISOString().slice(0, 10))
   const [submitting, setSubmitting] = useState(false)
 
-  const totalAmount = parseInt(amount.replace(/,/g, ''), 10) || 0
+  const totalAmount = parseFloat(amount.replace(/,/g, '')) || 0
 
   const customTotal = Object.values(customSplits).reduce(
-    (sum, v) => sum + (parseInt(v || '0', 10) || 0), 0
+    (sum, v) => sum + (parseFloat(v || '0') || 0), 0
   )
   const remaining = totalAmount - customTotal
 
@@ -68,7 +68,7 @@ function AddExpenseForm() {
     if (splitMode === 'custom') {
       const splits: Partial<Record<Member, number>> = {}
       for (const m of MEMBERS) {
-        const v = parseInt(customSplits[m] || '0', 10)
+        const v = parseFloat(customSplits[m] || '0')
         if (v > 0) splits[m] = v
       }
       if (Object.keys(splits).length === 0) return

@@ -24,7 +24,7 @@ export default function ExpenseItem({ expense, onDelete, fmt }: Props) {
 
   const nativeFmt = (amount: number) =>
     (expense.currency ?? 'JPY') === 'TWD'
-      ? `NT$${Math.round(amount).toLocaleString()}`
+      ? `NT$${Number.isInteger(amount) ? amount.toLocaleString() : amount.toFixed(1)}`
       : `¥${Math.round(amount).toLocaleString()}`
 
   const splitDisplay = expense.splits && Object.keys(expense.splits).length > 0
