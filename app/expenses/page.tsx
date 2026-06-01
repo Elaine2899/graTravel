@@ -184,7 +184,7 @@ function ExpensesContent() {
             })}
           </>
         ) : (
-          <SpendingAnalysis expenses={expenses} fmt={fmt} />
+          <SpendingAnalysis expenses={expenses} fmt={fmt} rate={rate} />
         )}
       </div>
 

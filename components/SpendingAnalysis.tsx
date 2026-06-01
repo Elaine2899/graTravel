@@ -11,36 +11,40 @@ const MEMBER_COLOR: Record<Member, { text: string; bg: string; bar: string }> = 
   Rae: { text: 'text-purple-600', bg: 'bg-purple-100', bar: 'bg-purple-400' },
 }
 
-function getPersonShare(expense: Expense, person: Member): number {
-  if (expense.splits && expense.splits[person] != null) return expense.splits[person]!
-  if (expense.splitAmong.includes(person)) return expense.amount / expense.splitAmong.length
+function getPersonShare(expense: Expense, person: Member, rate: number): number {
+  const toJpy = (n: number) => (expense.currency ?? 'JPY') === 'TWD' ? n / rate : n
+  if (expense.splits && expense.splits[person] != null) return toJpy(expense.splits[person]!)
+  if (expense.splitAmong.includes(person)) return toJpy(expense.amount) / expense.splitAmong.length
   return 0
 }
 
 interface Props {
   expenses: Expense[]
   fmt: (amount: number) => string
+  rate: number
 }
 
-export default function SpendingAnalysis({ expenses, fmt }: Props) {
+export default function SpendingAnalysis({ expenses, fmt, rate }: Props) {
   const [view, setView] = useState<'all' | Member>('all')
 
-  const total = expenses.reduce((s, e) => s + e.amount, 0)
+  const toJpy = (e: Expense, n: number) => (e.currency ?? 'JPY') === 'TWD' ? n / rate : n
+
+  const total = expenses.reduce((s, e) => s + toJpy(e, e.amount), 0)
 
   // ── 總覽計算 ──
   const byCategory: Partial<Record<ExpenseCategory, number>> = {}
   for (const e of expenses) {
     const cat = e.category ?? 'other'
-    byCategory[cat] = (byCategory[cat] ?? 0) + e.amount
+    byCategory[cat] = (byCategory[cat] ?? 0) + toJpy(e, e.amount)
   }
   const paidByPerson: Record<Member, number> = { YY: 0, Wei: 0, Rae: 0 }
-  for (const e of expenses) paidByPerson[e.paidBy] += e.amount
+  for (const e of expenses) paidByPerson[e.paidBy] += toJpy(e, e.amount)
 
   // ── 個人計算 ──
   const person = view !== 'all' ? view : null
   const personPaid = person ? paidByPerson[person] : 0
   const personOwed = person
-    ? expenses.reduce((s, e) => s + getPersonShare(e, person), 0)
+    ? expenses.reduce((s, e) => s + getPersonShare(e, person, rate), 0)
     : 0
   const personNet = personPaid - personOwed
 
@@ -48,7 +52,7 @@ export default function SpendingAnalysis({ expenses, fmt }: Props) {
   const personShareByCategory: Partial<Record<ExpenseCategory, number>> = {}
   if (person) {
     for (const e of expenses) {
-      const share = getPersonShare(e, person)
+      const share = getPersonShare(e, person, rate)
       if (share > 0) {
         const cat = e.category ?? 'other'
         personShareByCategory[cat] = (personShareByCategory[cat] ?? 0) + share

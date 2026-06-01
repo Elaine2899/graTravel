@@ -1,6 +1,6 @@
 export type Currency = 'JPY' | 'TWD'
 
-export const DEFAULT_RATE = 0.215 // 1 JPY ≈ 0.215 TWD
+export const DEFAULT_RATE = 0.203 // 1 JPY ≈ 0.203 TWD
 
 export function makeFormatter(currency: Currency, rate: number) {
   return (amount: number): string => {
